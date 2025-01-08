@@ -24,11 +24,11 @@ class Folder(models.Model):
     type = models.CharField(max_length=255)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
-    
+
     def __str__(self):
         return self.name
 
-class folder(models.Model):
+class File(models.Model):
     file_id = models.AutoField(primary_key=True)
     name = models.TextField()
     folder = models.ForeignKey(
