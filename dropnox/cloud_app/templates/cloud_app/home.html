@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="/static/drag_And_drop.js"></script>
+<script src="/static/upload.js"></script>
+<div id="drop_zone" aria-label="Drop files here" role="button" tabindex="0"></div>
+<link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+<h1>{% block title %}Home Screen{% endblock %}</h1>
+<link rel="icon" href="{{ url_for('static', filename='images/cloud-switch_15321980.png') }}" type="image/png">
+
+<form action="{{ url_for('create.create_folder') }}" method="POST" enctype="multipart/form-data">
+  <a href="{{ url_for('create.create_folder') }}">Create Folder</a>
+</form>
+{% endblock %}
+
+{% block content %}
+<ul>
+</ul>
+
+<h1>Upload a file</h1>
+<form method="POST" action="/upload" enctype="multipart/form-data">
+  <input type="file" id="file-upload" name="file">
+  <button type="submit">Upload</button>
+</form>
+
+<h1>Upload a folder</h1>
+<form id="uploadForm" action="/upload-folder" method="POST" enctype="multipart/form-data">
+  <input type="file" id="folderInput" webkitdirectory multiple>
+  <button type="submit">Upload folder</button>
+</form>
+
+<div id="status"></div>
+
+<div class="item-list">
+  {% if folders %}
+    {% for folder in folders %}
+      <div class="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" data-id="{{folder['folder_id']}}">
+        <div class="folder" draggable="true" data-id="{{folder['folder_id']}}">
+          <a href="{{ url_for('home.subfolder', folder_id=folder['folder_id']) }}">
+            <img src="{{ url_for('static', filename='dropnox/cloud_app/static/images/folder_icon.png') }}" alt="Folder Icon" class="folder-icon">
+            <div class="folder-name">{{folder['name']}}</div>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No folders available.</p>
+  {% endif %}
+
+  {% if files %}
+    {% for file in files %}
+      <div class="file" draggable="true" data-id="{{file['file_id']}}">
+        <a href="#">
+          <img src="{{ url_for('static', filename='dropnox/cloud_app/static/images/google-docs.png') }}" alt="File Icon" class="folder-icon">
+          <div class="file-name">{{ file['name'] }}</div>
+        </a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No files available.</p>
+  {% endif %}
+</div>
+
+<style>
+  :root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --folder-icon-size: 50px;
+    --folder-padding: 20px;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .folder-icon {
+    width: var(--folder-icon-size);
+    height: auto;
+    padding-left: var(--folder-padding);
+  }
+
+  .folder,
+  .file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+  }
+
+  .drop_zone {
+    border: 2px dashed var(--primary-color);
+    padding: 10px;
+    opacity: 0.8;
+    transition: border-color 0.2s ease;
+  }
+
+  .folder.dragover,
+  .file.dragover {
+    border: 2px dashed var(--secondary-color);
+    background-color: var(--secondary-color);
+    opacity: 0.9;
+  }
+
+  .item-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  input[type="file"] {
+    padding: 5px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: var(--secondary-color);
+  }
+
+  @media (max-width: 768px) {
+    .folder-icon {
+      width: 30px;
+      padding-left: 10px;
+    }
+
+    .folder-name {
+      font-size: 14px;
+    }
+  }
+</style>
+{% endblock %}
