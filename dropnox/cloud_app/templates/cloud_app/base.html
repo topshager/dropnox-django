@@ -8,6 +8,15 @@
   <link rel="icon" href="{% static 'images/cloud-switch_15321980.png' %}" type="image/png">
 </head>
 <body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'upload' %}">upload</a></li>
+        <li><a href="{% url 'folder' %}">folder</a></li>
+      </ul>
+    </nav>
+  </header>
   {% block content %}
   {% endblock %}
 </body>
