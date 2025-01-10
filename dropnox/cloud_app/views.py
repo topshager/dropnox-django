@@ -12,3 +12,5 @@ def register_view(request):
 
 def folder_view(request):
     return render(request, 'cloud_app/folder.html')
+def upload_view(request):
+    return render(request,'cloud_app/upload.html')
