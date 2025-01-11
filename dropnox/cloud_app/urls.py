@@ -4,5 +4,16 @@ from django.urls import include ,path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('auth/',views ),
+    #path('register,views.),
+
+
+    #path('upload_folder',views.)
+    #path('create_folder',views.),
+    #path('drag_drop_folder',views.),
+
+    #path('upload_file',views.),
+    #path('drag_drop_file',views.)
+
+
 ]
