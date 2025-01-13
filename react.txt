@@ -1,3 +1,3 @@
-React Router - page routing without  needing to reaload page.
-Cors - for backend and frontend communicationn
+ check - Cors - for backend and frontend communicationn
 drf -for restful api integration
+
