@@ -11,7 +11,7 @@ def user_auth(request):
         name = data.get('username')
         password = data.get('password')
         #Database connection   and  checking credentials in the database
-
+        print(name)
         return Response({'message': 'Data recieved succesfully'})
 
 
