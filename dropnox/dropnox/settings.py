@@ -135,3 +135,10 @@ AUTH_USER_MODEL = 'cloud_app.User'
 CORS_ALLOWED_ORIGINS = [
 "http://localhost:3000",
 ]
+# dropnox/settings.py
+
+INSTALLED_APPS = [
+    # Other apps
+    'corsheaders',
+]
+
