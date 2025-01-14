@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
 
-    path('api/auth',views.user_auth ,name='authenticate_user'),
+    path('auth/',views.user_auth ,name='auth'),
 
     #path('register,views.),
 
@@ -16,6 +16,4 @@ urlpatterns = [
 
     #path('upload_file',views.),
     #path('drag_drop_file',views.)
-
-
 ]
