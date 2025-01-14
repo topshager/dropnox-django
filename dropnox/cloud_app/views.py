@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth import authenticate
+
 from django.http import JsonResponse
 
 @api_view(['POST'])
@@ -11,11 +13,12 @@ def user_auth(request):
         data = request.data
         username = data.get('username')
         password = data.get('password')
-        #Database connection   and  checking credentials in the database
-        if username == "test" and password == "password":
+
+        user = authenticate(username= username,password = password)
+        if user is not None:
             return JsonResponse({"message": "Login successful!"}, status=200)
         else:
-            return JsonResponse({"message": "Invalid credentials"}, status=400)
+            return JsonResponse({"message": "Invalid username or password"}, status=400)
 def home(request):
     return render(request, 'cloud_app/home.html')  # No need for a context if not passing data
 
