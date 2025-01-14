@@ -2,23 +2,20 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.http import JsonResponse
 
 @api_view(['POST'])
 def user_auth(request):
     if request.method == 'POST':
 
         data = request.data
-        name = data.get('username')
+        username = data.get('username')
         password = data.get('password')
         #Database connection   and  checking credentials in the database
-        print(name)
-        return Response({'message': 'Data recieved succesfully'})
-
-
-
-
-
-    return 1
+        if username == "test" and password == "password":
+            return JsonResponse({"message": "Login successful!"}, status=200)
+        else:
+            return JsonResponse({"message": "Invalid credentials"}, status=400)
 def home(request):
     return render(request, 'cloud_app/home.html')  # No need for a context if not passing data
 
