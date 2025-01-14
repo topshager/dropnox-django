@@ -13,7 +13,6 @@ def user_auth(request):
         data = request.data
         username = data.get('username')
         password = data.get('password')
-
         user = authenticate(username= username,password = password)
         if user is not None:
             return JsonResponse({"message": "Login successful!"}, status=200)
