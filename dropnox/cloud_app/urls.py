@@ -7,7 +7,7 @@ urlpatterns = [
 
     path('',views.user_auth ,name='auth'),
 
-    #path('register,views.),
+    path('register',views.user_register ,name='register'),
 
 
     #path('upload_folder',views.)
