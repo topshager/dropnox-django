@@ -10,10 +10,10 @@ function App() {
               <nav>
           <ul>
             <li>
-              <a href="/">Home</a>
+              <a href="/">login</a>
             </li>
             <li>
-              <a href="/about">About</a>
+              <a href="/register">register</a>
             </li>
           </ul>
         </nav>
