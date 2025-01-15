@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from cloud_app.models import User
 from django.contrib.auth import authenticate
 
 from django.http import JsonResponse
@@ -25,6 +26,19 @@ def user_register(request):
     if request.method == 'POST':
          data = request.data
          username = data.get('username')
+         password = data.get('password')
+         user = authenticate(username= username)
+         if  not user:
+
+             new_user = User(username = username,password = password)
+             new_user.save()
+
+
+
+         else:
+            return JsonResponse({"message": "username is not available"}, status=400)
+
+
 
 
 
