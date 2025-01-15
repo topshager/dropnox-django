@@ -10,4 +10,5 @@ urlpatterns = [
     path("register/",views.register_view ,name='register'),
     path('folder', views.folder_view,name='folder'),
     path('api/auth/',include('cloud_app.urls')),
+    path('api/register/',include('cloud_app.urls')),
 ]
