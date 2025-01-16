@@ -2,7 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from cloud_app.models import User
+from cloud_app.models import User,Folder,File
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 
 from django.http import JsonResponse
@@ -19,8 +20,16 @@ def user_auth(request):
             return JsonResponse({"message": "Login successful!"}, status=200)
         else:
             return JsonResponse({"message": "Invalid username or password"}, status=400)
+
+login_required
 def home(request):
-    return render(request, 'cloud_app/home.html')  # No need for a context if not passing data
+    if request.method == 'GET':
+        user_id = request.user.id
+        folders = Folder.objects.filter(user=user_id)
+        Files  = File.objects.filter(folder=None)
+
+
+
 
 def user_register(request):
     if request.method == 'POST':
@@ -35,11 +44,8 @@ def user_register(request):
          else:
             return JsonResponse({"message": "username is not available"}, status=400)
 
-
-
-
-
 #def folder_view(request):
+
 #    return render(request, 'cloud_app/folder.html')
 #def upload_view(request):
 #    return render(request,'cloud_app/upload.html')
