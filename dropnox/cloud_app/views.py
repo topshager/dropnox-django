@@ -32,9 +32,6 @@ def user_register(request):
 
              new_user = User(username = username,password = password)
              new_user.save()
-
-
-
          else:
             return JsonResponse({"message": "username is not available"}, status=400)
 
