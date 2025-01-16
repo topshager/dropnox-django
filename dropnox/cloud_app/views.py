@@ -26,8 +26,9 @@ def home(request):
     if request.method == 'GET':
         user_id = request.user.id
         folders = Folder.objects.filter(user=user_id)
-        Files  = File.objects.filter(folder=None)
-
+        files  = File.objects.filter(folder=None)
+        user_data = list(folders.values(),files.values())
+        return JsonResponse({'data':user_data })
 
 
 
