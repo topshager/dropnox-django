@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './login.css'; // Ensure the CSS file path is correct
-
+import { useNavigate } from 'react-router-dom';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +18,9 @@ function Login() {
       });
 
       setMessage(response.data.message || 'Login successful!');
+      if (response.status === 200){
+        navigate('/home');
+      }
     } catch (error) {
       console.error('Error during API call:', error);
       setMessage(error.response?.data?.message || 'There was an error submitting the data.');
