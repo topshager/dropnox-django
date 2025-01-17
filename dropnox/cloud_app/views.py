@@ -31,11 +31,15 @@ def user_auth(request):
             return JsonResponse({"message": "Invalid username or password"}, status=400)
 
 login_required
+@api_view(['GET'])
 def home(request):
 
     if request.method == 'GET':
+        user_id = request.user.id
         folders = Folder.objects.filter(user=user_id).values()
-        files  = File.objects.filter(folder=None).values()
+        files  = File.objects.filter(user=user_id,folder=None).values()
+
+
 
         user_data ={
             'folders': list(folders),
