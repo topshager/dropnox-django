@@ -9,6 +9,8 @@ urlpatterns = [
 
     path('register',views.user_register ,name='register'),
 
+    path('home',views.home , name='home'),
+
 
     #path('upload_folder',views.)
     #path('create_folder',views.),
