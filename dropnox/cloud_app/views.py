@@ -4,7 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from cloud_app.models import User,Folder,File
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from django.contrib.auth import authenticate
+
 
 from django.http import JsonResponse
 
@@ -17,17 +19,30 @@ def user_auth(request):
         password = data.get('password')
         user = authenticate(username= username,password = password)
         if user is not None:
-            return JsonResponse({"message": "Login successful!"}, status=200)
+
+            login(request, user)
+            user_id = user.id  # Retrieve the user's ID
+            print(user_id)
+            return JsonResponse({
+                "message": "Login successful!",
+                "user_id": user_id  # Include the user ID in the response
+            }, status=200)
         else:
             return JsonResponse({"message": "Invalid username or password"}, status=400)
 
 login_required
 def home(request):
+
     if request.method == 'GET':
-        user_id = request.user.id
-        folders = Folder.objects.filter(user=user_id)
-        files  = File.objects.filter(folder=None)
-        user_data = list(folders.values(),files.values())
+        folders = Folder.objects.filter(user=user_id).values()
+        files  = File.objects.filter(folder=None).values()
+
+        user_data ={
+            'folders': list(folders),
+            'files': list(files),
+        }
+
+
         return JsonResponse({'data':user_data })
 
 
