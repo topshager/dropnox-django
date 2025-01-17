@@ -18,7 +18,7 @@ function Login() {
       });
 
       setMessage(response.data.message || 'Login successful!');
-      if (response.status === 200){
+      if (response.status === 'Login successful!'){
         navigate('/home');
       }
     } catch (error) {
