@@ -30,6 +30,7 @@ def user_auth(request):
         else:
             return JsonResponse({"message": "Invalid username or password"}, status=400)
 
+
 login_required
 @api_view(['GET'])
 def home(request):
