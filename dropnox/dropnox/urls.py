@@ -11,4 +11,5 @@ urlpatterns = [
     path('folder', views.folder_view,name='folder'),
     path('api/auth/',include('cloud_app.urls')),
     path('api/register/',include('cloud_app.urls')),
+    path('api/home/',include('cloud_app.urls')),
 ]
