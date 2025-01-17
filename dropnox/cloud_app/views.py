@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from cloud_app.models import User,Folder,File
@@ -9,6 +11,12 @@ from django.contrib.auth import authenticate
 
 
 from django.http import JsonResponse
+class MyTokenObtainPairView(TokenObtainPairView):
+    pass
+
+
+class MyTokenRefreshView(TokenRefreshView):
+    pass
 
 @api_view(['POST'])
 def user_auth(request):
@@ -31,24 +39,25 @@ def user_auth(request):
             return JsonResponse({"message": "Invalid username or password"}, status=400)
 
 
-login_required
-@api_view(['GET'])
-def home(request):
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+    @api_view(['GET'])
+    def home(request):
 
-    if request.method == 'GET':
-        user_id = request.user.id
-        folders = Folder.objects.filter(user=user_id).values()
-        files  = File.objects.filter(user=user_id,folder=None).values()
-
-
-
-        user_data ={
-            'folders': list(folders),
-            'files': list(files),
-        }
+        if request.method == 'GET':
+            user_id = request.user.id
+            folders = Folder.objects.filter(user=user_id).values()
+            files  = File.objects.filter(user=user_id,folder=None).values()
 
 
-        return JsonResponse({'data':user_data })
+
+            user_data ={
+                'folders': list(folders),
+                'files': list(files),
+            }
+
+
+            return JsonResponse({'data':user_data })
 
 
 
