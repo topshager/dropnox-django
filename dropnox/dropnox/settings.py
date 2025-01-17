@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'cloud_app',
     'rest_framework',
     'corsheaders',
-    'rest_framework.authtoken',
+    'rest_framework',
+    'rest_framework_simplejwt',
 
 ]
 
@@ -141,4 +142,8 @@ APPEND_SLASH = True
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],}
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
