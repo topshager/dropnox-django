@@ -9,9 +9,8 @@ function Home(){
 
 
   useEffect(() => {
-    fetch('api/home/',{
-      method:'GET',
-      credentials:'include',
+    fetch('http://127.0.0.1:8000/api/home/',{
+      method:'GET'
     })
     .then((response)=>{
       if(!response.ok){
