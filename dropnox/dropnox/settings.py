@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'cloud_app',
     'rest_framework',
     'corsheaders',
-    'rest_framework',
     'rest_framework_simplejwt',
 
 ]
