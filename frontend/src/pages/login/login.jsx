@@ -12,10 +12,13 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/auth/', {
+      const response = await axios.post('http://127.0.0.1:8000/api/token/', {
         username,
         password,
       });
+      
+      localStorage.setItem('access_token',response.data.access)
+      localStorage.setItem('refresh_token',response.data.access)
 
       setMessage(response.data.message || 'Login successful!');
       if (response.status === 200){
