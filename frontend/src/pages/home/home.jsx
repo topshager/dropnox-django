@@ -6,11 +6,17 @@ function Home(){
   const [files,setFiles] = useState([]);
   const [loading,setloading] = useState(true);
   const [error,setError] = useState(null);
+  const [message,setMessage] = useState('');
+
 
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/home/',{
-      method:'GET'
+    const token = localStorage.getItem('access_token');
+    fetch('http://127.0.0.1:8000/api/protected/',{
+      method:'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then((response)=>{
       if(!response.ok){
