@@ -25,12 +25,15 @@ def user_auth(request):
         data = request.data
         username = data.get('username')
         password = data.get('password')
+
+        if not username or not password:
+            return JsonResponse({"message": "Username and password are required"}, status=400)
+
         user = authenticate(username= username,password = password)
         if user is not None:
 
             login(request, user)
             user_id = user.id  # Retrieve the user's ID
-            print(user_id)
             return JsonResponse({
                 "message": "Login successful!",
                 "user_id": user_id  # Include the user ID in the response
@@ -38,13 +41,9 @@ def user_auth(request):
         else:
             return JsonResponse({"message": "Invalid username or password"}, status=400)
 
-
-class ProtectedView(APIView):
-    permission_classes = [IsAuthenticated]
-    @api_view(['GET'])
-    def home(request):
-
-        if request.method == 'GET':
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def home(request):
             user_id = request.user.id
             folders = Folder.objects.filter(user=user_id).values()
             files  = File.objects.filter(user=user_id,folder=None).values()
@@ -60,7 +59,7 @@ class ProtectedView(APIView):
             return JsonResponse({'data':user_data })
 
 
-
+@api_view(['POST'])
 def user_register(request):
     if request.method == 'POST':
          data = request.data
