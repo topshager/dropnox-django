@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import status
 from cloud_app.models import User,Folder,File
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,10 @@ class MyTokenObtainPairView(TokenObtainPairView):
 class MyTokenRefreshView(TokenRefreshView):
     pass
 
+class ProtectedView(APIView):
+      permission_classes = [[IsAuthenticated]]
+      def get(self, request):
+        return Response({"message": "You have access to this protected view!"})
 @api_view(['POST'])
 def user_auth(request):
         data = request.data
@@ -71,8 +75,3 @@ def user_register(request):
          new_user = User(username=username,password=password)
          new_user.save()
          return JsonResponse({"message": "User registered successfully!"}, status=201)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def protected_view(request):
-    return Response({"message": "You have access to this protected view!"})
