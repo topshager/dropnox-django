@@ -71,6 +71,7 @@ def user_register(request):
          new_user = User(username=username,password=password)
          new_user.save()
          return JsonResponse({"message": "User registered successfully!"}, status=201)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def protected_view(request):
