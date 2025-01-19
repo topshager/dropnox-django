@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import include ,path
-from .views import MyTokenObtainPairView, MyTokenRefreshView, ProtectedView
+from .views import MyTokenObtainPairView, MyTokenRefreshView, protected_view
 from . import views
 
 urlpatterns = [
@@ -12,7 +12,7 @@ urlpatterns = [
     path('home',views.home , name='home'),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', MyTokenRefreshView.as_view(), name='token_refresh'),
-    path('api/protected/', ProtectedView.as_view(), name='protected_view'),
+    path('api/protected/', protected_view.as_view(), name='protected_view'),
 
 
     #path('upload_folder',views.)
