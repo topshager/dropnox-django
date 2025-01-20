@@ -41,26 +41,6 @@ class ProtectedView(APIView):
       def get(self, request):
         return Response({"message": "You have access to this protected view!"})
 
-#@api_view(['POST'])
-#def user_auth(request):
- #       data = request.data
- #       username = data.get('username')
- #       password = data.get('password')
-#
- #       if not username or not password:
- #           return JsonResponse({"message": "Username and password are required"}, status=400)
-#
- #       user = authenticate(username= username,password = password)
- #       if user is not None:
- #           login(request, user)
- #           user_id = user.id  # Retrieve the user's ID
- #           return JsonResponse({
- #               "message": "Login successful!",
- #               "user_id": user_id  # Include the user ID in the response
- #           }, status=200)
- #       else:
- #           return JsonResponse({"message": "Invalid username or password"}, status=400)
-#
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
