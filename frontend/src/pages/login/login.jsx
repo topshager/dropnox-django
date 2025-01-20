@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './login.css'; // Ensure the CSS file path is correct
+import './login.css';
 import { useNavigate } from 'react-router-dom';
 function Login() {
   const [username, setUsername] = useState('');
@@ -16,7 +16,7 @@ function Login() {
         username,
         password,
       });
-      
+
       localStorage.setItem('access_token',response.data.access)
       localStorage.setItem('refresh_token',response.data.access)
 
