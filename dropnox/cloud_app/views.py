@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from django.contrib.auth.hashers import make_password
 import logging
 logger = logging.getLogger(__name__)
 
@@ -16,16 +17,13 @@ from django.contrib.auth import authenticate
 from django.http import JsonResponse
 
 class customTokenObtainPairSerializer(TokenObtainPairSerializer):
-     def validate(self,attrs):
-         data = super().validate(attrs)
-         user = self.user
-         data['user_id'] = user.id
-         data['username'] = user.username
-         return data
+ def validate(self,attrs):
+     data = super().validate(attrs)
+     user = self.user
+     data['user_id'] = user.id
+     data['username'] = user.username
+     return data
 
-
-
-MyTokenObtainPairView
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = customTokenObtainPairSerializer
     def post(self,request,*args,**kwargs):
@@ -33,6 +31,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
          response = super().post(request, *args, **kwargs)
          logger.info("Response data:", response.data)
          return response
+
 
 class MyTokenRefreshView(TokenRefreshView):
     pass
@@ -91,6 +90,6 @@ def user_register(request):
          if User.objects.filter(username=username).exists():
             return JsonResponse({"message": "username is not available"}, status=400)
 
-         new_user = User(username=username,password=password)
+         new_user = User(username=username,password=make_password(password))
          new_user.save()
          return JsonResponse({"message": "User registered successfully!"}, status=201)
