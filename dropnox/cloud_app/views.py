@@ -49,8 +49,6 @@ def home(request):
             folders = Folder.objects.filter(user=user_id).values()
             files  = File.objects.filter(user=user_id,folder=None).values()
 
-
-
             user_data ={
                 'folders': list(folders),
                 'files': list(files),
