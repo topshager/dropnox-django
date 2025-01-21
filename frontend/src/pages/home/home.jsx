@@ -18,9 +18,13 @@ function Home(){
         Authorization: `Bearer ${token}`,
       },
     })
+
     .then((response)=>{
+      console.log(response)
       if(!response.ok){
         throw new Error('Failed to fetch data');
+
+
       }
       return response.json();
     })
