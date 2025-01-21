@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -59,6 +59,7 @@ def home(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def user_register(request):
          data = request.data
          username = data.get('username')
