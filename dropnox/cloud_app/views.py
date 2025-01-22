@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from rest_framework import serializers
+from .models import Folder
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -41,6 +43,18 @@ class ProtectedView(APIView):
       def get(self, request):
         return Response({"message": "You have access to this protected view!"})
 
+class FolderSerializer(serializers.ModelSerializer):
+     class meta:
+          model = Folder
+          fields = ['folder_id', 'name', 'parent', 'user', 'type', 'created_at', 'updated_at']
+
+
+          def validate(self,value):
+               allowed_types = ['document', 'image', 'video']
+               if value not in allowed_types:
+                    raise serializers.ValidationError(f"Folder type must be one of {allowed_types}")
+               return value
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -70,11 +84,14 @@ def upload_folder(reuest):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def home_upload_file(request):
-     user_id = request.user.id
-     
+    serializer = FolderSerializer(data=request.data)
+    if serializer.is_valid():
+         serializer.validate_data['user'] = request.user
 
+         folder  = serializer.save()
+         return Response({"message": "Folder created successfully!", "folder": FolderSerializer(folder).data}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-     pass
 
 
 
