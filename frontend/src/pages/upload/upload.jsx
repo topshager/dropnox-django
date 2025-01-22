@@ -1,6 +1,5 @@
 import React ,{useState} from "react";
 
-
 const Uploader = () =>{
   const [file,setFile] = useState(null);
   const [status,setStatus] = useState("initial")
@@ -17,11 +16,20 @@ const handleUpload = async () =>{
     setStatus("upload");
     const formData = new FormData();
     formData.append("file",file);
-
+    const token = localStorage.getItem('access_token');
+    console.log(token)
+    if (!token) {
+      console.error("No token found in localStorage");
+      setStatus("fail");
+      return;
+      }
     try {
       const response = await fetch('http://127.0.0.1:8000/api/home_upload/', {
         method: "POST",
         body: formData,
+        headers:{
+        Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
