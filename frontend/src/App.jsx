@@ -17,7 +17,7 @@ function App() {
         Dropdown Button
         </Dropdown.Toggle>
     <Dropdown.Menu>
-      <Dropdown.Item href="/upload">file upload</Dropdown.Item>
+      <Dropdown.Item href="/uploader">file upload</Dropdown.Item>
       <Dropdown.Item href="#/action"> folder upload</Dropdown.Item>
       <Dropdown.Item href="#/action">New folder</Dropdown.Item>
       </Dropdown.Menu>
@@ -36,7 +36,7 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />}/>
       <Route path="/home" element={<Home/>}/>
-      <Route path="/Uploader" element={<Uploader/>}/>
+      <Route path="/uploader" element={<Uploader/>}/>
     </Routes>
     </div>
   </Router>
