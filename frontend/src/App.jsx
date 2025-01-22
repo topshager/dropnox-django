@@ -3,10 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/login/login";
 import Register from "./pages/register/register";
 import Home from "./pages/home/home";
+import Uploader from "./pages/upload/upload";
 import { Dropdown } from 'react-bootstrap';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
@@ -18,7 +17,7 @@ function App() {
         Dropdown Button
         </Dropdown.Toggle>
     <Dropdown.Menu>
-      <Dropdown.Item href="#/action">file upload</Dropdown.Item>
+      <Dropdown.Item href="/upload">file upload</Dropdown.Item>
       <Dropdown.Item href="#/action"> folder upload</Dropdown.Item>
       <Dropdown.Item href="#/action">New folder</Dropdown.Item>
       </Dropdown.Menu>
@@ -37,6 +36,7 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />}/>
       <Route path="/home" element={<Home/>}/>
+      <Route path="/Uploader" element={<Uploader/>}/>
     </Routes>
     </div>
   </Router>
