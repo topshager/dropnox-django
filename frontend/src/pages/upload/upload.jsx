@@ -15,7 +15,7 @@ const handleFileChange = (e) =>{
 const handleUpload = async () =>{
   if (file){
     setStatus("upload");
-    const formData = new formData();
+    const formData = new FormData();
     formData.append("file",file);
 
     try {
