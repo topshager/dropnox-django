@@ -56,7 +56,21 @@ def home(request):
 
 
             return JsonResponse({'data':user_data })
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def create_folder(request):
+     
+     pass
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def upload_folder(reuest):
+     pass
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def upload_file(reqest):
+     pass
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
