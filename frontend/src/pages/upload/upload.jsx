@@ -19,7 +19,7 @@ const handleUpload = async () =>{
     formData.append("file",file);
 
     try {
-      const response = await fetch('123423431241', {
+      const response = await fetch('http://127.0.0.1:8000/api/home_upload/', {
         method: "POST",
         body: formData,
       });
@@ -31,7 +31,8 @@ const handleUpload = async () =>{
       } else {
         throw new Error("Upload failed");
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Error uploading file:", error);
       setStatus("fail");
     }
