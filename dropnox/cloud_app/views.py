@@ -83,7 +83,7 @@ def upload_folder(reuest):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def home_upload_file(request):
+def home_upload_folder(request):
     serializer = FolderSerializer(data=request.data)
     if serializer.is_valid():
          serializer.validate_data['user'] = request.user
