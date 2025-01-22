@@ -44,16 +44,6 @@ function Home(){
 
   return (
     <div>
-                  <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Dropdown Button
-              </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item href="#/action">file upload</Dropdown.Item>
-            <Dropdown.Item href="#/action"> folder upload</Dropdown.Item>
-            <Dropdown.Item href="#/action">New folder</Dropdown.Item>
-            </Dropdown.Menu>
-            </Dropdown>
       <h1>Home</h1>
       <div>
         <h2>Folders</h2>
