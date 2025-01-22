@@ -59,7 +59,7 @@ def home(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def create_folder(request):
-     
+
      pass
 
 @api_view(['POST'])
@@ -69,8 +69,14 @@ def upload_folder(reuest):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def upload_file(reqest):
+def home_upload_file(request):
+     user_id = request.user.id
+     
+
+
      pass
+
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
