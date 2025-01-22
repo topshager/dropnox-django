@@ -9,7 +9,6 @@ function Home(){
   const [message,setMessage] = useState('');
 
 
-
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     fetch('http://127.0.0.1:8000/api/protected/',{
@@ -45,6 +44,16 @@ function Home(){
 
   return (
     <div>
+                  <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Dropdown Button
+              </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item href="#/action">file upload</Dropdown.Item>
+            <Dropdown.Item href="#/action"> folder upload</Dropdown.Item>
+            <Dropdown.Item href="#/action">New folder</Dropdown.Item>
+            </Dropdown.Menu>
+            </Dropdown>
       <h1>Home</h1>
       <div>
         <h2>Folders</h2>
