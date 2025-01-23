@@ -1,45 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import api from ".pages/auth/auth";
 
 function Home(){
+
+
   const [folders,setFolders] = useState([]);
   const [files,setFiles] = useState([]);
-  const [loading,setloading] = useState(true);
+  const [loading,setLoading] = useState(true);
   const [error,setError] = useState(null);
   const [message,setMessage] = useState('');
 
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    fetch('http://127.0.0.1:8000/api/protected/',{
-      method:'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-
-    .then((response)=>{
-      console.log(response)
-      if(!response.ok){
-        throw new Error('Failed to fetch data');
-
-
+    const fetchData = async () => {
+      try {
+        const response  = await api.get('api/protected/');
+        const {folders:foldersData,files:filesData } =  response.data;
+        setFolders(foldersData);
+        setFiles(filesData);
+        setLoading(false);
+      }catch(error){
+        console.error('Error fetching data',error);
+        setError(error.response?.data?.details || 'failed to fetch data');
+        setLoading(false);
       }
-      return response.json();
-    })
-    .then((data) =>{
-      const [foldersData,filesData] = data.data;
-      setFolders(foldersData);
-      setFiles(filesData);
-      setloading(false);
-    })
-    .catch((error) =>{
-      console.error('error',error);
-      setError(error.message);
-      setloading(false);
-    });
+    };
+    fetchData();
   },[]);
-  if (loading)return <p>Loading...</p>;
+
+  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
