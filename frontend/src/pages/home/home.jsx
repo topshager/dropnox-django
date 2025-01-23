@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import api from ".pages/auth/auth";
+import api from "../auth/auth";
 
 function Home(){
 
