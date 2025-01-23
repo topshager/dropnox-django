@@ -84,12 +84,13 @@ def upload_folder(reuest):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def home_upload_folder(request):
-    data = request.data.copy()
+    data = request.data.dict() if hasattr(request.data, 'dict') else request.data
     data['user'] = request.user.id
+    
     serializer = FolderSerializer(data=request.data)
     if serializer.is_valid():
          folder  = serializer.save()
-         
+
          return Response({"message": "Folder created successfully!", "folder": FolderSerializer(folder).data}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
