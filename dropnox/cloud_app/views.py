@@ -44,7 +44,7 @@ class ProtectedView(APIView):
         return Response({"message": "You have access to this protected view!"})
 
 class FolderSerializer(serializers.ModelSerializer):
-     class meta:
+     class Meta:
           model = Folder
           fields = ['folder_id', 'name', 'parent', 'user', 'type', 'created_at', 'updated_at']
 
@@ -86,7 +86,7 @@ def upload_folder(reuest):
 def home_upload_folder(request):
     data = request.data.dict() if hasattr(request.data, 'dict') else request.data
     data['user'] = request.user.id
-    
+
     serializer = FolderSerializer(data=request.data)
     if serializer.is_valid():
          folder  = serializer.save()
