@@ -22,7 +22,7 @@ api.interceptors.response.use(
   async (error) =>{
     const originalRequest = error.config
 
-    if (error.response.status === 401 && !originalRequest._rety){
+    if (error.response.status === 401 && !originalRequest._retry){
       originalRequest._retry = true;
 
       try {
@@ -33,7 +33,7 @@ api.interceptors.response.use(
 
         localStorage.setItem('token', access);
 
-        originalRequest.header.Aithorization = `Bearer ${access}`;
+        originalRequest.header.Authorization = `Bearer ${access}`;
         return axios(originalRequest);
       }catch(refreshError){
         console.error('Refresh token failed:', refreshError);
