@@ -13,6 +13,12 @@ function Home(){
 
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token){
+      window.WebGLShaderPrecisionFormat.href ='/login';
+      return;
+    }
     const fetchData = async () => {
       try {
         const response  = await api.get('api/protected/');
