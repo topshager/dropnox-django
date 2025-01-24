@@ -49,11 +49,11 @@ class FolderSerializer(serializers.ModelSerializer):
           fields = ['folder_id', 'name', 'parent', 'user', 'type', 'created_at', 'updated_at']
 
 
-          def validate(self,value):
-               allowed_types = ['document', 'image', 'video']
-               if value not in allowed_types:
-                    raise serializers.ValidationError(f"Folder type must be one of {allowed_types}")
-               return value
+     def validate(self,value):
+            allowed_types = ['document', 'image', 'video','pdf']
+            if value not in allowed_types:
+                raise serializers.ValidationError(f"Folder type must be one of {allowed_types}")
+            return value
 
 
 @api_view(['GET'])
@@ -84,17 +84,20 @@ def upload_folder(reuest):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def home_upload_folder(request):
+    logger.info(f"Incoming request data: {request.data}")
     data = request.data.dict() if hasattr(request.data, 'dict') else request.data
     data['user'] = request.user.id
 
-    serializer = FolderSerializer(data=request.data)
+    serializer = FolderSerializer(data=data)
     if serializer.is_valid():
-         folder  = serializer.save()
-
-         return Response({"message": "Folder created successfully!", "folder": FolderSerializer(folder).data}, status=status.HTTP_201_CREATED)
+        folder = serializer.save()
+        logger.info(f"Folder created successfully: {folder}")
+        return Response(
+            {"message": "Folder created successfully!", "folder": FolderSerializer(folder).data},
+            status=status.HTTP_201_CREATED,
+        )
+    logger.error(f"Serializer errors: {serializer.errors}")
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 @api_view(['POST'])
