@@ -84,8 +84,8 @@ def upload_folder(reuest):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def home_upload_folder(request):
-    logger.debug(f"Request Data: {request.data}")
-    logger.debug(f"Authenticated User: {request.user}")
+    logger = logging.getLogger(__name__)
+    logger.debug(f"Raw Request Data: {request.data}")
     data = request.data.dict() if hasattr(request.data, 'dict') else request.data
     data['user'] = request.user.id
     if 'type' not in data:
