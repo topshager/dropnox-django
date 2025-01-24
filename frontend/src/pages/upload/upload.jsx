@@ -21,7 +21,7 @@ const Uploader = () => {
   };
 
   const fileType = file && file.type ? fileTypeMapping[file.type]: "document";
-  console.log(fileType)
+
 
   const handleUpload = async () => {
     if (file && file.name && file.type) {
@@ -37,8 +37,7 @@ const Uploader = () => {
 
       formData.append("name", name);
       formData.append("type", fileType );
-      console.log(formData.name)
-      console.log(file.type)
+   
 
       const token = localStorage.getItem("access_token");
       if (!token) {
