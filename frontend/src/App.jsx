@@ -30,6 +30,9 @@ function App() {
             <li>
               <a href="/register">register</a>
             </li>
+            <li>
+            <a href="/home">home</a>
+            </li>
           </ul>
         </nav>
     <Routes>
