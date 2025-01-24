@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
+import api from "../auth/auth";
+
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +14,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/token/', {
+      const response = await  api.post('http://127.0.0.1:8000/api/token/', {
         username,
         password,
       });
