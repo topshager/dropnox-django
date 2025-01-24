@@ -21,14 +21,24 @@ const Uploader = () => {
   };
 
   const fileType = file && file.type ? fileTypeMapping[file.type]: "document";
+  console.log(fileType)
 
   const handleUpload = async () => {
-    if (file && name && type) {
+    if (file && file.name && file.type) {
+      const fileTypeMismatch = fileType !== type;
+
+      if (fileTypeMismatch) {
+        alert(`The selected folder type (${type}) does not match the file type (${fileType}).`);
+        return;
+    }
       setStatus("upload");
       const formData = new FormData();
       formData.append("file", file);
+
       formData.append("name", name);
       formData.append("type", fileType );
+      console.log(formData.name)
+      console.log(file.type)
 
       const token = localStorage.getItem("access_token");
       if (!token) {
@@ -105,6 +115,7 @@ const Uploader = () => {
             </li>
             <li>
               <strong>Type:</strong> {file.type}
+
             </li>
             <li>
               <strong>Size:</strong> {file.size} bytes
