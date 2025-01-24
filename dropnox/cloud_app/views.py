@@ -84,12 +84,13 @@ def upload_folder(reuest):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def home_upload_folder(request):
-    logger.info(f"Incoming request data: {request.data}")
+    logger.debug(f"Request Data: {request.data}")
+    logger.debug(f"Authenticated User: {request.user}")
     data = request.data.dict() if hasattr(request.data, 'dict') else request.data
     data['user'] = request.user.id
     if 'type' not in data:
         return Response({'error': 'The "type" field is required.'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     serializer = FolderSerializer(data=data)
     if serializer.is_valid():
         folder = serializer.save()
