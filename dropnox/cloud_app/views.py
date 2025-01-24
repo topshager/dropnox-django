@@ -49,11 +49,11 @@ class FolderSerializer(serializers.ModelSerializer):
           fields = ['folder_id', 'name', 'parent', 'user', 'type', 'created_at', 'updated_at']
 
 
-     def validate(self,value):
-            allowed_types = ['document', 'image', 'video','pdf']
-            if value not in allowed_types:
-                raise serializers.ValidationError(f"Folder type must be one of {allowed_types}")
-            return value
+    # def validate(self,value):
+    #        allowed_types = ['document', 'image', 'video','pdf']
+    #        if value not in allowed_types:
+    #            raise serializers.ValidationError(f"Folder type must be one of {allowed_types}")
+    #        return value
 
 
 @api_view(['GET'])
