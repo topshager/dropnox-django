@@ -168,26 +168,43 @@ AUTHENTICATION_BACKENDS = [
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',  # Adjust the level here as needed
             'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
+            'formatter': 'verbose',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'handlers': ['console'],
+            'level': 'INFO',  # Set the desired level (INFO will ignore DEBUG)
             'propagate': True,
         },
-        '__main__': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+        'django.db.backends': {
+            'level': 'WARNING',  # Filter out lower-level database queries
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'django_extensions': {  # Example for filtering django_extensions
+            'level': 'ERROR',  # Only show ERROR level logs
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'rest_framework': {  # Example for filtering rest_framework
+            'level': 'ERROR',  # Only show ERROR level logs
+            'handlers': ['console'],
+            'propagate': False,
         },
     },
 }

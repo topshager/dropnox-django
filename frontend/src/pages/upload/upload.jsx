@@ -13,13 +13,22 @@ const Uploader = () => {
     }
   };
 
+  const fileTypeMapping = {
+    "application/pdf": "pdf",
+    "image/png": "image",
+    "image/jpeg": "image",
+    "video/mp4": "video",
+  };
+
+  const fileType = file && file.type ? fileTypeMapping[file.type]: "document";
+
   const handleUpload = async () => {
     if (file && name && type) {
       setStatus("upload");
       const formData = new FormData();
       formData.append("file", file);
       formData.append("name", name);
-      formData.append("type", type);
+      formData.append("type", fileType );
 
       const token = localStorage.getItem("access_token");
       if (!token) {
