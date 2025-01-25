@@ -16,12 +16,17 @@ function Home(){
     const token = localStorage.getItem('token');
 
     if (!token){
-      window.WebGLShaderPrecisionFormat.href ='/login';
+      window.location.href = '/login';
       return;
     }
     const fetchData = async () => {
       try {
-        const response  = await api.get('api/protected/');
+        const response  = await api.get('http://127.0.0.1:8000/api/home/',{
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+        });
         const {folders:foldersData,files:filesData } =  response.data;
         setFolders(foldersData);
         setFiles(filesData);
