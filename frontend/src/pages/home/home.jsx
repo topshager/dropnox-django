@@ -22,7 +22,6 @@ function Home(){
     const fetchData = async () => {
       try {
         const response  = await api.get('http://127.0.0.1:8000/api/home/',{
-        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         }
