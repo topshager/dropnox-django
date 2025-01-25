@@ -42,16 +42,26 @@ class ProtectedView(APIView):
       permission_classes = [IsAuthenticated]
       def get(self, request):
         return Response({"message": "You have access to this protected view!"})
-
-class FolderSerializer(serializers.ModelSerializer):
-     class Meta:
-          model = Folder
-          fields = [ 'folder_id','name','parent','user','type','user','created_at','updated_at']
-
 class FileSerializer(serializers.ModelSerializer):
         class Meta:
           model = File
           fields = [ 'file_id','name','folder','type','content','user','created_at','updated_at']
+
+class FolderSerializer(serializers.ModelSerializer):
+     files = FileSerializer(many=True,required=False)
+     subfolders =FileSerializer(many=True,required=False)
+     class Meta:
+
+          model = Folder
+          fields = [ 'folder_id','name','parent','user','type','user','created_at','updated_at']
+     def get_subfolder(self,obj):
+          return FolderSerializer(obj.subfolders.all(), many=True).data
+     def create(self, validated_data):
+        files_data = validated_data.pop('files', [])
+        folder = Folder.objects.create(**validated_data)
+        for file_data in files_data:
+            File.objects.create(folder=folder, **file_data)
+        return folder
 
 
     # def validate(self,value):
@@ -94,7 +104,17 @@ def create_folder(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def upload_folder(reuest):
+def upload_folder(request):
+    user = request.user
+    data = request.data.copy()
+    data['user'] = user.id
+
+    serializer = FolderSerializer(data=data)
+    if serializer.is_valid():
+        folder = serializer.save()
+        return Response({'message': 'Folder created successfully!', 'folder': serializer.data}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
      pass
 
 @api_view(['POST'])
