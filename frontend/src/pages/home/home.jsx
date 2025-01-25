@@ -13,6 +13,7 @@ function Home(){
 
 
   useEffect(() => {
+    
     const token = localStorage.getItem('token');
 
     if (!token){
