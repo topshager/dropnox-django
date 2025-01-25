@@ -45,8 +45,8 @@ class ProtectedView(APIView):
 
 class FolderSerializer(serializers.ModelSerializer):
      class Meta:
-          model = Folder
-          fields = ['folder_id', 'name', 'parent', 'user', 'type', 'created_at', 'updated_at']
+          model = File
+          fields = [ 'file_id','name','folder','type','content','user','created_at','updated_at']
 
 
     # def validate(self,value):
@@ -83,7 +83,7 @@ def upload_folder(reuest):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def home_upload_folder(request):
+def home_upload_file(request):
     logger = logging.getLogger(__name__)
     logger.debug(f"Raw Request Data: {request.data}")
     data = request.data.dict() if hasattr(request.data, 'dict') else request.data
@@ -93,10 +93,10 @@ def home_upload_folder(request):
 
     serializer = FolderSerializer(data=data)
     if serializer.is_valid():
-        folder = serializer.save()
-        logger.info(f"Folder created successfully: {folder}")
+        file = serializer.save()
+        logger.info(f"Folder created successfully: {file}")
         return Response(
-            {"message": "Folder created successfully!", "folder": FolderSerializer(folder).data},
+            {"message": "Folder created successfully!", "folder": FolderSerializer(file).data},
             status=status.HTTP_201_CREATED,
         )
     logger.error(f"Serializer errors: {serializer.errors}")
