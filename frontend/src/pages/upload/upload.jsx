@@ -37,7 +37,7 @@ const Uploader = () => {
 
       formData.append("name", name);
       formData.append("type", fileType );
-   
+
 
       const token = localStorage.getItem("access_token");
       if (!token) {
