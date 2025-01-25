@@ -45,6 +45,11 @@ class ProtectedView(APIView):
 
 class FolderSerializer(serializers.ModelSerializer):
      class Meta:
+          model = Folder
+          fields = [ 'folder_id','name','parent','user','type','user','created_at','updated_at']
+
+class FileSerializer(serializers.ModelSerializer):
+        class Meta:
           model = File
           fields = [ 'file_id','name','folder','type','content','user','created_at','updated_at']
 
@@ -59,17 +64,28 @@ class FolderSerializer(serializers.ModelSerializer):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def home(request):
-            user_id = request.user.id
-            folders = Folder.objects.filter(user=user_id).values()
-            files  = File.objects.filter(user=user_id,folder=None).values()
+           try:
+                user_id = request.user.id
 
-            user_data ={
-                'folders': list(folders),
-                'files': list(files),
-            }
+                folders = Folder.objects.filter(user=user_id).values()
+                files  = File.objects.filter(user=user_id,folder=None).values()
 
+                folder_data = FolderSerializer(folders, many=True).data
+                file_data = FileSerializer(files, many=True).data
 
-            return JsonResponse({'data':user_data })
+                user_data ={
+                    'folders': list(folders),
+                    'files': list(files),
+                }
+
+                return Response({'data': user_data}, status=status.HTTP_200_OK)
+           except Exception as e:
+                logger = logging.getLogger(__name__)
+                logger.error(f"Error fetching data for user {request.user.id}: {e}")
+                return Response(
+                    {'error': 'An error occurred while fetching data. Please try again later.'},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def create_folder(request):
@@ -91,12 +107,12 @@ def home_upload_file(request):
     if 'type' not in data:
         return Response({'error': 'The "type" field is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    serializer = FolderSerializer(data=data)
+    serializer = FileSerializer(data=data)
     if serializer.is_valid():
         file = serializer.save()
         logger.info(f"Folder created successfully: {file}")
         return Response(
-            {"message": "Folder created successfully!", "folder": FolderSerializer(file).data},
+            {"message": "Folder created successfully!", "folder": FileSerializer(file).data},
             status=status.HTTP_201_CREATED,
         )
     logger.error(f"Serializer errors: {serializer.errors}")
