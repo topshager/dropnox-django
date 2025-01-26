@@ -19,7 +19,7 @@ function App() {
         </Dropdown.Toggle>
     <Dropdown.Menu>
       <Dropdown.Item href="/uploader">file upload</Dropdown.Item>
-      <Dropdown.Item href="/folder_upload"> folder upload</Dropdown.Item>
+      <Dropdown.Item href="/upload_folder"> folder upload</Dropdown.Item>
       <Dropdown.Item href="#/action">New folder</Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>
