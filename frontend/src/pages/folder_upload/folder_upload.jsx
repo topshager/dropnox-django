@@ -16,10 +16,10 @@ const upload_folder = ()=>{
       setFolder(e.target.fiels[0]);
     }
   };
-  
+
   return(
 
-  )
+  
 }
 
 export default upload_folder;
