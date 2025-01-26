@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from "../auth/auth";
 
-const upload_folder = ()=>{
+const Upload_folder = ()=>{
 
   const[folder,setFolder] = useState(null);
   const[name,setName] = useState("");
@@ -81,4 +81,4 @@ return (
 );
 };
 
-export default upload_folder;
+export default Upload_folder;
