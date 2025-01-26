@@ -35,7 +35,7 @@ function Login() {
   return (
     <div className="login-container">
       <h1>Login Page</h1>
-      {message && <p className="message">{message}</p>} {/* Display message */}
+      {message && <p className="message">{message}</p>} 
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
           <label htmlFor="username">Username</label>
