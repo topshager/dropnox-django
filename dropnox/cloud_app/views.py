@@ -53,7 +53,7 @@ class FolderSerializer(serializers.ModelSerializer):
      class Meta:
 
           model = Folder
-          fields = [ 'folder_id','name','parent','user','type','user','created_at','updated_at']
+          fields = [ 'folder_id','name','parent','user','type','files','subfolders','user','created_at','updated_at']
      def get_subfolder(self,obj):
           return FolderSerializer(obj.subfolders.all(), many=True).data
      def create(self, validated_data):
