@@ -37,7 +37,7 @@ function App() {
           </ul>
         </nav>
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Login/>} />
       <Route path="/register" element={<Register />}/>
       <Route path="/home" element={<Home/>}/>
       <Route path="/uploader" element={<Uploader/>}/>
