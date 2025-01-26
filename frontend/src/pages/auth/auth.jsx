@@ -37,7 +37,7 @@ api.interceptors.response.use(
         return axios(originalRequest);
       }catch(refreshError){
         console.error('Refresh token failed:', refreshError);
-        window.location.href = '/login';
+        window.location.href = '/home';
     }
   }
 
