@@ -4,7 +4,7 @@ import Login from "./pages/login/login";
 import Register from "./pages/register/register";
 import Home from "./pages/home/home";
 import Uploader from "./pages/upload/upload";
-import upload_folder from "./pages/folder_upload/folder_upload/"
+import Upload_folder from "./pages/folder_upload/folder_upload";
 import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -19,7 +19,7 @@ function App() {
         </Dropdown.Toggle>
     <Dropdown.Menu>
       <Dropdown.Item href="/uploader">file upload</Dropdown.Item>
-      <Dropdown.Item href="/upload_folder"> folder upload</Dropdown.Item>
+      <Dropdown.Item href="/folder_upload"> folder upload</Dropdown.Item>
       <Dropdown.Item href="#/action">New folder</Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>
@@ -41,7 +41,7 @@ function App() {
       <Route path="/register" element={<Register />}/>
       <Route path="/home" element={<Home/>}/>
       <Route path="/uploader" element={<Uploader/>}/>
-      <Route path="/upload_folder" element={<upload_folder/>}/>
+      <Route path="/upload_folder" element={<Upload_folder/>}/>
     </Routes>
     </div>
   </Router>
