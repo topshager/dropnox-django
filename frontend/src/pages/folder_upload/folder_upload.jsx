@@ -26,6 +26,7 @@ const UploadFolder = () => {
       formData.append("files", file);
     });
     formData.append("name", name);
+    formData.append("type","folder");
 
 
     const token = localStorage.getItem("access_token");
