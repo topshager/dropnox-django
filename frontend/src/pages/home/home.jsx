@@ -13,14 +13,14 @@ function Home(){
 
 
   useEffect(() => {
-    
+
     const token = localStorage.getItem('token');
 
-    if (!token){
-      window.location.href = '/login';
-      return;
-    }
-    const fetchData = async () => {
+  /*if (!token){
+    window.location.href = '/';
+    return;
+  }*/
+  const fetchData = async () => {
       try {
         const response  = await api.get('http://127.0.0.1:8000/api/home/',{
         headers: {
