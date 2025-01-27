@@ -22,7 +22,7 @@ function Home(){
   }*/
   const fetchData = async () => {
       try {
-        const response  = await api.get('http://127.0.0.1:8000/api/home/',{
+        const response  = await fetch('http://127.0.0.1:8000/api/home/',{
         headers: {
           Authorization: `Bearer ${token}`,
         }
