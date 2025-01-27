@@ -1,76 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import api from "../auth/auth";
 
-function Home(){
-
-
-  const [folders,setFolders] = useState([]);
-  const [files,setFiles] = useState([]);
-  const [loading,setLoading] = useState(true);
-  const [error,setError] = useState(null);
-  const [message,setMessage] = useState('');
-
+function Home() {
+  const [folders, setFolders] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-
     const token = localStorage.getItem('token');
 
-  /*if (!token){
-    window.location.href = '/';
-    return;
-  }*/
-  const fetchData = async () => {
+
+    const fetchData = async () => {
       try {
-        const response  = await fetch('http://127.0.0.1:8000/api/home/',{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
+        const response = await fetch('http://127.0.0.1:8000/api/home/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
-        const {folders:foldersData,files:filesData } =  response.data;
+
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const { folders: foldersData, files: filesData } = data;
+
         setFolders(foldersData);
         setFiles(filesData);
         setLoading(false);
-      }catch(error){
-        console.error('Error fetching data',error);
-        setError(error.response?.data?.details || 'failed to fetch data');
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError(error.message || 'Failed to fetch data');
         setLoading(false);
       }
     };
-    fetchData();
-  },[]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div>
       <h1>Home</h1>
-      <div>
-        <h2>Folders</h2>
-        {folders.length > 0 ? (
-          <ul>
-            {folders.map((folder) => (
-              <li key={folder.id}>{folder.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No folders available.</p>
-        )}
-      </div>
-      <div>
-        <h2>Files</h2>
-        {files.length > 0 ? (
-          <ul>
-            {files.map((file) => (
-              <li key={file.id}>{file.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No files available.</p>
-        )}
-      </div>
+      <h2>Folders</h2>
+      <ul>
+        {folders.map((folder, index) => (
+          <li key={index}>{folder.name}</li>
+        ))}
+      </ul>
+      <h2>Files</h2>
+      <ul>
+        {files.map((file, index) => (
+          <li key={index}>{file.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
+
 export default Home;
