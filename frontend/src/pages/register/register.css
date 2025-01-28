@@ -1,70 +1,68 @@
-/* register.css */
-
+/* General Body Styling */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* Centered container for the form */
-.container {
+/* Form Container */
+.signup-container {
   max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #fff;
+  width: 100%;
+  padding: 30px;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Header styling */
-h2 {
-  text-align: center;
+/* Header */
+.signup-container h2 {
+  font-size: 1.8rem;
   color: #333;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-/* Form group styling */
+/* Form Fields */
 .form-group {
   margin-bottom: 15px;
 }
 
-/* Label styling */
 label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 1rem;
   color: #555;
+  display: block;
+  margin-bottom: 5px;
 }
 
-/* Input fields styling */
-input[type="text"],
-input[type="password"] {
+input {
   width: 100%;
   padding: 10px;
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 16px;
   box-sizing: border-box;
-  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+input:focus {
+  border-color: #007bff;
   outline: none;
-  border-color: #007BFF;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Submit button styling */
+/* Button Styling */
 button {
   width: 100%;
-  padding: 10px;
-  background-color: #007BFF;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 12px;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #007bff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -75,33 +73,17 @@ button:hover {
   background-color: #0056b3;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.8);
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* Error message styling (optional) */
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: -10px;
-  margin-bottom: 10px;
-}
-
-/* Adjust spacing for smaller devices */
-@media (max-width: 480px) {
-  .container {
-    padding: 15px;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .signup-container {
+    padding: 20px;
   }
 
-  input[type="text"],
-  input[type="password"],
-  button {
-    font-size: 14px;
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  input, button {
+    font-size: 0.9rem;
   }
 }
