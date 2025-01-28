@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './home.css';
 
 function Home() {
   const [folders, setFolders] = useState([]);
