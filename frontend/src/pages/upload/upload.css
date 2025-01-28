@@ -1,0 +1,130 @@
+/* General Body Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Main Uploader Container */
+.file-uploader {
+  max-width: 500px;
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Section Title */
+.file-uploader h3 {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Input Group Styling */
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.input-group input[type="text"],
+.input-group select,
+.input-group input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input[type="text"]:focus,
+.input-group select:focus,
+.input-group input[type="file"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* File Details Section */
+.file-uploader ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  text-align: left;
+}
+
+.file-uploader li {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* Submit Button */
+.file-uploader .submit {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.file-uploader .submit:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: scale(1.02);
+}
+
+.file-uploader .submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Result Messages */
+.file-uploader p {
+  margin-top: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.file-uploader p.success {
+  color: #28a745;
+}
+
+.file-uploader p.fail {
+  color: #dc3545;
+}
+
+.file-uploader p.upload {
+  color: #ffc107;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .file-uploader {
+    padding: 15px;
+  }
+
+  .input-group label,
+  .input-group input,
+  .file-uploader .submit {
+    font-size: 0.9rem;
+  }
+}
