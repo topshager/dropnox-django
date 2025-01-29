@@ -5,6 +5,7 @@ import Register from "./pages/register/register";
 import Home from "./pages/home/home";
 import Uploader from "./pages/upload/upload";
 import Upload_folder from "./pages/folder_upload/folder_upload";
+
 import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -26,13 +27,13 @@ function App() {
               <nav>
           <ul>
             <li>
-              <a href="/">login</a>
+              <a id="btn" href="/">login</a>
             </li>
             <li>
-              <a href="/register">register</a>
+              <a id="btn" href="/register">register</a>
             </li>
             <li>
-            <a href="/home">home</a>
+            <a id="btn" href="/home">home</a>
             </li>
           </ul>
         </nav>
