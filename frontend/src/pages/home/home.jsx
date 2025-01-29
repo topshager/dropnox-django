@@ -8,10 +8,10 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+
+    const token = localStorage.getItem('access_token');
+
     
-    const token = localStorage.getItem('token');
-
-
 
     const fetchData = async () => {
       try {
