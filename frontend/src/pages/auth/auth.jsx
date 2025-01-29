@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom';
 
 const api = axios.create({
 baseURL:  'http://127.0.0.1:8000/'
@@ -8,7 +7,7 @@ baseURL:  'http://127.0.0.1:8000/'
 
 api.interceptors.request.use(
   (config) =>{
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     if (token){
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -22,21 +21,27 @@ api.interceptors.response.use(
   async (error) =>{
     const originalRequest = error.config
 
-    if (error.response.status === 401 && !originalRequest._retry){
+    if (error.response && error.response.status === 401 && !originalRequest._retry){
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem('refreshToken');
+        const refreshToken = localStorage.getItem('refresh_token');
+        if(!refreshToken){
+          throw new Error("No refresh token found");
+
+        }
         const response =await axios.post('http://127.0.0.1:8000/api/token/refresh/',{refresh: refreshToken});
         const { access } =response.data;
 
 
-        localStorage.setItem('token', access);
+        localStorage.setItem('access_token', access);
 
-        originalRequest.header.Authorization = `Bearer ${access}`;
-        return axios(originalRequest);
+        originalRequest.headers.Authorization = `Bearer ${access}`;
+        return api(originalRequest);
       }catch(refreshError){
         console.error('Refresh token failed:', refreshError);
+        localStorage.removeItem("access_token")
+        localStorage.getItem('refresh_token');
         window.location.href = '/login';
     }
   }
