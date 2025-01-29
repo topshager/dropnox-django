@@ -20,7 +20,7 @@ function Login() {
       });
 
       localStorage.setItem('access_token',response.data.access)
-      localStorage.setItem('refresh_token',response.data.access)
+      localStorage.setItem('refresh_token',response.data.refresh)
 
       setMessage(response.data.message || 'Login successful!');
       if (response.status === 200){
@@ -35,7 +35,7 @@ function Login() {
   return (
     <div className="login-container">
       <h1>Login Page</h1>
-      {message && <p className="message">{message}</p>} 
+      {message && <p className="message">{message}</p>}
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
           <label htmlFor="username">Username</label>
