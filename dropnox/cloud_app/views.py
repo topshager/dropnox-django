@@ -53,7 +53,7 @@ class FolderSerializer(serializers.ModelSerializer):
      class Meta:
 
           model = Folder
-          fields = [ 'folder_id','name','parent','user','type','files','subfolders','user','created_at','updated_at']
+          fields = [ 'folder_id','name','parent','type','files','subfolders','user','created_at','updated_at']
      def get_subfolder(self,obj):
           return FolderSerializer(obj.subfolders.all(), many=True).data
      def create(self, validated_data):
@@ -77,15 +77,15 @@ def home(request):
            try:
                 user_id = request.user.id
 
-                folders = Folder.objects.filter(user=user_id).values()
-                files  = File.objects.filter(user=user_id,folder=None).values()
+                folders = Folder.objects.filter(user=user_id)
+                files  = File.objects.filter(user=user_id,folder=None)
 
                 folder_data = FolderSerializer(folders, many=True).data
                 file_data = FileSerializer(files, many=True).data
 
                 user_data ={
-                    'folders': list(folders),
-                    'files': list(files),
+                    'folders':  folder_data,
+                    'files':  file_data,
                 }
 
                 return Response({'data': user_data}, status=status.HTTP_200_OK)
