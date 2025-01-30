@@ -60,7 +60,7 @@ function Home() {
       <h2>Folders</h2>
       <ul>
       {folders.map((folder) => (
-          <li key={folder.folder_id}>{folder.name}</li>
+          <li key={folder.folder_id}><a className='foldername' href='/folder'>{folder.name}</a></li>
         ))}
       </ul>
       <h2>Files</h2>
