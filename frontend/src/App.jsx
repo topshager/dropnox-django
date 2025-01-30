@@ -5,6 +5,7 @@ import Register from "./pages/register/register";
 import Home from "./pages/home/home";
 import Uploader from "./pages/upload/upload";
 import Upload_folder from "./pages/folder_upload/folder_upload";
+import Folder from ".pages/folder/folder";
 import './App.css';
 import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -43,6 +44,7 @@ function App() {
       <Route path="/home" element={<Home/>}/>
       <Route path="/uploader" element={<Uploader/>}/>
       <Route path="/upload_folder" element={<Upload_folder/>}/>
+      <Route path="/folder" element={<Folder/>}/>
     </Routes>
     </div>
   </Router>
