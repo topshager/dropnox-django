@@ -11,7 +11,7 @@ function Home() {
 
     const token = localStorage.getItem('access_token');
 
-    
+
 
     const fetchData = async () => {
       try {
@@ -27,7 +27,9 @@ function Home() {
         }
 
         const data = await response.json();
-        const { folders: foldersData, files: filesData } = data;
+
+        const foldersData = data?.data?.folders || [];
+        const filesData = data?.data?.files || [];
 
         setFolders(foldersData);
         setFiles(filesData);
@@ -38,6 +40,8 @@ function Home() {
         setLoading(false);
       }
     };
+    console.log("Folders:", folders);
+    console.log("Files:", files);
 
     fetchData();
   }, []);
@@ -55,14 +59,14 @@ function Home() {
       <h1>Home</h1>
       <h2>Folders</h2>
       <ul>
-        {folders.map((folder, index) => (
-          <li key={index}>{folder.name}</li>
+      {folders.map((folder) => (
+          <li key={folder.folder_id}>{folder.name}</li>
         ))}
       </ul>
       <h2>Files</h2>
       <ul>
-        {files.map((file, index) => (
-          <li key={index}>{file.name}</li>
+      {files.map((file) => (
+          <li key={file.file_id}>{file.name}</li> 
         ))}
       </ul>
     </div>
