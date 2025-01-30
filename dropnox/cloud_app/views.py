@@ -115,6 +115,10 @@ def upload_folder(request):
         return Response({'message': 'Folder created successfully!', 'folder': serializer.data}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def subfolder(request):
+     pass
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
