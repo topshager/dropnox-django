@@ -118,7 +118,7 @@ def upload_folder(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def subfolder(request):
-     pass
+         return JsonResponse({"message": "data recieved"}, status=201)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
