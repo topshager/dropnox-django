@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import './folder.css';
-
+/*convert to useing api from auth avoid use of authentication header */
 function  Folder(){
   const {id} = useParams();
   const [folders,setFolders] = useState([]);
@@ -14,6 +14,7 @@ function  Folder(){
   const  fetchData =async () =>{
     try{
       const response = await fetch('http://127.0.0.1:8000/api/subfolder/',{
+        id,
         header:{
           Authorization:`Bearer ${token}`,
         },
