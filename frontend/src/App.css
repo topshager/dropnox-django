@@ -42,8 +42,8 @@
 }
 #btn{
   text-decoration: none;
-  color:red
+  color:blue;
 }
 #btn:hover{
-  text-decoration: underline;
+  color: blueviolet;
 }
