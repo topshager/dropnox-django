@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+#btn{
+  text-decoration: none;
+  color:red
+}
+#btn:hover{
+  text-decoration: underline;
+}
