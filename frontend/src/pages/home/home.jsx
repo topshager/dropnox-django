@@ -55,7 +55,7 @@ function Home() {
   }
 
   return (
-    <div>
+    <div className='container'>
       <h1>Home</h1>
       <h2>Folders</h2>
       <ul>
@@ -66,7 +66,7 @@ function Home() {
       <h2>Files</h2>
       <ul>
       {files.map((file) => (
-          <li key={file.file_id}>{file.name}</li> 
+          <li key={file.file_id}>{file.name}</li>
         ))}
       </ul>
     </div>
