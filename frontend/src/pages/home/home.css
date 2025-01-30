@@ -69,3 +69,8 @@ p.error {
   color: #dc3545;
   font-weight: bold;
 }
+
+.foldername{
+  text-decoration: none;
+  color: #333;
+}
