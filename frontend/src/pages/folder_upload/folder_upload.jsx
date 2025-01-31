@@ -35,9 +35,10 @@ const UploadFolder = () => {
       setStatus("fail");
       return;
     }
+    const id  = 0;
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/upload_folder/", {
+      const response = await fetch(`http://127.0.0.1:8000/api/upload_folder/${id}`, {
         method: "POST",
         body: formData,
         headers: {
