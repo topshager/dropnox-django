@@ -11,7 +11,7 @@ urlpatterns = [
     path('token/refresh/', MyTokenRefreshView.as_view(), name='token_refresh'),
     path('subfolder/<int:id>',views.subfolder,name='subfolder'),
     path('protected/', ProtectedView.as_view(), name='protected_view'),
-    path('home_upload/', views.home_upload_file,name='upload file'),
-    path('upload_folder/',views.upload_folder,name='upload folder'),
+    path('upload_file/<int:id>', views.home_upload_file,name='upload file'),
+    path('upload_folder/<int:id>',views.upload_folder,name='upload folder'),
 
 ]
