@@ -128,10 +128,19 @@ def create_folder(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def upload_folder(request):
-    user = request.user
-    data = request.data.copy()
-    data['user'] = user.id
+def upload_folder(request,id):
+    if (id == 0):
+        user = request.user
+        data = request.data.copy()
+        data['user'] = user.id
+    else:
+        user = request.user
+        data = request.data.copy()
+        data['user'] = user.id
+        data['parent'] = id
+
+
+
 
     serializer = FolderSerializer(data=data)
     if serializer.is_valid():
