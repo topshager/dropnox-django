@@ -16,12 +16,11 @@ function  Folder(){
   const token = localStorage.getItem('access_token');
   const  fetchData =async () =>{
     try{
-      const response = await fetch('http://127.0.0.1:8000/api/subfolder/',{
-        method:'POST',
+      const response = await fetch(`http://127.0.0.1:8000/api/subfolder/${id}`,{
+        method:'GET',
         headers:{
           Authorization:`Bearer ${token}`,
         },
-        body:JSON.stringify({ id }), 
       });
       if (!response.ok){
         throw new Error(`HTTP error! status: ${response.status}`);
