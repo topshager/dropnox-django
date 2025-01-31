@@ -98,8 +98,33 @@ def home(request):
                 )
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def create_folder(request):
+def subfolder(request):
+        try:
+             user_id = request.user.id
+             data = request.data
+             parent_folder_id = data.get('id')
+             folders = Folder.objects.filter(user=user_id,parent=parent_folder_id)
+             files = File.objects.filter(user=user_id,folder=parent_folder_id)
 
+             folder_data =FolderSerializer(folders,many=True).data
+             file_data = FileSerializer(files,many=True).data
+             user_data ={
+                    'folders':  folder_data,
+                    'files':  file_data,
+             }
+             return Response({'data':user_data},status=status.HTTP_200_OK)
+        except Exception as e:
+                logger = logging.getLogger(__name__)
+                logger.error(f"Error fetching data for user {request.user.id}: {e}")
+                return Response(
+                    {'error': 'An error occurred while fetching data. Please try again later.'},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def create_folder(request):
      pass
 
 @api_view(['POST'])
@@ -115,10 +140,8 @@ def upload_folder(request):
         return Response({'message': 'Folder created successfully!', 'folder': serializer.data}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def subfolder(request):
-         return JsonResponse({"message": "data recieved"}, status=201)
+
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
