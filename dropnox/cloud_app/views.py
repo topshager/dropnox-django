@@ -98,11 +98,10 @@ def home(request):
                 )
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def subfolder(request):
+def subfolder(request,id):
         try:
              user_id = request.user.id
-             data = request.data
-             parent_folder_id = data.get('id')
+             parent_folder_id = id
              folders = Folder.objects.filter(user=user_id,parent=parent_folder_id)
              files = File.objects.filter(user=user_id,folder=parent_folder_id)
 
