@@ -26,6 +26,8 @@ function  Folder(){
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+
+
       const data = await response.json();
       const foldersData = data?.data?.folders || [];
       const filesData = data?.data?.files || [];
@@ -39,7 +41,9 @@ function  Folder(){
       setLoading(false);
     }
   };
-    fetchData();
+   fetchData();
+
+
 },[]);
   return (
     <div>
