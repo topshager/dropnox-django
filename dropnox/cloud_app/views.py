@@ -153,7 +153,7 @@ def upload_folder(request,id):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def home_upload_file(request):
+def home_upload_file(request,id):
     logger = logging.getLogger(__name__)
     logger.debug(f"Raw Request Data: {request.data}")
     data = request.data.dict() if hasattr(request.data, 'dict') else request.data
