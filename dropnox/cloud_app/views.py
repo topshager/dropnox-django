@@ -129,17 +129,6 @@ def create_folder(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def upload_folder(request,id):
-    if (id == 0):
-        user = request.user
-        data = request.data.copy()
-        data['user'] = user.id
-    else:
-        user = request.user
-        data = request.data.copy()
-        data['user'] = user.id
-        data['parent'] = id
-
-
 
 
     serializer = FolderSerializer(data=data)
@@ -154,12 +143,15 @@ def upload_folder(request,id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def home_upload_file(request,id):
+
     logger = logging.getLogger(__name__)
     logger.debug(f"Raw Request Data: {request.data}")
     data = request.data.dict() if hasattr(request.data, 'dict') else request.data
     data['user'] = request.user.id
     if 'type' not in data:
         return Response({'error': 'The "type" field is required.'}, status=status.HTTP_400_BAD_REQUEST)
+    if (id != 0):
+         data['folder'] = id
 
     serializer = FileSerializer(data=data)
     if serializer.is_valid():
