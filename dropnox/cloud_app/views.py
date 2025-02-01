@@ -129,9 +129,9 @@ def create_folder(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def upload_folder(request,id):
-
-
-    serializer = FolderSerializer(data=data)
+    data = request.data.dict() if hasattr(request.data, 'dict') else request.data
+    data['parent'] = id
+    serializer = FolderSerializer(data=data )
     if serializer.is_valid():
         folder = serializer.save()
         return Response({'message': 'Folder created successfully!', 'folder': serializer.data}, status=status.HTTP_201_CREATED)
