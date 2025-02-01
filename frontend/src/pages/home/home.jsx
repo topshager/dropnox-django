@@ -9,6 +9,8 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const id = localStorage.setItem("id",0)
+
 
     const token = localStorage.getItem('access_token');
 
