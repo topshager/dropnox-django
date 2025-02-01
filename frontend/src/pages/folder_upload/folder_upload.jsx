@@ -5,7 +5,7 @@ const UploadFolder = () => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("initial");
 
-  console.log(i)
+
 
   const handleFolderChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
