@@ -5,6 +5,8 @@ const UploadFolder = () => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("initial");
 
+  console.log(i)
+
   const handleFolderChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setStatus("initial");
@@ -35,7 +37,7 @@ const UploadFolder = () => {
       setStatus("fail");
       return;
     }
-    const id  = 0;
+
 
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/upload_folder/${id}`, {
