@@ -12,6 +12,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
+  const id = localStorage.getItem("id")
+  console.log(id)
+
+
   return (
     <Router>
             <div>
@@ -44,7 +48,7 @@ function App() {
       <Route path="/home" element={<Home/>}/>
       <Route path="/uploader/<int:id>" element={<Uploader/>}/>
       <Route path="/upload_folder/<int:id>" element={<Upload_folder/>}/>
-      <Route path="/folder/:id" element={<Folder/>}/>
+      <Route path="/folder/:folder_id" element={<Folder/>}/>
     </Routes>
     </div>
   </Router>
