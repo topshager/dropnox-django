@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 const Uploader = () => {
+
   const [file, setFile] = useState(null);
   const [name, setName] = useState("");
   const [type, setType] = useState("document");
   const [status, setStatus] = useState("initial");
+  const id = localStorage.getItem("id")
+  console.log(`This is ,${id}`)
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
