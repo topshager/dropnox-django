@@ -51,7 +51,7 @@ const Uploader = () => {
       }
 
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/upload_file/<id:None>", {
+        const response = await fetch(`http://127.0.0.1:8000/api/upload_file/${id}`, {
           method: "POST",
           body: formData,
           headers: {
