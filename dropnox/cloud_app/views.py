@@ -77,7 +77,7 @@ def home(request):
            try:
                 user_id = request.user.id
 
-                folders = Folder.objects.filter(user=user_id)
+                folders = Folder.objects.filter(user=user_id,parent=None)
                 files  = File.objects.filter(user=user_id,folder=None)
 
                 folder_data = FolderSerializer(folders, many=True).data
