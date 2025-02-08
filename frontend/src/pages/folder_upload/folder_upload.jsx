@@ -7,7 +7,7 @@ const UploadFolder = () => {
 
 
   const id = localStorage.getItem("id")
-  console.log(`This is file id,${id}`)
+  console.log(`This is folder id,${id}`)
 
   const handleFolderChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
