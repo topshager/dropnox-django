@@ -6,7 +6,9 @@ import Home from "./pages/home/home";
 import Uploader from "./pages/upload/upload";
 import Upload_folder from "./pages/folder_upload/folder_upload";
 import Folder from "./pages/folder/folder";
+import  New_folder from "./pages/new_folder/new_folder";
 import './App.css';
+
 import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -26,7 +28,7 @@ function App() {
     <Dropdown.Menu>
       <Dropdown.Item href="/uploader/<int:id>">file upload</Dropdown.Item>
       <Dropdown.Item href="/upload_folder/<int:id>"> folder upload</Dropdown.Item>
-      <Dropdown.Item href="#/action">New folder</Dropdown.Item>
+      <Dropdown.Item href="/new_folder">New folder</Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>
               <nav>
@@ -49,6 +51,7 @@ function App() {
       <Route path="/uploader/<int:id>" element={<Uploader/>}/>
       <Route path="/upload_folder/<int:id>" element={<Upload_folder/>}/>
       <Route path="/folder/:folder_id" element={<Folder/>}/>
+      <Route path="/new_folder" element={<New_folder/>}/>
     </Routes>
     </div>
   </Router>
