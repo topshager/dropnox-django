@@ -13,5 +13,6 @@ urlpatterns = [
     path('protected/', ProtectedView.as_view(), name='protected_view'),
     path('upload_file/<int:id>', views.home_upload_file,name='upload file'),
     path('upload_folder/<int:id>',views.upload_folder,name='upload folder'),
+    path('new_folder/<int:id>',views.upload_folder,name='new folder'),
 
 ]
