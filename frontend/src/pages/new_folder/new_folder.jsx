@@ -14,15 +14,25 @@ function New_folder(){
     localStorage.setItem("id",folder_id);
   },[folder_id]);
 
-  useEffect(()=>{
-    const token = localStorage.getItem('access_token');
-  })
+
+
+
   const handleNewFolder = async () =>{
+    const token = localStorage.getItem('access_token');
+
+    if (!name){
+      alert("Please fill in all required fields!");
+      return;
+    }
+    setStatus("upload");
+    const formData = new formData();
+    formData.append("name",folder_name)
+    formData.append("type","folder");
     try{
 
       const response = await fetch (`http://127.0.0.1:8000/api/new_folder/${id}`,{
         method: "POST",
-        body: FormData,
+        body: formData,
         headers:{
           Authorization: `Bearer ${token}`,
         },
