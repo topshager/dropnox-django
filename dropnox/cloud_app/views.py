@@ -120,16 +120,24 @@ def subfolder(request,id):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
 
+#
+#@api_view(['POST'])
+#@permission_classes([IsAuthenticated])
+#def create_folder(request,id):
+#    data = request.data
+#    data['user'] = request.user.id
+#    if (id !=0):
+#        data['parent'] = id
+#    serializer = FolderSerializer(data=data )
+#    if serializer.is_valid():
+#        folder = serializer.save()
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def create_folder(request):
-     pass
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def upload_folder(request,id):
-    data = request.data
+    data = request.data.copy()
     data['user'] = request.user.id
     if (id !=0):
         data['parent'] = id
