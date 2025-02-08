@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import './folder.css';
 import { Link } from "react-router-dom";
-/* Convert to using API from auth; avoid use of authentication header */
+
 
 function Folder() {
   const { folder_id } = useParams();
