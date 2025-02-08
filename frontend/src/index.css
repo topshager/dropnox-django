@@ -58,6 +58,9 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   a:hover {
     color: #747bff;
@@ -65,4 +68,11 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+html body
+{
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
