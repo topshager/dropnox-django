@@ -4,15 +4,11 @@ import { useParams } from "react-router-dom";
 
 
 function New_folder(){
-  const {folder_id} = useParams();
   const [folder_name,setfolder] = useState([]);
-  const [loading,setloafding] = useState(true);
-  const [error,setError] = useState(null);
   const [status,setStatus] = useState("initial");
+  const id = localStorage.getItem("id")
+  console.log(`This is folder id , ${id}`)
 
-  useEffect(() =>{
-    localStorage.setItem("id",folder_id);
-  },[folder_id]);
 
 
 
@@ -25,7 +21,7 @@ function New_folder(){
       return;
     }
     setStatus("upload");
-    const formData = new formData();
+    const formData = new FormData();
     formData.append("name",folder_name)
     formData.append("type","folder");
     try{
