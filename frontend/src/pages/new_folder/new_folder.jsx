@@ -20,7 +20,7 @@ function New_folder(){
   const handleNewFolder = async () =>{
     const token = localStorage.getItem('access_token');
 
-    if (!name){
+    if (!folder_name){
       alert("Please fill in all required fields!");
       return;
     }
