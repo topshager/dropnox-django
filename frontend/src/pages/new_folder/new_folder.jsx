@@ -46,8 +46,8 @@ function New_folder(){
       <input
         type="text"
         placeholder="Enter folder name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={folder_name}
+        onChange={(e) =>setfolder(e.target.value)}
       />
       <button onClick={handleNewFolder} disabled={status === "upload"}>
         {status === "upload" ? "Uploading..." : "Upload Folder"}
