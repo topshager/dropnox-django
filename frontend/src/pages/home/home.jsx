@@ -8,11 +8,10 @@ function Home() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [fileUrl,setFileUrl] = useState(null);
+  const [fileUrls,setFileUrls] = useState({});
+
   useEffect(() => {
     const id = localStorage.setItem("id",0)
-
-
     const token = localStorage.getItem('access_token');
 
 
@@ -34,16 +33,23 @@ function Home() {
 
         const foldersData = data?.data?.folders || [];
         const filesData = data?.data?.files || [];
-
-        if (filesData){
-            const blob = new Blob([filesData]);
-            const url = URL.createObjectURL(blob);
-            setFileUrl(url);
-            return () => URL.revokeObjectURL(url);
-
-          }
         setFolders(foldersData);
         setFiles(filesData);
+        const fileBlobs = {};
+        for (const file of filesData) {
+          if (file.content) {
+            const byteCharacters = atob(file.content); // Decode base64
+            const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) => byteCharacters.charCodeAt(i));
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: file.type });
+            fileBlobs[file.file_id] = URL.createObjectURL(blob);
+          }
+        }
+        setFileUrls(fileBlobs);
+
+
+
+
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -55,6 +61,9 @@ function Home() {
     console.log("Files:", files);
 
     fetchData();
+    return () => {
+      Object.values(fileUrls).forEach(URL.revokeObjectURL);
+    };
   }, []);
 
   if (loading) {
@@ -88,9 +97,10 @@ function Home() {
         <div className='frame'>
       {files.map((file) => (
           <li key={file.file_id}>
-            <FileViewer
-            fileType={file.type}
-            filePath={fileUrl}/>
+                 <FileViewer
+                    fileType={file.type.split("/")[1]} // Extract type (e.g., pdf, png)
+                    filePath={fileUrls[file.file_id]}
+                  />
 
             {file.name}</li>
         ))}
