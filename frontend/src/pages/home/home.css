@@ -36,8 +36,10 @@ h2 {
 
 ul {
   list-style-type: none;
-  padding: 0;
+  padding: 20px;
+  border-color: #333;
   margin: 0;
+
 }
 
 ul li {
@@ -73,4 +75,8 @@ p.error {
 .foldername{
   text-decoration: none;
   color: #333;
+}
+.border{
+  background-color: red;
+  border: #333 1px solid;
 }
