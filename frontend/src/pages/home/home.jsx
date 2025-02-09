@@ -72,13 +72,18 @@ function Home() {
         ))}
       </ul>
       <h2>Files</h2>
-      <ul>
       <div className='border'>
+      <ul>
+
+
+        <div className='frame'>
       {files.map((file) => (
           <li key={file.file_id}>{file.name}</li>
         ))}
         </div>
+
       </ul>
+      </div>
       </div>
 
   );
