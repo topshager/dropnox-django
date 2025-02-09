@@ -62,7 +62,7 @@ function Home() {
       <h1>Home</h1>
       <h2>Folders</h2>
       <ul>
-        <div className='border'>
+
       {folders.map((folder) => (
           <li key={folder.folder_id}>
             <Link to={`/folder/${folder.folder_id}`}>
@@ -70,17 +70,17 @@ function Home() {
             </Link>
             </li>
         ))}
-        </div>
       </ul>
       <h2>Files</h2>
-      <div className='border'>
       <ul>
+      <div className='border'>
       {files.map((file) => (
           <li key={file.file_id}>{file.name}</li>
         ))}
+        </div>
       </ul>
       </div>
-    </div>
+
   );
 }
 
