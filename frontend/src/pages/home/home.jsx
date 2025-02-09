@@ -8,7 +8,7 @@ function Home() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [fileUrl,setFileUrl] = useState(null);
   useEffect(() => {
     const id = localStorage.setItem("id",0)
 
@@ -35,6 +35,13 @@ function Home() {
         const foldersData = data?.data?.folders || [];
         const filesData = data?.data?.files || [];
 
+        if (filesData){
+            const blob = new Blob([filesData]);
+            const url = URL.createObjectURL(blob);
+            setFileUrl(url);
+            return () => URL.revokeObjectURL(url);
+
+          }
         setFolders(foldersData);
         setFiles(filesData);
         setLoading(false);
@@ -66,6 +73,7 @@ function Home() {
 
       {folders.map((folder) => (
           <li key={folder.folder_id}>
+
             <Link to={`/folder/${folder.folder_id}`}>
             {folder.name}
             </Link>
@@ -79,7 +87,12 @@ function Home() {
 
         <div className='frame'>
       {files.map((file) => (
-          <li key={file.file_id}>{file.content}{file.name}</li>
+          <li key={file.file_id}>
+            <FileViewer
+            fileType={file.type}
+            filePath={fileUrl}/>
+
+            {file.name}</li>
         ))}
         </div>
 
