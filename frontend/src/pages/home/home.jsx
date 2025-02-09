@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './home.css';
 import { Link } from "react-router-dom";
+import FileViewer from 'react-file-viewer';
 
 function Home() {
   const [folders, setFolders] = useState([]);
@@ -78,7 +79,7 @@ function Home() {
 
         <div className='frame'>
       {files.map((file) => (
-          <li key={file.file_id}>{file.name}</li>
+          <li key={file.file_id}>{file.content}{file.name}</li>
         ))}
         </div>
 
