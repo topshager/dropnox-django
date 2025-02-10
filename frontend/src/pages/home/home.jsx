@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './home.css';
 import { Link } from "react-router-dom";
-import FileViewer from 'react-file-viewer';
-import { GlobalWorkerOptions } from 'pdfjs-dist';
+import { pdfjs, Document, Page } from "react-pdf";
 
-// Set the worker source
-GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// Set the worker source properly
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
 
 function Home() {
   const [folders, setFolders] = useState([]);
@@ -14,20 +16,19 @@ function Home() {
   const [error, setError] = useState(null);
   const [fileUrls, setFileUrls] = useState({});
 
+  // Helper function to extract file extension
+  const getFileExtension = (fileName) => fileName.split(".").pop().toLowerCase();
+
   useEffect(() => {
     const token = localStorage.getItem('access_token');
 
     const fetchData = async () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/home/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
         const foldersData = data?.data?.folders || [];
@@ -91,19 +92,27 @@ function Home() {
       <div className='border'>
         {files.length === 0 ? <p>No files found.</p> : (
           <ul>
-            {files.map((file) => (
-              <li key={file.file_id}>
-                <p>{file.name}</p>
-                {fileUrls[file.file_id] ? (
-                  <FileViewer
-                    fileType={file.type.split("/")[1]}
-                    filePath={fileUrls[file.file_id]}
-                  />
-                ) : (
-                  <p className="loading">Loading file...</p>
-                )}
-              </li>
-            ))}
+            {files.map((file) => {
+              const fileType = getFileExtension(file.name);
+              return (
+                <li key={file.file_id}>
+                  <p>{file.name}</p>
+                  {fileUrls[file.file_id] ? (
+                    fileType === "pdf" ? (
+                      <Document file={fileUrls[file.file_id]}>
+                        <Page pageNumber={1} />
+                      </Document>
+                    ) : (
+                      <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
+                        Open File
+                      </a>
+                    )
+                  ) : (
+                    <p className="loading">Loading file...</p>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
