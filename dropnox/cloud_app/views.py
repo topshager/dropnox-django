@@ -10,6 +10,9 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 import logging
+import base64
+from rest_framework import serializers
+from .models import File
 logger = logging.getLogger(__name__)
 
 from cloud_app.models import User,Folder,File
@@ -42,11 +45,24 @@ class ProtectedView(APIView):
       permission_classes = [IsAuthenticated]
       def get(self, request):
         return Response({"message": "You have access to this protected view!"})
-class FileSerializer(serializers.ModelSerializer):
-        class Meta:
-          model = File
-          fields = [ 'file_id','name','folder','type','content','user','created_at','updated_at']
 
+
+
+
+
+
+
+class FileSerializer(serializers.ModelSerializer):
+    content = serializers.SerializerMethodField()
+
+    def get_content(self, obj):
+        if obj.content:  # Ensure content exists
+            return base64.b64encode(obj.content).decode('utf-8')  # Convert bytes to base64
+        return None
+
+    class Meta:
+        model = File
+        fields = ['file_id', 'name', 'type', 'content', 'user', 'created_at', 'updated_at']
 class FolderSerializer(serializers.ModelSerializer):
      files = FileSerializer(many=True,required=False)
      subfolders =FileSerializer(many=True,required=False)
@@ -153,27 +169,25 @@ def upload_folder(request,id):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def home_upload_file(request,id):
-
+def home_upload_file(request, id):
     logger = logging.getLogger(__name__)
     logger.debug(f"Raw Request Data: {request.data}")
-    data = request.data.dict() if hasattr(request.data, 'dict') else request.data
-    data['user'] = request.user.id
-    if 'type' not in data:
-        return Response({'error': 'The "type" field is required.'}, status=status.HTTP_400_BAD_REQUEST)
-    if (id != 0):
-         data['folder'] = id
 
-    serializer = FileSerializer(data=data)
-    if serializer.is_valid():
-        file = serializer.save()
-        logger.info(f"Folder created successfully: {file}")
-        return Response(
-            {"message": "Folder created successfully!", "folder": FileSerializer(file).data},
-            status=status.HTTP_201_CREATED,
-        )
-    logger.error(f"Serializer errors: {serializer.errors}")
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if 'file' not in request.FILES:
+        return Response({'error': 'No file uploaded.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    uploaded_file = request.FILES['file']
+
+    file_instance = File(
+        name=uploaded_file.name,
+        folder=Folder.objects.get(folder_id=id) if id != 0 else None,
+        type=uploaded_file.content_type,
+        content=uploaded_file.read(),  # ✅ Correctly reading file content
+        user=request.user
+    )
+    file_instance.save()
+
+    return Response({'message': 'File uploaded successfully!', 'file': FileSerializer(file_instance).data}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
