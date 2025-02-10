@@ -1,27 +1,21 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import './home.css';
 import { Link } from "react-router-dom";
+import FileViewer from 'react-file-viewer';
+import { GlobalWorkerOptions } from 'pdfjs-dist';
+
+// Set the worker source
+GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 function Home() {
-  /*const [folders, setFolders] = useState([]);*/
-  /*const [files, setFiles] = useState([]);*/
+  const [folders, setFolders] = useState([]);
+  const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const fetched = useRef(false);
+  const [fileUrls, setFileUrls] = useState({});
 
-  const [folders, setFolders] = useState([
-    { folder_id: 1, name: "Test Folder", files: [{ file_id: 1, name: "File1", type: "txt" }] }
-  ]);
-
-  const [files, setFiles] = useState([
-    { file_id: 2, name: "Standalone File", type: "jpg" }
-  ]);
   useEffect(() => {
-    if (fetched.current) return;
-    fetched.current = true;
-
     const token = localStorage.getItem('access_token');
-    if (!token) return;
 
     const fetchData = async () => {
       try {
@@ -36,17 +30,31 @@ function Home() {
         }
 
         const data = await response.json();
-        console.log("API Response:", data);
-
-        const filesData = data?.data?.files || [];
         const foldersData = data?.data?.folders || [];
-        console.log("Extracted Folders:", foldersData);
-        console.log("Extracted Files:", filesData);
+        const filesData = data?.data?.files || [];
 
-        setFolders([...foldersData]);
-        setFiles([...filesData]);
+        setFolders(foldersData);
+        setFiles(filesData);
+
+        // Convert Base64 content to Blob URLs
+        const fileBlobs = {};
+        filesData.forEach(file => {
+          if (file.content) {
+            try {
+              const byteCharacters = atob(file.content); // Decode Base64
+              const byteNumbers = new Uint8Array(byteCharacters.length).map((_, i) =>
+                byteCharacters.charCodeAt(i)
+              );
+              const blob = new Blob([byteNumbers], { type: file.type });
+              fileBlobs[file.file_id] = URL.createObjectURL(blob);
+            } catch (error) {
+              console.error(`Error decoding file ${file.file_id}:`, error);
+            }
+          }
+        });
+
+        setFileUrls(fileBlobs);
         setLoading(false);
-
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(error.message || 'Failed to fetch data');
@@ -55,17 +63,21 @@ function Home() {
     };
 
     fetchData();
+
+    return () => {
+      Object.values(fileUrls).forEach(URL.revokeObjectURL);
+    };
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className="loading">Loading...</p>;
+  if (error) return <p className="error">Error: {error}</p>;
 
   return (
     <div className='container'>
       <h1>Home</h1>
 
       <h2>Folders</h2>
-      {Array.isArray(folders) && folders.length > 0 ? (
+      {folders.length === 0 ? <p>No folders found.</p> : (
         <ul>
           {folders.map((folder) => (
             <li key={folder.folder_id}>
@@ -73,20 +85,28 @@ function Home() {
             </li>
           ))}
         </ul>
-      ) : (
-        <p>No folders found</p>
       )}
 
       <h2>Files</h2>
-      {Array.isArray(files) && files.length > 0 ? (
-        <ul>
-          {files.map((file) => (
-            <li key={file.file_id}>{file.name} </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No files found</p>
-      )}
+      <div className='border'>
+        {files.length === 0 ? <p>No files found.</p> : (
+          <ul>
+            {files.map((file) => (
+              <li key={file.file_id}>
+                <p>{file.name}</p>
+                {fileUrls[file.file_id] ? (
+                  <FileViewer
+                    fileType={file.type.split("/")[1]}
+                    filePath={fileUrls[file.file_id]}
+                  />
+                ) : (
+                  <p className="loading">Loading file...</p>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
