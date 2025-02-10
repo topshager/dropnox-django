@@ -41,7 +41,6 @@ function Home() {
     fetchData();
   }, []);
 
-  // Convert files to Blob URLs when `files` updates
   useEffect(() => {
     if (files.length === 0) return;
 
@@ -49,7 +48,7 @@ function Home() {
     files.forEach((file) => {
       if (file.content) {
         try {
-          const byteCharacters = atob(file.content); // Decode base64
+          const byteCharacters = atob(file.content);
           const byteNumbers = new Array(byteCharacters.length)
             .fill(0)
             .map((_, i) => byteCharacters.charCodeAt(i));
@@ -66,7 +65,7 @@ function Home() {
     setFileUrls(fileBlobs);
 
     return () => {
-      // Cleanup previous Blob URLs to prevent memory leaks
+
       Object.values(fileBlobs).forEach(URL.revokeObjectURL);
     };
   }, [files]);
@@ -98,7 +97,7 @@ function Home() {
                     filePath={fileUrls[file.file_id]}
                   />
                 ) : (
-                  <p>Loading file...</p> // Prevents `undefined` error
+                  <p>Loading file...</p>
                 )}
                 {file.name}
               </li>
