@@ -6,10 +6,9 @@ import { pdfjs, Document, Page } from "react-pdf";
 import ThreeDotMenu from "../threeDotMenu/threeDotMenu";
 
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url
-).toString();
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
 
 function Home() {
   const [folders, setFolders] = useState([]);
@@ -114,7 +113,7 @@ function Home() {
                    <div className='file-Menu'>
     <div className="menu-container">
 
-      <ThreeDotMenu  />
+      <ThreeDotMenu/>
 
         <div className="dropdown-menu" id="dropdownMenu">
             <a href="#">Edit</a>
