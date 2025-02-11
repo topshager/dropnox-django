@@ -3,6 +3,10 @@ import './home.css';
 import { Link } from "react-router-dom";
 import { pdfjs, Document, Page } from "react-pdf";
 
+import ThreeDotMenu from "../threeDotMenu/threeDotMenu";
+
+
+
 // Set the worker source properly
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -15,9 +19,10 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [fileUrls, setFileUrls] = useState({});
-  const fileUrlsRef = useRef({}); // Track created URLs
+  const fileUrlsRef = useRef({});
 
-  // Helper function to extract file extension
+
+
   const getFileExtension = (fileName) => fileName.split(".").pop().toLowerCase();
 
   useEffect(() => {
@@ -38,19 +43,19 @@ function Home() {
         setFolders(foldersData);
         setFiles(filesData);
 
-        // Convert Base64 content to Blob URLs
+
         const fileBlobs = {};
         filesData.forEach(file => {
           if (file.content) {
             try {
-              const byteCharacters = atob(file.content); // Decode Base64
+              const byteCharacters = atob(file.content);
               const byteNumbers = new Uint8Array(byteCharacters.length).map((_, i) =>
                 byteCharacters.charCodeAt(i)
               );
               const blob = new Blob([byteNumbers], { type: file.type });
               const fileUrl = URL.createObjectURL(blob);
               fileBlobs[file.file_id] = fileUrl;
-              fileUrlsRef.current[file.file_id] = fileUrl; // Track for cleanup
+              fileUrlsRef.current[file.file_id] = fileUrl;
             } catch (error) {
               console.error(`Error decoding file ${file.file_id}:`, error);
             }
@@ -111,8 +116,7 @@ function Home() {
                    <div className='file-Menu'>
     <div className="menu-container">
 
-        <button className="menu-icon" onclick="toggleMenu()">⋮</button>
-
+      <ThreeDotMenu fileId={file.file_id} />
 
         <div className="dropdown-menu" id="dropdownMenu">
             <a href="#">Edit</a>
