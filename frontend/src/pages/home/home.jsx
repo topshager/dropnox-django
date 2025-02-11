@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
 import { Link } from "react-router-dom";
 import { pdfjs, Document, Page } from "react-pdf";
@@ -15,6 +15,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [fileUrls, setFileUrls] = useState({});
+  const fileUrlsRef = useRef({}); // Track created URLs
 
   // Helper function to extract file extension
   const getFileExtension = (fileName) => fileName.split(".").pop().toLowerCase();
@@ -47,7 +48,9 @@ function Home() {
                 byteCharacters.charCodeAt(i)
               );
               const blob = new Blob([byteNumbers], { type: file.type });
-              fileBlobs[file.file_id] = URL.createObjectURL(blob);
+              const fileUrl = URL.createObjectURL(blob);
+              fileBlobs[file.file_id] = fileUrl;
+              fileUrlsRef.current[file.file_id] = fileUrl; // Track for cleanup
             } catch (error) {
               console.error(`Error decoding file ${file.file_id}:`, error);
             }
@@ -66,7 +69,7 @@ function Home() {
     fetchData();
 
     return () => {
-      Object.values(fileUrls).forEach(URL.revokeObjectURL);
+      Object.values(fileUrlsRef.current).forEach(URL.revokeObjectURL);
     };
   }, []);
 
@@ -74,11 +77,13 @@ function Home() {
   if (error) return <p className="error">Error: {error}</p>;
 
   return (
-    <div className='container'>
+    <div className="container">
       <h1>Home</h1>
 
       <h2>Folders</h2>
-      {folders.length === 0 ? <p>No folders found.</p> : (
+      {folders.length === 0 ? (
+        <p>No folders found.</p>
+      ) : (
         <ul>
           {folders.map((folder) => (
             <li key={folder.folder_id}>
@@ -89,17 +94,39 @@ function Home() {
       )}
 
       <h2>Files</h2>
-      <div className='border'>
-        {files.length === 0 ? <p>No files found.</p> : (
+      <div className="file-list">
+
+        {files.length === 0 ? (
+          <p>No files found.</p>
+
+        ) : (
+
           <ul>
+
             {files.map((file) => {
               const fileType = getFileExtension(file.name);
               return (
+
                 <li key={file.file_id}>
+                   <div className='file-Menu'>
+    <div className="menu-container">
+
+        <button className="menu-icon" onclick="toggleMenu()">⋮</button>
+
+
+        <div className="dropdown-menu" id="dropdownMenu">
+            <a href="#">Edit</a>
+            <a href="#">Delete</a>
+            <a href="#">Share</a>
+        </div>
+    </div></div>
                   <p>{file.name}</p>
                   {fileUrls[file.file_id] ? (
                     fileType === "pdf" ? (
-                      <Document file={fileUrls[file.file_id]}>
+                      <Document
+                        file={fileUrls[file.file_id]}
+                        onLoadError={(error) => console.error("PDF load error:", error)}
+                      >
                         <Page pageNumber={1} />
                       </Document>
                     ) : (
