@@ -8,6 +8,7 @@ import Upload_folder from "./pages/folder_upload/folder_upload";
 import Folder from "./pages/folder/folder";
 import  New_folder from "./pages/new_folder/new_folder";
 import './App.css';
+import TestComponent from "./pages/home/test";
 
 import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -52,6 +53,7 @@ function App() {
       <Route path="/upload_folder/<int:id>" element={<Upload_folder/>}/>
       <Route path="/folder/:folder_id" element={<Folder/>}/>
       <Route path="/new_folder" element={<New_folder/>}/>
+      <Route path="/test" element={<TestComponent/>}/>
     </Routes>
     </div>
   </Router>
