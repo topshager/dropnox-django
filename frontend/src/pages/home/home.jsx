@@ -6,8 +6,6 @@ import { pdfjs, Document, Page } from "react-pdf";
 import ThreeDotMenu from "../threeDotMenu/threeDotMenu";
 
 
-
-// Set the worker source properly
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
   import.meta.url
