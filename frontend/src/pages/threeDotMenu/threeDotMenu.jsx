@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import "../threeDotMenu/threedot.css";
-
-
 function ThreeDotMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
@@ -24,17 +22,15 @@ function ThreeDotMenu() {
   }, []);
 
   return (
-    <div className="menu-container" ref={menuRef}>
+    <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
       <button className="menu-icon" onClick={toggleMenu}>
         ⋮
       </button>
-      {isOpen && (
-        <div className="dropdown-menu">
-          <a href="#">Edit</a>
-          <a href="#">Delete</a>
-          <a href="#">Share</a>
-        </div>
-      )}
+      <div className="dropdown-menu">
+        <a href="#">Edit</a>
+        <a href="#">Delete</a>
+        <a href="#">Share</a>
+      </div>
     </div>
   );
 }
