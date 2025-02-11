@@ -73,3 +73,10 @@ p.error {
   color: #dc3545;
   font-weight: bold;
 }
+.popOut{
+  border: #ffc107 1px solid;
+}
+.file-Menu{
+  padding-bottom: 5px;
+  color: red;
+}
