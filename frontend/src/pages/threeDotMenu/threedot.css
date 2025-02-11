@@ -1,50 +1,53 @@
-
+/* Ensure the menu container is positioned properly */
 .menu-container {
   position: relative;
   display: inline-block;
-  margin-left: 10px;
 }
 
+/* Style for the three-dot button */
 .menu-icon {
-  cursor: pointer;
-  font-size: 20px;
+  font-size: 24px;
   background: none;
   border: none;
+  cursor: pointer;
   padding: 5px;
+  color: #333;
 }
 
+/* Ensure button is visible */
+.menu-icon:hover {
+  color: #000;
+}
+
+/* Dropdown menu */
 .dropdown-menu {
   position: absolute;
+  top: 35px;
   right: 0;
-  top: 30px;
-  background: white;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   min-width: 120px;
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
+  padding: 8px 0;
+  z-index: 100;
+  display: none;  /* Hidden by default */
 }
 
-.dropdown-menu button {
-  padding: 8px 12px;
-  border: none;
-  background: none;
-  text-align: left;
-  width: 100%;
-  cursor: pointer;
+/* Show dropdown only when the parent has an 'active' class */
+.menu-container.active .dropdown-menu {
+  display: block;
 }
 
-.dropdown-menu button:hover {
-  background: #f0f0f0;
+/* Dropdown menu links */
+.dropdown-menu a {
+  display: block;
+  padding: 8px 16px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
 }
 
-/* File item styling */
-.file-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+/* Hover effect */
+.dropdown-menu a:hover {
+  background: #f4f4f4;
 }
