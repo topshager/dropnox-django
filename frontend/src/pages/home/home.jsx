@@ -116,7 +116,7 @@ function Home() {
                    <div className='file-Menu'>
     <div className="menu-container">
 
-      <ThreeDotMenu fileId={file.file_id} />
+      <ThreeDotMenu  />
 
         <div className="dropdown-menu" id="dropdownMenu">
             <a href="#">Edit</a>
