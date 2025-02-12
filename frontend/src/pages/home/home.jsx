@@ -117,7 +117,7 @@ function Home() {
 
         <div className="dropdown-menu" id="dropdownMenu">
             <a href="#">Edit</a>
-            <a href="#">Delete</a>
+            <a href="/bin_Api/<int:file.file_id>">Delete</a>
             <a href="#">Share</a>
         </div>
     </div></div>
