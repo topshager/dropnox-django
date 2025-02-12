@@ -1,12 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
 import { Link, useNavigate } from "react-router-dom";
-import { pdfjs, Document, Page } from "react-pdf";
-
 import ThreeDotMenu from "../threeDotMenu/threeDotMenu";
-
-
-import "pdfjs-dist/build/pdf.worker.mjs"; // Directly import the worker
 
 function Home() {
   const [folders, setFolders] = useState([]);
@@ -104,41 +99,25 @@ function Home() {
           <p>No files found.</p>
         ) : (
           <ul>
-            {files.map((file) => {
-              const fileType = getFileExtension(file.name);
-              return (
-                <li key={file.file_id}>
-                  <div className='file-Menu'>
-                    <div className="menu-container">
-                      <ThreeDotMenu />
-                      <div className="dropdown-menu" id="dropdownMenu">
-                        <button onClick={() => handleDelete(file.file_id)}>Delete</button>
-                        <a href="#">Share</a>
-                      </div>
+            {files.map((file) => (
+              <li key={file.file_id}>
+                <div className='file-Menu'>
+                  <div className="menu-container">
+                    <ThreeDotMenu />
+                    <div className="dropdown-menu" id="dropdownMenu">
+                      <button onClick={() => handleDelete(file.file_id)}>Delete</button>
+                      <a href="#">Share</a>
                     </div>
                   </div>
-                  <div className='File'>
-                    <p>{file.name}</p>
-                    {fileUrls[file.file_id] ? (
-                      fileType === "pdf" ? (
-                        <Document
-                          file={fileUrls[file.file_id]}
-                          onLoadError={(error) => console.error("PDF load error:", error)}
-                        >
-                          <Page pageNumber={1} />
-                        </Document>
-                      ) : (
-                        <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
-                          Open File
-                        </a>
-                      )
-                    ) : (
-                      <p className="loading">Loading file...</p>
-                    )}
-                  </div>
-                </li>
-              );
-            })}
+                </div>
+                <div className='File'>
+                  <p>{file.name}</p>
+                  <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
+                    Open File
+                  </a>
+                </div>
+              </li>
+            ))}
           </ul>
         )}
       </div>
