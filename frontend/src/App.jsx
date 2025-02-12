@@ -9,7 +9,7 @@ import Folder from "./pages/folder/folder";
 import  New_folder from "./pages/new_folder/new_folder";
 import './App.css';
 import TestComponent from "./pages/home/test";
-
+import Bin from "./pages/bin/bin_Api"
 import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -54,6 +54,7 @@ function App() {
       <Route path="/folder/:folder_id" element={<Folder/>}/>
       <Route path="/new_folder" element={<New_folder/>}/>
       <Route path="/test" element={<TestComponent/>}/>
+      <Route path="/bin_Api/:folder_id" element={<Bin/>}/>
     </Routes>
     </div>
   </Router>
