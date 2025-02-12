@@ -42,6 +42,7 @@ function App() {
             </li>
             <li>
             <a id="btn" href="/home">home</a>
+            <a id="btn" href="/bin_Api">   DEL</a>
             </li>
           </ul>
         </nav>
@@ -54,7 +55,7 @@ function App() {
       <Route path="/folder/:folder_id" element={<Folder/>}/>
       <Route path="/new_folder" element={<New_folder/>}/>
       <Route path="/test" element={<TestComponent/>}/>
-      <Route path="/bin_Api/:file.file_id" element={<Bin/>}/>
+      <Route path="/bin_Api/:file_id" element={<Bin/>}/>
     </Routes>
     </div>
   </Router>
