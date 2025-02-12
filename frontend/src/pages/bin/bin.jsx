@@ -8,7 +8,6 @@ function bin(){
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const parent_id  = localStorage.setItem("id",0)
   const token = localStorage.getItem('access_token');
 
   const fetchData = async () => {
