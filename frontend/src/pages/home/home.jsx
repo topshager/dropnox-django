@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { pdfjs, Document, Page } from "react-pdf";
 
 import ThreeDotMenu from "../threeDotMenu/threeDotMenu";
 
 
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
-
+import "pdfjs-dist/build/pdf.worker.mjs"; // Directly import the worker
 
 function Home() {
   const [folders, setFolders] = useState([]);
@@ -22,10 +19,10 @@ function Home() {
   const navigate = useNavigate();
 
   const handleDelete = (fileId) => {
+    console.log("File ID:", fileId);
+    console.log("Navigating to:", `/bin_Api/${fileId}`);
     navigate(`/bin_Api/${fileId}`);
   };
-
-
 
   const getFileExtension = (fileName) => fileName.split(".").pop().toLowerCase();
 
@@ -46,7 +43,6 @@ function Home() {
 
         setFolders(foldersData);
         setFiles(filesData);
-
 
         const fileBlobs = {};
         filesData.forEach(file => {
@@ -104,56 +100,47 @@ function Home() {
 
       <h2>Files</h2>
       <div className="file-list">
-
         {files.length === 0 ? (
           <p>No files found.</p>
-
         ) : (
-
           <ul>
-
             {files.map((file) => {
               const fileType = getFileExtension(file.name);
               return (
-
                 <li key={file.file_id}>
-                   <div className='file-Menu'>
-
-    <div className="menu-container">
-
-      <ThreeDotMenu/>
-
-        <div className="dropdown-menu" id="dropdownMenu">
-        <button onClick={() => handleDelete(file.file_id)}>Delete</button>;
-            <a href="#">Share</a>
-        </div>
-    </div></div>
-      <div className='File'>
-                  <p>{file.name}</p>
-
-                  {fileUrls[file.file_id] ? (
-                    fileType === "pdf" ? (
-                      <Document
-                        file={fileUrls[file.file_id]}
-                        onLoadError={(error) => console.error("PDF load error:", error)}
-                      >
-                        <Page pageNumber={1} />
-                      </Document>
+                  <div className='file-Menu'>
+                    <div className="menu-container">
+                      <ThreeDotMenu />
+                      <div className="dropdown-menu" id="dropdownMenu">
+                        <button onClick={() => handleDelete(file.file_id)}>Delete</button>
+                        <a href="#">Share</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='File'>
+                    <p>{file.name}</p>
+                    {fileUrls[file.file_id] ? (
+                      fileType === "pdf" ? (
+                        <Document
+                          file={fileUrls[file.file_id]}
+                          onLoadError={(error) => console.error("PDF load error:", error)}
+                        >
+                          <Page pageNumber={1} />
+                        </Document>
+                      ) : (
+                        <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
+                          Open File
+                        </a>
+                      )
                     ) : (
-                      <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
-                        Open File
-                      </a>
-                    )
-                  ) : (
-                    <p className="loading">Loading file...</p>
-                  )}
-                </div>
+                      <p className="loading">Loading file...</p>
+                    )}
+                  </div>
                 </li>
               );
             })}
           </ul>
         )}
-
       </div>
     </div>
   );
