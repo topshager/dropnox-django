@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './home.css';
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import { pdfjs, Document, Page } from "react-pdf";
 
 import ThreeDotMenu from "../threeDotMenu/threeDotMenu";
@@ -10,6 +10,7 @@ import ThreeDotMenu from "../threeDotMenu/threeDotMenu";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 
+
 function Home() {
   const [folders, setFolders] = useState([]);
   const [files, setFiles] = useState([]);
@@ -17,6 +18,12 @@ function Home() {
   const [error, setError] = useState(null);
   const [fileUrls, setFileUrls] = useState({});
   const fileUrlsRef = useRef({});
+
+  const navigate = useNavigate();
+
+  const handleDelete = (fileId) => {
+    navigate(`/bin_Api/${fileId}`);
+  };
 
 
 
@@ -111,17 +118,19 @@ function Home() {
 
                 <li key={file.file_id}>
                    <div className='file-Menu'>
+
     <div className="menu-container">
 
       <ThreeDotMenu/>
 
         <div className="dropdown-menu" id="dropdownMenu">
-            <a href="#">Edit</a>
-            <a href="/bin_Api/<int:file.file_id>">Delete</a>
+        <button onClick={() => handleDelete(file.file_id)}>Delete</button>;
             <a href="#">Share</a>
         </div>
     </div></div>
+      <div className='File'>
                   <p>{file.name}</p>
+
                   {fileUrls[file.file_id] ? (
                     fileType === "pdf" ? (
                       <Document
@@ -138,11 +147,13 @@ function Home() {
                   ) : (
                     <p className="loading">Loading file...</p>
                   )}
+                </div>
                 </li>
               );
             })}
           </ul>
         )}
+
       </div>
     </div>
   );
