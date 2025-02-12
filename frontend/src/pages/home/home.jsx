@@ -104,10 +104,6 @@ function Home() {
                 <div className='file-Menu'>
                   <div className="menu-container">
                     <ThreeDotMenu />
-                    <div className="dropdown-menu" id="dropdownMenu">
-                      <button onClick={() => handleDelete(file.file_id)}>Delete</button>
-                      <a href="#">Share</a>
-                    </div>
                   </div>
                 </div>
                 <div className='File'>
