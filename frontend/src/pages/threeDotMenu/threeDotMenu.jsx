@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import "../threeDotMenu/threedot.css";
+
+
+import { Link } from "react-router-dom";
 function ThreeDotMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
@@ -28,7 +31,7 @@ function ThreeDotMenu() {
       </button>
       <div className="dropdown-menu">
         <a href="#">Edit</a>
-        <a href="#">Delete</a>
+        <Link to={`/bin_Api/${file.file_id}`}>Delete</Link>
         <a href="#">Share</a>
       </div>
     </div>
