@@ -79,6 +79,9 @@ function Home() {
         <ul>
           {folders.map((folder) => (
             <li key={folder.folder_id}>
+            <div className="file-Menu">
+                  <ThreeDotMenu folderId={folder.folder_id} />
+                </div>
               <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
             </li>
           ))}
@@ -98,6 +101,7 @@ function Home() {
                 </div>
                 <div className="File">
                   <p>{file.name}</p>
+
                   <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
                     Open File
                   </a>
@@ -110,8 +114,21 @@ function Home() {
     </div>
   );
 }
-function ThreeDotMenu({ fileId }) {
-  console.log(`This is my ${fileId}`)
+function ThreeDotMenu({ fileId,folderId }) {
+  let ID;
+  if (fileId){
+    console.log(`This is my file${fileId}`)
+    ID = fileId
+    localStorage.setItem('Type',"file")
+
+  }
+  else{
+    console.log(`This is my folder${folderId}`)
+    ID = folderId;
+    localStorage.setItem('Type',"folder")
+  }
+
+
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -142,7 +159,7 @@ function ThreeDotMenu({ fileId }) {
       {isOpen && (
         <div className="dropdown-menu">
           <a href="#">Edit</a>
-          <Link to={`/bin_Api/${fileId}`}>Delete</Link>
+          <Link to={`/bin_Api/${ID}`}>Delete</Link>
           <a href="#">Share</a>
         </div>
       )}
@@ -151,7 +168,18 @@ function ThreeDotMenu({ fileId }) {
   );
 
 };
+
+
 ThreeDotMenu.propTypes = {
-  fileId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+
+    fileId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+
+
 };
+
+  ThreeDotMenu.propTypes = {
+  folderId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  }
+
+
 export default Home;
