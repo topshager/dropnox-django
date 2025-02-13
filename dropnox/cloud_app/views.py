@@ -182,7 +182,7 @@ def home_upload_file(request, id):
         name=uploaded_file.name,
         folder=Folder.objects.get(folder_id=id) if id != 0 else None,
         type=uploaded_file.content_type,
-        content=uploaded_file.read(),  # ✅ Correctly reading file content
+        content=uploaded_file.read(),
         user=request.user
     )
     file_instance.save()
@@ -210,6 +210,20 @@ def user_register(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def bin_Api(request,fileId):
-     return Response({'message': 'File uploaded successfully!'})
-     pass
+def bin_Api(request,delete_id):
+    data = request.data
+    user_id = request.user.id
+
+    object_type = data.get("type")
+    print(object_type)
+    if object_type == "File":
+        file_id = delete_id
+        file = File.objects.filter(user=user_id,file_id = file_id)
+        file.delete()
+    elif object_type == "Folder":
+         folder_id = delete_id
+         folder= Folder.objects.filter(user=user_id,folder_id=folder_id )
+         folder.delete()
+
+
+    return JsonResponse({"message": "recorde deleted"}, status=201)
