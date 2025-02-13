@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function Bin() {
-  const { fileId } = useParams();
-  const {folderId} =  useParams;
+  const {ID} = useParams();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-
+  console.log(`this is folder_id ${ID}`)
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -17,16 +16,20 @@ function Bin() {
 
 
     const fetchData = async () => {
-      let  delete_id = 0;
+      let  delete_id = ID
+
       const formData = new FormData()
-      if (fileId){
-        delete_id = fileId
+      const type = localStorage.getItem("Type");
+
+      if (type == "file"){
         formData.append("type", "File");
+        console.log(`This  is file that i must delete ${delete_id}`)
+
       }
       else{
-        delete_id = folderId
         console.log(`This  is folder that i must delete ${delete_id}`)
         formData.append("type", "Folder");
+
 
       }
 
@@ -55,7 +58,7 @@ function Bin() {
     };
 
     fetchData();
-  }, [fileId]);
+  }, []);
 
   return (
     <div>
