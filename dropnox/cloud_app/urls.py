@@ -14,5 +14,6 @@ urlpatterns = [
     path('upload_file/<int:id>', views.home_upload_file,name='upload file'),
     path('upload_folder/<int:id>',views.upload_folder,name='upload folder'),
     path('new_folder/<int:id>',views.upload_folder,name='new folder'),
+    path('bin_Api/<int:fileId>',views.bin_Api,name='bin_Api')
 
 ]
