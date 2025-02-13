@@ -205,3 +205,11 @@ def user_register(request):
          new_user = User(username=username,password=make_password(password))
          new_user.save()
          return JsonResponse({"message": "User registered successfully!"}, status=201)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def bin_Api(request,fileId):
+     return Response({'message': 'File uploaded successfully!'})
+     pass
