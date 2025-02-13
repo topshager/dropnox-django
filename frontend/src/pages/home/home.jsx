@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import './home.css';
-import { Link, useNavigate } from "react-router-dom";
-import ThreeDotMenu from "../threeDotMenu/threeDotMenu";
+import React, { useEffect, useState, useRef } from "react";
+import "./home.css";
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+
+
 
 function Home() {
   const [folders, setFolders] = useState([]);
@@ -11,18 +13,8 @@ function Home() {
   const [fileUrls, setFileUrls] = useState({});
   const fileUrlsRef = useRef({});
 
-  const navigate = useNavigate();
-
-  const handleDelete = (fileId) => {
-    console.log("File ID:", fileId);
-    console.log("Navigating to:", `/bin_Api/${fileId}`);
-    navigate(`/bin_Api/${fileId}`);
-  };
-
-  const getFileExtension = (fileName) => fileName.split(".").pop().toLowerCase();
-
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
 
     const fetchData = async () => {
       try {
@@ -30,7 +22,7 @@ function Home() {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
         const foldersData = data?.data?.folders || [];
@@ -40,7 +32,7 @@ function Home() {
         setFiles(filesData);
 
         const fileBlobs = {};
-        filesData.forEach(file => {
+        filesData.forEach((file) => {
           if (file.content) {
             try {
               const byteCharacters = atob(file.content);
@@ -60,8 +52,8 @@ function Home() {
         setFileUrls(fileBlobs);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching data:', error);
-        setError(error.message || 'Failed to fetch data');
+        console.error("Error fetching data:", error);
+        setError(error.message || "Failed to fetch data");
         setLoading(false);
       }
     };
@@ -101,12 +93,10 @@ function Home() {
           <ul>
             {files.map((file) => (
               <li key={file.file_id}>
-                <div className='file-Menu'>
-                  <div className="menu-container">
-                    <ThreeDotMenu />
-                  </div>
+                <div className="file-Menu">
+                  <ThreeDotMenu fileId={file.file_id} />
                 </div>
-                <div className='File'>
+                <div className="File">
                   <p>{file.name}</p>
                   <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
                     Open File
@@ -120,5 +110,48 @@ function Home() {
     </div>
   );
 }
+function ThreeDotMenu({ fileId }) {
+  console.log(`This is my ${fileId}`)
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
 
+  const toggleMenu = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+
+  },
+   []);
+
+  return (
+    <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
+      <button className="menu-icon" onClick={toggleMenu}>
+        ⋮
+      </button>
+      {isOpen && (
+        <div className="dropdown-menu">
+          <a href="#">Edit</a>
+          <Link to={`/bin_Api/${fileId}`}>Delete</Link>
+          <a href="#">Share</a>
+        </div>
+      )}
+    </div>
+
+  );
+
+};
+ThreeDotMenu.propTypes = {
+  fileId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
 export default Home;
