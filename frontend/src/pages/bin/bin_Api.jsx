@@ -16,18 +16,18 @@ function Bin() {
 
 
     const fetchData = async () => {
-      let  delete_id = ID
+
 
       const formData = new FormData()
       const type = localStorage.getItem("Type");
 
       if (type == "file"){
         formData.append("type", "File");
-        console.log(`This  is file that i must delete ${delete_id}`)
+        console.log(`This  is file that i must delete ${ID}`)
 
       }
       else{
-        console.log(`This  is folder that i must delete ${delete_id}`)
+        console.log(`This  is folder that i must delete ${ID}`)
         formData.append("type", "Folder");
 
 
@@ -38,7 +38,7 @@ function Bin() {
 
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/bin_Api/${ delete_id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/bin_Api/${ID}`, {
           method: "POST",
           body:formData,
           headers: {
