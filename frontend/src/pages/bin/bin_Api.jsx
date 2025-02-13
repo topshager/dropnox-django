@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 
 function Bin() {
   const { fileId } = useParams();
+  const {folderId} =  useParams;
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -13,13 +15,29 @@ function Bin() {
       return;
     }
 
+
     const fetchData = async () => {
-      const formData = new FormData();
-      formData.append("fileId", fileId);
+      let  delete_id = 0;
+      const formData = new FormData()
+      if (fileId){
+        delete_id = fileId
+        formData.append("type", "File");
+      }
+      else{
+        delete_id = folderId
+        console.log(`This  is folder that i must delete ${delete_id}`)
+        formData.append("type", "Folder");
+
+      }
+
+
+
+
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/bin_Api/${fileId}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/bin_Api/${ delete_id}`, {
           method: "POST",
+          body:formData,
           headers: {
             Authorization: `Bearer ${token}`,
           },
