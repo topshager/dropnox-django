@@ -63,6 +63,7 @@ function Home() {
     return () => {
       Object.values(fileUrlsRef.current).forEach(URL.revokeObjectURL);
     };
+
   }, []);
 
   if (loading) return <p className="loading">Loading...</p>;
@@ -80,7 +81,7 @@ function Home() {
           {folders.map((folder) => (
             <li key={folder.folder_id}>
             <div className="file-Menu">
-                  <ThreeDotMenu folderId={folder.folder_id} />
+                  <ThreeDotMenu folderId={folder.folder_id} type={"folder"} />
                 </div>
               <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
             </li>
@@ -95,9 +96,12 @@ function Home() {
         ) : (
           <ul>
             {files.map((file) => (
+
               <li key={file.file_id}>
+
                 <div className="file-Menu">
-                  <ThreeDotMenu fileId={file.file_id} />
+
+                  <ThreeDotMenu fileId={file.file_id} type={"file"}/>
                 </div>
                 <div className="File">
                   <p>{file.name}</p>
@@ -108,22 +112,25 @@ function Home() {
                 </div>
               </li>
             ))}
+
           </ul>
         )}
       </div>
     </div>
   );
 }
-function ThreeDotMenu({ fileId,folderId }) {
-  let ID;
-  if (fileId){
-    console.log(`This is my file${fileId}`)
+function ThreeDotMenu({ fileId,folderId,type }) {
+  let ID = fileId || folderId
+
+  if (type == "file"){
+    console.log(`This is my file ${fileId}`)
     ID = fileId
     localStorage.setItem('Type',"file")
 
+
   }
   else{
-    console.log(`This is my folder${folderId}`)
+    console.log(`This is my folder ${folderId}`)
     ID = folderId;
     localStorage.setItem('Type',"folder")
   }
@@ -173,13 +180,11 @@ function ThreeDotMenu({ fileId,folderId }) {
 ThreeDotMenu.propTypes = {
 
     fileId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-
-
+    folderId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    type: PropTypes.string.isRequired,
 };
 
-  ThreeDotMenu.propTypes = {
-  folderId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  }
+
 
 
 export default Home;
