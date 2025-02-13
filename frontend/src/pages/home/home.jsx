@@ -81,7 +81,7 @@ function Home() {
           {folders.map((folder) => (
             <li key={folder.folder_id}>
             <div className="file-Menu">
-                  <ThreeDotMenu folderId={folder.folder_id} type={"folder"} />
+                  <ThreeDotMenu ID={folder.folder_id} type={"folder"} />
                 </div>
               <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
             </li>
@@ -101,7 +101,7 @@ function Home() {
 
                 <div className="file-Menu">
 
-                  <ThreeDotMenu fileId={file.file_id} type={"file"}/>
+                  <ThreeDotMenu ID={file.file_id} type={"file"}/>
                 </div>
                 <div className="File">
                   <p>{file.name}</p>
@@ -119,19 +119,17 @@ function Home() {
     </div>
   );
 }
-function ThreeDotMenu({ fileId,folderId,type }) {
-  let ID = fileId || folderId
+function ThreeDotMenu({ ID,type }) {
+
 
   if (type == "file"){
-    console.log(`This is my file ${fileId}`)
-    ID = fileId
+    console.log(`This is my file ${ID}`)
     localStorage.setItem('Type',"file")
 
 
   }
   else{
-    console.log(`This is my folder ${folderId}`)
-    ID = folderId;
+    console.log(`This is my folder ${ID}`)
     localStorage.setItem('Type',"folder")
   }
 
@@ -179,8 +177,7 @@ function ThreeDotMenu({ fileId,folderId,type }) {
 
 ThreeDotMenu.propTypes = {
 
-    fileId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    folderId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     type: PropTypes.string.isRequired,
 };
 
