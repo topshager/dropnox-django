@@ -163,7 +163,7 @@ function ThreeDotMenu({ ID,type }) {
       </button>
       {isOpen && (
         <div className="dropdown-menu">
-          <a href="#">Edit</a>
+          <Link to={`/edit/${ID}`}>Edit</Link>
           <Link to={`/bin_Api/${ID}`}>Delete</Link>
           <a href="#">Share</a>
         </div>
