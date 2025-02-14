@@ -7,6 +7,7 @@ import Uploader from "./pages/upload/upload";
 import Upload_folder from "./pages/folder_upload/folder_upload";
 import Folder from "./pages/folder/folder";
 import  New_folder from "./pages/new_folder/new_folder";
+import Edit from "./pages/edit/edit";
 import './App.css';
 import TestComponent from "./pages/home/test";
 import Bin from "./pages/bin/bin_Api";
@@ -56,6 +57,7 @@ function App() {
       <Route path="/new_folder" element={<New_folder/>}/>
       <Route path="/test" element={<TestComponent/>}/>
       <Route path="/bin_Api/:ID" element={<Bin/>}/>
+      <Route path="/edit" element={<Edit/>}/>
     </Routes>
     </div>
   </Router>
