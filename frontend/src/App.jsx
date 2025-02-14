@@ -43,7 +43,8 @@ function App() {
             </li>
             <li>
             <a id="btn" href="/home">home</a>
-            <a id="btn" href="/bin_Api">   DEL</a>
+            <a id="btn" href="/bin_Api">DEL</a>
+            <a id="btn" href="/edit">Edit</a>
             </li>
           </ul>
         </nav>
@@ -57,7 +58,7 @@ function App() {
       <Route path="/new_folder" element={<New_folder/>}/>
       <Route path="/test" element={<TestComponent/>}/>
       <Route path="/bin_Api/:ID" element={<Bin/>}/>
-      <Route path="/edit" element={<Edit/>}/>
+      <Route path="/edit/:ID" element={<Edit/>}/>
     </Routes>
     </div>
   </Router>
