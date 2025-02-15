@@ -158,7 +158,14 @@ function ThreeDotMenu({ ID,type }) {
   },
    []);
    const [isPopupOpen,setPopupOpen] = useState(false);
-   const [submit,setSubmit] = useState(false);
+
+
+
+    function setsubmit(formData){
+      const query = formData.get("query");
+      alert(`You searched for '${query}'`);
+      console.log(query)
+    }
 
 
 
@@ -176,13 +183,17 @@ function ThreeDotMenu({ ID,type }) {
           <Link to={`/edit/${ID}`}>Edit</Link>
           <div>
           <Button onClick={() => setPopupOpen(true)}>Edit</Button>
-          
+
 <Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal nested>
   {close => (
     <div className="popup-content">
       <p>This is a popup!</p>
+      <form action={setsubmit}>
+    <input name="query" />
+     <button type="submit">Submit</button>
+    </form>
       <Button onClick={close}>Close</Button>
-      <Button onClick={()=>setSubmit(true)}>Submit</Button>
+      <Button type="submit" >Submit</Button>
     </div>
   )}
 </Popup>
