@@ -10,6 +10,8 @@ function Edit(){
   console.log(watch("example"));
 
   return (
+    <div>
+    <h4>Popup - edit</h4>
     <form onSubmit={handleSubmit(onSubmit)}>
       <input defaultValue="text" {...register("example")}/>
 
@@ -18,6 +20,7 @@ function Edit(){
 
       <input type="submit" />
     </form>
+    </div>
   );
 }
 
