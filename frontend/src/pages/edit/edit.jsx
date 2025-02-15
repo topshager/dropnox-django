@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Popup from 'reactjs-popup';
 
-function Edit({}){
-  const {ID} =useParams()
-  console.log(`Edit ID ${ID}`)
-  return (
-    <p>Edit page</p>
-  )
 
-}
-export default  Edit
+const MyPopup = () => (
+  <Popup trigger={<button>Open Popup</button>} position="right center">
+    <div>Popup content here!</div>
+  </Popup>
+);
+
+
+export default MyPopup;
