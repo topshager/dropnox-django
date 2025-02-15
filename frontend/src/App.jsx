@@ -58,7 +58,7 @@ function App() {
       <Route path="/new_folder" element={<New_folder/>}/>
       <Route path="/test" element={<TestComponent/>}/>
       <Route path="/bin_Api/:ID" element={<Bin/>}/>
-      <Route path="/edit/:ID" element={<Edit/>}/>
+      <Route path="/edit/" element={<Edit/>}/>
     </Routes>
     </div>
   </Router>
