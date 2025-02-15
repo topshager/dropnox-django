@@ -81,7 +81,7 @@ function Home() {
           {folders.map((folder) => (
             <li key={folder.folder_id}>
             <div className="file-Menu">
-                  <ThreeDotMenu ID={folder.folder_id} type={"folder"} />
+                  <ThreeDotMenu ID={folder.folder_id} type={"folder"} name={folder.name}/>
                 </div>
               <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
             </li>
@@ -101,7 +101,7 @@ function Home() {
 
                 <div className="file-Menu">
 
-                  <ThreeDotMenu ID={file.file_id} type={"file"}/>
+                  <ThreeDotMenu ID={file.file_id} type={"file"} name={file.name}/>
                 </div>
                 <div className="File">
                   <p>{file.name}</p>
