@@ -227,3 +227,21 @@ def bin_Api(request,delete_id):
 
 
     return JsonResponse({"message": "recorde deleted"}, status=201)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def Name_Change(request,ID):
+    data = request.data
+    object_id = ID
+    object_Name = data.get("changed_Name")
+    object_type = data.get("type")
+    user_id = request.user.id
+
+    if (object_type == "file"):
+         file = File.objects.filter(user=user_id,file_id=object_id)
+         file.update(name=object_Name)
+         return JsonResponse({"message": "Name updated"}, status=201)
+
+    folder = Folder.objects.filter(user=user_id,folder_id=object_id)
+    folder.update(name= object_Name)
+    return JsonResponse({"message": " folder Name updated"}, status=201)
