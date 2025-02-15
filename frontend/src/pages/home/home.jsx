@@ -3,6 +3,8 @@ import "./home.css";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Popup from 'reactjs-popup';
+import Button from "react-bootstrap/Button";
+
 
 
 
@@ -153,9 +155,16 @@ function ThreeDotMenu({ ID,type }) {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-
   },
    []);
+   const [isPopupOpen,setPopupOpen] = useState(false);
+   const [submit,setSubmit] = useState(false);
+
+
+
+
+
+
 
   return (
     <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
@@ -165,15 +174,20 @@ function ThreeDotMenu({ ID,type }) {
       {isOpen && (
         <div className="dropdown-menu">
           <Link to={`/edit/${ID}`}>Edit</Link>
-
-      <button>Click here</button>
-
-< Popup trigger=
-    {<button> Click to open popup </button>}
-    position="right center">
-    <div>GeeksforGeeks</div>
-
+          <div>
+          <Button onClick={() => setPopupOpen(true)}>Edit</Button>
+          
+<Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal nested>
+  {close => (
+    <div className="popup-content">
+      <p>This is a popup!</p>
+      <Button onClick={close}>Close</Button>
+      <Button onClick={()=>setSubmit(true)}>Submit</Button>
+    </div>
+  )}
 </Popup>
+
+    </div>
           <Link to={`/bin_Api/${ID}`}>Delete</Link>
           <a href="#">Share</a>
         </div>
