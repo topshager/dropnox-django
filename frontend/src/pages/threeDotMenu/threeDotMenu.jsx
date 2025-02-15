@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "../threeDotMenu/threedot.css";
-
+import Popup from 'reactjs-popup';
 
 import { Link } from "react-router-dom";
 function ThreeDotMenu() {
@@ -30,7 +30,16 @@ function ThreeDotMenu() {
         ⋮
       </button>
       <div className="dropdown-menu">
-      <Link to={`/edit/${ID,}`}>Edit</Link>
+
+      <button>Click here</button>
+
+            <Popup trigger=
+                {<button> Click to open popup </button>}
+                position="right center">
+                <div>GeeksforGeeks</div>
+
+            </Popup>
+
         <Link to={`/bin_Api/${ID}`}>Delete</Link>
         <a href="#">Share</a>
       </div>
