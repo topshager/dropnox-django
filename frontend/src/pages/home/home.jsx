@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./home.css";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
+import Popup from 'reactjs-popup';
 
 
 
@@ -164,6 +165,15 @@ function ThreeDotMenu({ ID,type }) {
       {isOpen && (
         <div className="dropdown-menu">
           <Link to={`/edit/${ID}`}>Edit</Link>
+
+      <button>Click here</button>
+
+< Popup trigger=
+    {<button> Click to open popup </button>}
+    position="right center">
+    <div>GeeksforGeeks</div>
+
+</Popup>
           <Link to={`/bin_Api/${ID}`}>Delete</Link>
           <a href="#">Share</a>
         </div>
