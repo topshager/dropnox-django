@@ -170,14 +170,34 @@ function ThreeDotMenu({ ID,type }) {
         setSubmit(formData)
       }
 
-      function setSubmit(formData) {
+      function setSubmit (formData) {
+        const fetchData = async () =>{
+
+          try{
+            const response = await fetch(`http://127.0.0.1:8000/api/edit/${ID}`,{
+              method: "POST",
+              body: formData,
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!response.ok)throw new Error(`HTTP error! Status: ${response.status}`);
+            const data = await response.json();
+            console.log(data);
+          }catch (error){
+            console.error("Error fetching data:", error);
+          }
+        }
         const query = formData.get("query");
-        alert("you searched for bla bla");
-        console.log(query)
+
+        type = localStorage.getItem("Type")
+        const token = localStorage.getItem("access_token");
+
+        formData.append("type",type);
+        formData.append("changed_Name",query)
+
+        fetchData()
+
+
       }
-
-
-
 
 
   return (
