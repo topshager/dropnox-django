@@ -161,13 +161,20 @@ function ThreeDotMenu({ ID,type }) {
 
 
 
-    function setsubmit(formData){
-      const query = formData.get("query");
-      alert(`You searched for '${query}'`);
-      console.log(query)
-    }
 
+      const [query,setQuery] = useState("");
 
+      const handleSubmit = (event) =>{
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        setSubmit(formData)
+      }
+
+      function setSubmit(formData) {
+        const query = formData.get("query");
+        alert("you searched for bla bla");
+        console.log(query)
+      }
 
 
 
@@ -188,10 +195,15 @@ function ThreeDotMenu({ ID,type }) {
   {close => (
     <div className="popup-content">
       <p>This is a popup!</p>
-      <form action={setsubmit}>
-    <input name="query" />
-     <button type="submit">Submit</button>
-    </form>
+      <form onSubmit={handleSubmit}>
+      <input
+        name="query"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <button type="submit">Submit</button>
+      </form>
+
       <Button onClick={close}>Close</Button>
       <Button type="submit" >Submit</Button>
     </div>
