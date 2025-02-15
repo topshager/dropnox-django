@@ -1,10 +1,10 @@
-/* Ensure the menu container is positioned properly */
+
 .menu-container {
   position: relative;
   display: inline-block;
 }
 
-/* Style for the three-dot button */
+
 .menu-icon {
   font-size: 24px;
   background: none;
@@ -14,12 +14,11 @@
   color: #333;
 }
 
-/* Ensure button is visible */
+
 .menu-icon:hover {
   color: #000;
 }
 
-/* Dropdown menu */
 .dropdown-menu {
   position: absolute;
   top: 35px;
@@ -30,15 +29,15 @@
   min-width: 120px;
   padding: 8px 0;
   z-index: 100;
-  display: none;  /* Hidden by default */
+  display: none;
 }
 
-/* Show dropdown only when the parent has an 'active' class */
+
 .menu-container.active .dropdown-menu {
   display: block;
 }
 
-/* Dropdown menu links */
+
 .dropdown-menu a {
   display: block;
   padding: 8px 16px;
@@ -47,7 +46,7 @@
   font-size: 14px;
 }
 
-/* Hover effect */
+
 .dropdown-menu a:hover {
   background: #f4f4f4;
 }
