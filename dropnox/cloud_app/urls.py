@@ -16,6 +16,6 @@ urlpatterns = [
     path('new_folder/<int:id>',views.upload_folder,name='new folder'),
     path('bin_Api/<int:delete_id>',views.bin_Api,name='bin_Api'),
     path('edit/<int:ID>',views.Name_Change,name='edit_name'),
-    path('bin',views.bin,name="bin"),
+    path('bin/',views.bin,name="bin"),
 
 ]
