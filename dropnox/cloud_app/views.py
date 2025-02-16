@@ -232,10 +232,10 @@ def bin_Api(request,delete_id):
 @permission_classes([IsAuthenticated])
 def bin(request):
   try:
-     data =request.data
-     user_id = request.user.id
-     files = File.objects.filter(user=user_id, id_deleted=True)
-     folders =Folder.objects.filter(user=user_id, id_deleted=True)
+
+     user=request.user
+     files = File.objects.filter(user=user, is_deleted=True)
+     folders =Folder.objects.filter(user=user, is_deleted=True)
      user_data ={
           'folders':folders,
           'files':files,
