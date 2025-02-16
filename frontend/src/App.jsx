@@ -11,6 +11,7 @@ import Edit from "./pages/edit/edit";
 import './App.css';
 import TestComponent from "./pages/home/test";
 import Bin from "./pages/bin/bin_Api";
+import Recycling_Bin from "./pages/bin/bin";
 import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -59,6 +60,7 @@ function App() {
       <Route path="/test" element={<TestComponent/>}/>
       <Route path="/bin_Api/:ID" element={<Bin/>}/>
       <Route path="/edit/" element={<Edit/>}/>
+      <Route path="/bin/" element={<Recycling_Bin />}/>
     </Routes>
     </div>
   </Router>
