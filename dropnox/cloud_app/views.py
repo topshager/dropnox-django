@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 import logging
+from django.shortcuts import get_object_or_404
 import base64
 from rest_framework import serializers
 from .models import File,Folder
@@ -215,16 +216,15 @@ def bin_Api(request,delete_id):
     user_id = request.user.id
 
     object_type = data.get("type")
-    print(object_type)
     if object_type == "File":
         file_id = delete_id
-        file = File.objects.filter(user=user_id,file_id = file_id)
+        file = get_object_or_404(File, user_id=user_id, file_id=file_id)
         file.delete()
+
     elif object_type == "Folder":
          folder_id = delete_id
-         folder= Folder.objects.filter(user=user_id,folder_id=folder_id )
+         folder = get_object_or_404(Folder,user=user_id,folder_id=folder_id )
          folder.delete()
-
 
     return JsonResponse({"message": "recorde deleted"}, status=201)
 
@@ -236,11 +236,10 @@ def bin(request):
      user=request.user
      files = File.objects.filter(user=user, is_deleted=True)
      folders =Folder.objects.filter(user=user, is_deleted=True)
-     user_data ={
-          'folders':folders,
-          'files':files,
-     }
-     return Response({'data': user_data}, status=status.HTTP_200_OK)
+
+     file_data =FileSerializer(files,many=True).data
+     folder_data = FolderSerializer(folders,many=True).data
+     return Response({'folders': folder_data,'files': file_data }, status=status.HTTP_200_OK)
   except Exception as e:
                 logger = logging.getLogger(__name__)
                 logger.error(f"Error fetching data for user {request.user.id}: {e}")
