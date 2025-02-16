@@ -9,7 +9,7 @@ function Recycling_Bin (){
   const [error, setError] = useState(null);
 
   const token = localStorage.getItem('access_token');
-
+useEffect(() => {
   const fetchData = async () => {
     try{
       const response = await fetch('http://127.0.0.1:8000/api/bin/',{
@@ -31,7 +31,11 @@ function Recycling_Bin (){
       setError(error.message || 'Failed to fetch data');
       setLoading(false);
     }
-  }
+
+  };
+  fetchData();
+},[]);
+
   return (
     <h2>Files</h2>
 
