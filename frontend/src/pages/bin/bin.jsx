@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./bin.css";
-
+import { Dropdown } from 'react-bootstrap';
 
 function Recycling_Bin() {
   const [folders, setFolders] = useState([]);
@@ -65,6 +65,7 @@ function Recycling_Bin() {
           <p>No files found.</p>
         ) : (
           <ul>
+
             {files.map((file) => (
               <li key={file.file_id}>
 
@@ -87,5 +88,6 @@ function Recycling_Bin() {
     </div>
   );
 }
+
 
 export default Recycling_Bin;
