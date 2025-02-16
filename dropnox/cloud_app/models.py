@@ -22,8 +22,24 @@ class Folder(models.Model):
     )
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='folders')
     type = models.CharField(max_length=255)
+    id_deleted = models. BooleanField(default=False)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
+
+    def delete(self,*args,**kwargs):
+        self.is_deleted = True
+        self.save()
+        self.files.update(is_deleted=True)
+
+
+    def restore(self):
+        self.is_deleted= False
+        self.save()
+        self.files.update(is_deleted=False)
+
+    def hard_delete(self):
+        self.files.all().delete()
+        super().delete()
 
     def __str__(self):
         return self.name
@@ -40,7 +56,18 @@ class File(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-   
+    def delete(self,*args,**kwargs):
+        self.is_delete = True
+        self.save()
+
+
+    def restore(self):
+        self.is_delete =False
+        self.save()
+
+    def hard_delete(self):
+        super().delete()
+
 
     def __str__(self):
         return self.name
