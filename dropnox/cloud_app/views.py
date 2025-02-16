@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import make_password
 import logging
 import base64
 from rest_framework import serializers
-from .models import File
+from .models import File,Folder
 logger = logging.getLogger(__name__)
 
 from cloud_app.models import User,Folder,File
@@ -227,6 +227,27 @@ def bin_Api(request,delete_id):
 
 
     return JsonResponse({"message": "recorde deleted"}, status=201)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def bin(request):
+  try:
+     data =request.data
+     user_id = request.user.id
+     files = File.objects.filter(user=user_id, id_deleted=True)
+     folders =Folder.objects.filter(user=user_id, id_deleted=True)
+     user_data ={
+          'folders':folders,
+          'files':files,
+     }
+     return Response({'data': user_data}, status=status.HTTP_200_OK)
+  except Exception as e:
+                logger = logging.getLogger(__name__)
+                logger.error(f"Error fetching data for user {request.user.id}: {e}")
+                return Response(
+                    {'error': 'An error occurred while fetching data. Please try again later.'},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
