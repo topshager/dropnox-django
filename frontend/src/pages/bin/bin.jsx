@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import './bin.css';
 import { Link } from "react-router-dom";
 
-function bin(){
+function Recycling_Bin (){
   const [folder,setFolders] = useState([]);
   const [files,setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,14 +25,19 @@ function bin(){
       const filesData = data?.data?.files || [];
       setFolders(foldersData);
       setFiles(filesData);
+      console.log(data)
     }catch (error) {
       console.error('Error fetching data:', error);
       setError(error.message || 'Failed to fetch data');
       setLoading(false);
     }
   }
+  return (
+    <h2>Files</h2>
 
+
+  )
 };
 
 
-export default bin;
+export default Recycling_Bin ;
