@@ -44,7 +44,7 @@ function App() {
             </li>
             <li>
             <a id="btn" href="/home">home</a>
-            <a id="btn" href="/bin_Api">DEL</a>
+            <a id="btn" href="/bin">DEL</a>
             <a id="btn" href="/edit">Edit</a>
             </li>
           </ul>
@@ -60,7 +60,7 @@ function App() {
       <Route path="/test" element={<TestComponent/>}/>
       <Route path="/bin_Api/:ID" element={<Bin/>}/>
       <Route path="/edit/" element={<Edit/>}/>
-      <Route path="/bin/" element={<Recycling_Bin />}/>
+      <Route path="/bin" element={<Recycling_Bin/>}/>
     </Routes>
     </div>
   </Router>
