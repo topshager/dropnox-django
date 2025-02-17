@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./bin.css";
 
-// Menu imports
+
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -58,7 +58,7 @@ function Recycling_Bin() {
           {folders.map((folder) => (
             <li key={folder.folder_id}>
               <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
-              <PositionedMenu />
+              <PositionedMenu ID = {folder.folder_id} type={"folder"} name={folder.name}  />
             </li>
           ))}
         </ul>
@@ -74,10 +74,12 @@ function Recycling_Bin() {
               <li key={file.file_id}>
                 <div className="File">
                   <p>{file.name}</p>
+                  <PositionedMenu ID = {file.file_id} type={"file"} name={file.name}  />
                   {file.file_url ? (
                     <a href={file.file_url} target="_blank" rel="noopener noreferrer">
                       Open File
                     </a>
+
                   ) : (
                     <p>No preview available</p>
                   )}
@@ -91,9 +93,10 @@ function Recycling_Bin() {
   );
 }
 
-function PositionedMenu() {
+function PositionedMenu({ ID, type, name }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const token = localStorage.getItem("access_token");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -102,42 +105,70 @@ function PositionedMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleRestore = () => {
-    setAnchorEl(null);
-  };
-  const handleDelete = () =>{
 
+  const handleRestore = async () => {
+    const formData = new FormData();
+    formData.append("type", type);
+    formData.append("name", name);
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/restore/${ID}`, {
+        method: "POST",
+        body: formData,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      alert(`${name} has been restored successfully!`);
+      setAnchorEl(null);
+    } catch (error) {
+      alert(`Failed to restore: ${error.message}`);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/delete/${ID}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      alert(`${name} has been permanently deleted.`);
+      setAnchorEl(null);
+    } catch (error) {
+      alert(`Failed to delete: ${error.message}`);
+    }
   };
 
   return (
     <div>
       <Button
-        id="demo-positioned-button"
-        aria-controls={open ? "demo-positioned-menu" : undefined}
+        id="options-button"
+        aria-controls={open ? "options-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        Dashboard
+        Options
       </Button>
       <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
+        id="options-menu"
+        aria-labelledby="options-button"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
       >
-        <MenuItem onClick={handleDelete}>Delete [X]</MenuItem>
-        <MenuItem onClick={handleRestore }>My account</MenuItem>
-
+        <MenuItem onClick={handleRestore}>Restore {name}</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete {name}</MenuItem>
       </Menu>
     </div>
   );
