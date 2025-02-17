@@ -265,3 +265,18 @@ def Name_Change(request,ID):
     folder = Folder.objects.filter(user=user_id,folder_id=object_id)
     folder.update(name= object_Name)
     return JsonResponse({"message": " folder Name updated"}, status=201)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def restore(request,ID):
+    data = request.data
+    object_Name = data.get("name")
+    object_type = data.get("type")
+    user_id = request.user.id
+    if (object_type == "file"):
+         file = get_object_or_404(File,user=user_id,file_id=ID)
+         file.restore()
+    elif    (object_type=="folder"):
+         folder =  get_object_or_404(Folder,user=user_id,folder_id=ID)
+         folder.restore()
+    return JsonResponse({"message": "recorde deleted"}, status=201)
