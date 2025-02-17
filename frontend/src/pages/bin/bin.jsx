@@ -131,8 +131,11 @@ function PositionedMenu({ ID, type, name }) {
 
   const handleDelete = async () => {
     try {
+      const formData = new FormData();
+      formData.append("type",type)
       const response = await fetch(`http://127.0.0.1:8000/api/delete/${ID}`, {
         method: "DELETE",
+        body: formData,
         headers: { Authorization: `Bearer ${token}` },
       });
 
