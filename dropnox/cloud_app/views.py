@@ -279,4 +279,19 @@ def restore(request,ID):
     elif    (object_type=="folder"):
          folder =  get_object_or_404(Folder,user=user_id,folder_id=ID)
          folder.restore()
+    return JsonResponse({"message": "recorde restored"}, status=201)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+
+def delete(request,ID):
+    data = request.data
+    object_type = data.get("type")
+    user_id = request.user.id
+    if (object_type == "file"):
+         file = get_object_or_404(File,user=user_id,file_id=ID)
+         file.hard_delete()
+    elif    (object_type=="folder"):
+         folder =  get_object_or_404(Folder,user=user_id,folder_id=ID)
+         folder.hard_delete()
     return JsonResponse({"message": "recorde deleted"}, status=201)
