@@ -19,5 +19,4 @@ urlpatterns = [
     path('bin/',views.bin,name="bin"),
     path('restore/<int:ID>' ,views.restore,name="restore"),
     path('delete/<int:ID>' ,views.delete ,name="delete")
-
 ]
