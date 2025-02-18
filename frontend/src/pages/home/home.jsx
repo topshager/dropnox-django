@@ -5,8 +5,12 @@ import PropTypes from 'prop-types';
 import Popup from 'reactjs-popup';
 import Button from "react-bootstrap/Button";
 import {DndContext} from  '@dnd-kit/core';
-import {Draggable  } from './Draggable';
-import {Droppable} from './Droppable';
+import {Draggable} from "../Drag_and_drop/Draggable.jsx";
+import {Droppable} from "../Drag_and_drop/Droppable.jsx";
+
+
+
+
 
 
 
@@ -18,7 +22,7 @@ function Home() {
   const [fileUrls, setFileUrls] = useState({});
   const fileUrlsRef = useRef({});
   const [parent ,setParent] = useState(null);
-  
+
   const draggable = (
     <Draggable id="draggable">
       Go ahead, drag me.
