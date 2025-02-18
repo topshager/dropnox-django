@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Popup from 'reactjs-popup';
 import Button from "react-bootstrap/Button";
-
+import {DndContext} from  '@dnd-kit/core';
+import {Draggable  } from './Draggable';
+import {Droppable} from './Droppable';
 
 
 
@@ -15,6 +17,13 @@ function Home() {
   const [error, setError] = useState(null);
   const [fileUrls, setFileUrls] = useState({});
   const fileUrlsRef = useRef({});
+  const [parent ,setParent] = useState(null);
+  
+  const draggable = (
+    <Draggable id="draggable">
+      Go ahead, drag me.
+    </Draggable>
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -240,8 +249,6 @@ function ThreeDotMenu({ ID,type }) {
   );
 
 };
-
-
 ThreeDotMenu.propTypes = {
 
     ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
