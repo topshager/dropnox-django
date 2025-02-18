@@ -3,7 +3,8 @@ import { useDraggable} from '@dnd-kit/core';
 import {CSS} from  '@dnd-kit/utilities';
 
 
-export function Draggable(props){
+
+export function Droppable(props){
   const {attributes,listeners,setNodeRef,transform} = useDraggable({
     id:props.id,
   });
