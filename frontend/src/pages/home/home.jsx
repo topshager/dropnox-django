@@ -128,6 +128,7 @@ function Home() {
                   <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
                     Open File
                   </a>
+
                 </div>
                 </Draggable>
 
@@ -148,7 +149,7 @@ function Home() {
   );
   function handleDragEnd(event) {
     const { active, over } = event;
-    if (over && over.id.startWith('drop-area')) {
+    if (over && over.id.startsWith('drop-area')) {
       const draggedFileId = active.id.replace("file-","");
       console.log(`File ${draggedFileId} dropped in folder ${over.id}`);
 
