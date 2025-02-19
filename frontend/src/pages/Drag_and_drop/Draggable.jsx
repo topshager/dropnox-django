@@ -12,8 +12,8 @@ export function Draggable({ id, children }) {
 
 
   return (
-    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      {children}
-    </button>
+    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    {children}
+  </div>
   );
 }
