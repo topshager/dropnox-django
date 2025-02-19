@@ -4,15 +4,9 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Popup from 'reactjs-popup';
 import Button from "react-bootstrap/Button";
-import {DndContext} from  '@dnd-kit/core';
-import {Draggable} from "../Drag_and_drop/Draggable.jsx";
-import {Droppable} from "../Drag_and_drop/Droppable.jsx";
-
-
-
-
-
-
+import { DndContext } from '@dnd-kit/core';
+import { Draggable } from "../Drag_and_drop/Draggable.jsx";
+import { Droppable } from "../Drag_and_drop/Droppable.jsx";
 
 function Home() {
   const [folders, setFolders] = useState([]);
@@ -21,13 +15,12 @@ function Home() {
   const [error, setError] = useState(null);
   const [fileUrls, setFileUrls] = useState({});
   const fileUrlsRef = useRef({});
-  const [parent ,setParent] = useState(null);
+  const [parent, setParent] = useState(null);
+  const[isDropped,setIsDropped] = useState(false)
 
-  function handleDragEnd(event){
-    const {over} = event;
-    setParent(over ? over.id: null)
 
-  }
+
+
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -79,7 +72,6 @@ function Home() {
     return () => {
       Object.values(fileUrlsRef.current).forEach(URL.revokeObjectURL);
     };
-
   }, []);
 
   if (loading) return <p className="loading">Loading...</p>;
@@ -87,87 +79,94 @@ function Home() {
 
   return (
     <div className="container">
-                  <DndContext onDragEnd={handleDragEnd}>
-        {!parent ? (
-          <Draggable id="draggable">
-            <p>Go ahead, drag me.</p>
-          </Draggable>
-        ) : null}
-        <Droppable id="droppable">
-          {parent === "droppable" ? <p>Dropped successfully!</p> : "Drop here"}
-        </Droppable>
-      </DndContext>
+      <DndContext onDragEnd={handleDragEnd}>
       <h1>Home</h1>
 
       <h2>Folders</h2>
       {folders.length === 0 ? (
         <p>No folders found.</p>
-      ) : (
+
+      ) :(
         <ul>
           {folders.map((folder) => (
             <li key={folder.folder_id}>
-            <div className="file-Menu">
-                  <ThreeDotMenu ID={folder.folder_id} type={"folder"} name={folder.name}/>
-                </div>
+
+
+               <Droppable id="drop-area">
+               {!isDropped ? 'Dropped' : null}
+
+              <div className="file-Menu">
+                <ThreeDotMenu ID={folder.folder_id} type={"folder"} name={folder.name} />
+              </div>
               <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
+              {isDropped ? 'Dropped!' : 'Drop Here'}
+              </Droppable>
+
             </li>
           ))}
         </ul>
       )}
-
       <h2>Files</h2>
       <div className="file-list">
         {files.length === 0 ? (
           <p>No files found.</p>
         ) : (
+
           <ul>
+
             {files.map((file) => (
 
               <li key={file.file_id}>
-
+                <Draggable id={`file-${file.file_id}`}>
                 <div className="file-Menu">
 
-                  <ThreeDotMenu ID={file.file_id} type={"file"} name={file.name}/>
+                  <ThreeDotMenu ID={file.file_id} type={"file"} name={file.name} />
                 </div>
+
                 <div className="File">
                   <p>{file.name}</p>
-
                   <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
                     Open File
                   </a>
                 </div>
-              </li>
-            ))}
+                </Draggable>
 
+              </li>
+
+            )
+
+          )
+
+            }
           </ul>
+
         )}
       </div>
+      </DndContext>
     </div>
-  );
 
+  );
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (over && over.id.startWith('drop-area')) {
+      const draggedFileId = active.id.replace("file-","");
+      console.log(`File ${draggedFileId} dropped in folder ${over.id}`);
+
+      setIsDropped(true);
+    }
+}
 }
 
-function ThreeDotMenu({ ID,type }) {
-
-
-  if (type == "file"){
-    console.log(`This is my file ${ID}`)
-    localStorage.setItem('Type',"file")
-
-
-  }
-  else{
-    console.log(`This is my folder ${ID}`)
-    localStorage.setItem('Type',"folder")
-  }
-
+function ThreeDotMenu({ ID, type }) {
+  console.log(`This is my ${type} ${ID}`);
+  localStorage.setItem('Type', type);
 
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
-  const toggleMenu = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const toggleMenu = () => setIsOpen((prev) => !prev);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -175,106 +174,60 @@ function ThreeDotMenu({ ID,type }) {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  },
-   []);
-   const [isPopupOpen,setPopupOpen] = useState(false);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append("type", localStorage.getItem("Type"));
+    formData.append("changed_Name", formData.get("query"));
 
-
-
-      const [query,setQuery] = useState("");
-
-      const handleSubmit = (event) =>{
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        setSubmit(formData)
-      }
-
-      function setSubmit (formData) {
-        const fetchData = async () =>{
-
-          try{
-            const response = await fetch(`http://127.0.0.1:8000/api/edit/${ID}`,{
-              method: "POST",
-              body: formData,
-              headers: { Authorization: `Bearer ${token}` },
-            });
-            if (!response.ok)throw new Error(`HTTP error! Status: ${response.status}`);
-            const data = await response.json();
-            console.log(data);
-          }catch (error){
-            console.error("Error fetching data:", error);
-          }
-        }
-        const query = formData.get("query");
-
-        type = localStorage.getItem("Type")
-        const token = localStorage.getItem("access_token");
-
-        formData.append("type",type);
-        formData.append("changed_Name",query)
-
-        fetchData()
-
-
-      }
-
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`http://127.0.0.1:8000/api/edit/${ID}`, {
+        method: "POST",
+        body: formData,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
-
     <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
-
-      <button className="menu-icon" onClick={toggleMenu}>
-        ⋮
-      </button>
+      <button className="menu-icon" onClick={toggleMenu}></button>
       {isOpen && (
         <div className="dropdown-menu">
           <Link to={`/edit/${ID}`}>Edit</Link>
-          <div>
           <Button onClick={() => setPopupOpen(true)}>Edit</Button>
-
-<Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal nested>
-  {close => (
-    <div className="popup-content">
-      <p>This is a popup!</p>
-      <form onSubmit={handleSubmit}>
-      <input
-        name="query"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button type="submit">Submit</button>
-      </form>
-
-      <Button onClick={close}>Close</Button>
-      <Button type="submit" >Submit</Button>
-    </div>
-
-  )}
-</Popup>
-
-    </div>
+          <Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal nested>
+            {(close) => (
+              <div className="popup-content">
+                <form onSubmit={handleSubmit}>
+                  <input name="query" value={query} onChange={(e) => setQuery(e.target.value)} />
+                  <button type="submit">Submit</button>
+                </form>
+                <Button onClick={close}>Close</Button>
+              </div>
+            )}
+          </Popup>
           <Link to={`/bin_Api/${ID}`}>Delete</Link>
           <a href="#">Share</a>
         </div>
       )}
     </div>
-
   );
-
-};
+}
 
 ThreeDotMenu.propTypes = {
-
-    ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    type: PropTypes.string.isRequired,
+  ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  type: PropTypes.string.isRequired,
 };
-
-
 
 export default Home;
