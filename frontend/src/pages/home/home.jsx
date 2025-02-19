@@ -23,11 +23,11 @@ function Home() {
   const fileUrlsRef = useRef({});
   const [parent ,setParent] = useState(null);
 
-  const draggable = (
-    <Draggable id="draggable">
-      Go ahead, drag me.
-    </Draggable>
-  );
+  function handleDragEnd(event){
+    const {over} = event;
+    setParent(over ? over.id: null)
+
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -87,6 +87,16 @@ function Home() {
 
   return (
     <div className="container">
+                  <DndContext onDragEnd={handleDragEnd}>
+        {!parent ? (
+          <Draggable id="draggable">
+            <p>Go ahead, drag me.</p>
+          </Draggable>
+        ) : null}
+        <Droppable id="droppable">
+          {parent === "droppable" ? <p>Dropped successfully!</p> : "Drop here"}
+        </Droppable>
+      </DndContext>
       <h1>Home</h1>
 
       <h2>Folders</h2>
@@ -134,7 +144,9 @@ function Home() {
       </div>
     </div>
   );
+
 }
+
 function ThreeDotMenu({ ID,type }) {
 
 
@@ -214,7 +226,9 @@ function ThreeDotMenu({ ID,type }) {
 
 
   return (
+
     <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
+
       <button className="menu-icon" onClick={toggleMenu}>
         ⋮
       </button>
@@ -240,6 +254,7 @@ function ThreeDotMenu({ ID,type }) {
       <Button onClick={close}>Close</Button>
       <Button type="submit" >Submit</Button>
     </div>
+
   )}
 </Popup>
 
@@ -253,12 +268,12 @@ function ThreeDotMenu({ ID,type }) {
   );
 
 };
+
 ThreeDotMenu.propTypes = {
 
     ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     type: PropTypes.string.isRequired,
 };
-
 
 
 
