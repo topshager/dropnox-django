@@ -97,7 +97,7 @@ function Home() {
     if (over && over.id.startsWith('drop-folder-')) {
       const draggedFileId = active.id.replace("file-", "");
       const targetFolderId = over.id.replace("drop-folder-", "");
-      
+
 
       console.log(`File ${draggedFileId} dropped in folder ${targetFolderId}`);
       moveFileToFolder(draggedFileId, targetFolderId);
