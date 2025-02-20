@@ -15,12 +15,7 @@ function Home() {
   const [error, setError] = useState(null);
   const [fileUrls, setFileUrls] = useState({});
   const fileUrlsRef = useRef({});
-  const [parent, setParent] = useState(null);
-  const[isDropped,setIsDropped] = useState(false)
-
-
-
-
+  const [isDropped, setIsDropped] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -74,94 +69,103 @@ function Home() {
     };
   }, []);
 
+  async function moveFileToFolder(fileId, folderId) {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`http://127.0.0.1:8000/api/move-file/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ file_id: fileId, folder_id: folderId }),
+      });
+
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+      console.log(`File ${fileId} moved to folder ${folderId}`);
+      setFiles((prevFiles) => prevFiles.filter((file) => file.file_id !== fileId));
+      setIsDropped(true);
+    } catch (error) {
+      console.error("Error moving file:", error);
+    }
+  }
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    console.log("Drag Ended! Active:", active, "Over:", over);
+    if (over && over.id.startsWith('drop-folder-')) {
+      const draggedFileId = active.id.replace("file-", "");
+      const targetFolderId = over.id.replace("drop-folder-", "");
+      
+
+      console.log(`File ${draggedFileId} dropped in folder ${targetFolderId}`);
+      moveFileToFolder(draggedFileId, targetFolderId);
+    }
+  }
+
   if (loading) return <p className="loading">Loading...</p>;
   if (error) return <p className="error">Error: {error}</p>;
 
   return (
     <div className="container">
       <DndContext onDragEnd={handleDragEnd}>
-      <h1>Home</h1>
+        <h1>Home</h1>
 
-      <h2>Folders</h2>
-      {folders.length === 0 ? (
-        <p>No folders found.</p>
-
-      ) :(
-        <ul>
-          {folders.map((folder) => (
-            <li key={folder.folder_id}>
-
-
-               <Droppable id="drop-area">
-               {!isDropped ? 'Dropped' : null}
-
-              <div className="file-Menu">
-                <ThreeDotMenu ID={folder.folder_id} type={"folder"} name={folder.name} />
-              </div>
-              <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
-              {isDropped ? 'Dropped!' : 'Drop Here'}
-              </Droppable>
-
-            </li>
-          ))}
-        </ul>
-      )}
-      <h2>Files</h2>
-      <div className="file-list">
-        {files.length === 0 ? (
-          <p>No files found.</p>
-        ) : (
-
+        <h2>Folders</h2>
+        {folders.length === 0 ? <p>No folders found.</p> : (
           <ul>
-
-            {files.map((file) => (
-
-              <li key={file.file_id}>
-                <Draggable id={`file-${file.file_id}`}>
+            {folders.map((folder) => (
+              <li key={folder.folder_id}>
+                <Droppable id={`drop-folder-${folder.folder_id}`}>
+                  <div className="drop-area" onDragOver={(e) => e.preventDefault()}>
+                    {isDropped ? 'Dropped!' : 'Drop Here'}
+                  </div>
+                </Droppable>
                 <div className="file-Menu">
-
-                  <ThreeDotMenu ID={file.file_id} type={"file"} name={file.name} />
+                  <ThreeDotMenu ID={folder.folder_id} type="folder" />
                 </div>
-
-                <div className="File">
-                  <p>{file.name}</p>
-                  <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
-                    Open File
-                  </a>
-
-                </div>
-                </Draggable>
-
+                <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
               </li>
-
-            )
-
-          )
-
-            }
+            ))}
           </ul>
-
         )}
-      </div>
+
+        <h2>Files</h2>
+        <div className="file-list">
+          {files.length === 0 ? <p>No files found.</p> : (
+            <ul>
+              {files.map((file) => (
+                <li key={file.file_id}>
+                  <Draggable id={`file-${file.file_id}`}>
+                    <div
+                      draggable
+                      onDragStart={(e) =>
+                        e.dataTransfer.setData("application/json", JSON.stringify(file))
+                      }
+                    >
+                      <div className="file-Menu">
+                        <ThreeDotMenu ID={file.file_id} type="file" />
+                      </div>
+                      <div className="File">
+                        <p>{file.name}</p>
+                        <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
+                          Open File
+                        </a>
+                      </div>
+                    </div>
+                  </Draggable>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </DndContext>
     </div>
-
   );
-  function handleDragEnd(event) {
-    const { active, over } = event;
-    if (over && over.id.startsWith('drop-area')) {
-      const draggedFileId = active.id.replace("file-","");
-      console.log(`File ${draggedFileId} dropped in folder ${over.id}`);
-
-      setIsDropped(true);
-    }
-}
 }
 
 function ThreeDotMenu({ ID, type }) {
-  console.log(`This is my ${type} ${ID}`);
-  localStorage.setItem('Type', type);
-
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -179,27 +183,6 @@ function ThreeDotMenu({ ID, type }) {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    formData.append("type", localStorage.getItem("Type"));
-    formData.append("changed_Name", formData.get("query"));
-
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`http://127.0.0.1:8000/api/edit/${ID}`, {
-        method: "POST",
-        body: formData,
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   return (
     <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
       <button className="menu-icon" onClick={toggleMenu}></button>
@@ -210,10 +193,8 @@ function ThreeDotMenu({ ID, type }) {
           <Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal nested>
             {(close) => (
               <div className="popup-content">
-                <form onSubmit={handleSubmit}>
-                  <input name="query" value={query} onChange={(e) => setQuery(e.target.value)} />
-                  <button type="submit">Submit</button>
-                </form>
+                <input name="query" value={query} onChange={(e) => setQuery(e.target.value)} />
+                <button type="submit">Submit</button>
                 <Button onClick={close}>Close</Button>
               </div>
             )}
