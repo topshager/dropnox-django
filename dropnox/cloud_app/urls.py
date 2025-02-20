@@ -18,5 +18,6 @@ urlpatterns = [
     path('edit/<int:ID>',views.Name_Change,name='edit_name'),
     path('bin/',views.bin,name="bin"),
     path('restore/<int:ID>' ,views.restore,name="restore"),
-    path('delete/<int:ID>' ,views.delete ,name="delete")
+    path('delete/<int:ID>' ,views.delete ,name="delete"),
+    path('move-file/',views.Drag_and_Drop, name="Dnd"),
 ]
