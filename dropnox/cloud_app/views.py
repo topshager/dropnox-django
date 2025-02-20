@@ -81,11 +81,7 @@ class FolderSerializer(serializers.ModelSerializer):
         return folder
 
 
-    # def validate(self,value):
-    #        allowed_types = ['document', 'image', 'video','pdf']
-    #        if value not in allowed_types:
-    #            raise serializers.ValidationError(f"Folder type must be one of {allowed_types}")
-    #        return value
+
 
 
 @api_view(['GET'])
@@ -136,19 +132,6 @@ def subfolder(request,id):
                     {'error': 'An error occurred while fetching data. Please try again later.'},
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
-
-#
-#@api_view(['POST'])
-#@permission_classes([IsAuthenticated])
-#def create_folder(request,id):
-#    data = request.data
-#    data['user'] = request.user.id
-#    if (id !=0):
-#        data['parent'] = id
-#    serializer = FolderSerializer(data=data )
-#    if serializer.is_valid():
-#        folder = serializer.save()
-
 
 
 @api_view(['POST'])
@@ -283,7 +266,6 @@ def restore(request,ID):
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-
 def delete(request,ID):
     data = request.data
     object_type = data.get("type")
@@ -295,3 +277,19 @@ def delete(request,ID):
          folder =  get_object_or_404(Folder,user=user_id,folder_id=ID)
          folder.hard_delete()
     return JsonResponse({"message": "recorde deleted"}, status=201)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def Drag_and_Drop(request):
+     data = request.data
+     user_id = request.user.id
+     file_id = data['file_id']
+     folder = data['folder_id']
+
+
+
+     obj_update = File.objects.filter(user=user_id,file_id=file_id)
+     obj_update.update(folder=folder)
+
+
+     return JsonResponse({"message": "what you doing bud"},status=201)
