@@ -22,7 +22,7 @@ function Layout({children}){
   const location = useLocation();
   const excludedPaths =  ["/", "/loginTest"];
   return (
-    <div>
+    <div className="moor">
       {!excludedPaths.includes(location.pathname) && (
     <Dropdown>
 <Dropdown.Toggle variant="success" id="dropdown-basic">
