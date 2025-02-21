@@ -58,6 +58,7 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
+    border:  3px solide yellow;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -75,4 +76,9 @@ html body
   height: 100%;
   margin: 0;
   padding: 0;
+}
+#root{
+
+  box-shadow: none;
+
 }
