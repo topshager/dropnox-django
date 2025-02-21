@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Login from "./pages/login/login";
 import Register from "./pages/register/register";
 import Home from "./pages/home/home";
@@ -17,6 +17,31 @@ import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+
+function Layout({children}){
+  const location = useLocation();
+  const excludedPaths =  ["/", "/loginTest"];
+  return (
+    <div>
+      {!excludedPaths.includes(location.pathname) && (
+    <Dropdown>
+<Dropdown.Toggle variant="success" id="dropdown-basic">
+Dropdown Button
+</Dropdown.Toggle>
+<Dropdown.Menu>
+<Dropdown.Item href="/uploader/<int:id>">file upload</Dropdown.Item>
+<Dropdown.Item href="/upload_folder/<int:id>"> folder upload</Dropdown.Item>
+<Dropdown.Item href="/new_folder">New folder</Dropdown.Item>
+</Dropdown.Menu>
+</Dropdown>
+      )}
+
+  {children}
+</div>
+);
+}
+
+
 function App() {
   const id = localStorage.getItem("id")
   console.log(id)
@@ -24,17 +49,7 @@ function App() {
 
   return (
     <Router>
-            <div>
-            <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Dropdown Button
-        </Dropdown.Toggle>
-    <Dropdown.Menu>
-      <Dropdown.Item href="/uploader/<int:id>">file upload</Dropdown.Item>
-      <Dropdown.Item href="/upload_folder/<int:id>"> folder upload</Dropdown.Item>
-      <Dropdown.Item href="/new_folder">New folder</Dropdown.Item>
-      </Dropdown.Menu>
-      </Dropdown>
+            <Layout>
               <nav>
           <ul>
             <li>
@@ -64,7 +79,7 @@ function App() {
       <Route path="/bin" element={<Recycling_Bin/>}/>
       <Route path="/loginTest" element={<Logins/>}/>
     </Routes>
-    </div>
+    </Layout>
   </Router>
   );
 };
