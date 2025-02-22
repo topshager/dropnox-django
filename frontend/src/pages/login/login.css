@@ -71,7 +71,8 @@ input:focus {
 
 /* Button Styling */
 .login-btn {
-  background-color: #0056b3;
+  background-color: #ffc107;
+  
   color: #ffffff;
   border: none;
   border-radius: 5px;
