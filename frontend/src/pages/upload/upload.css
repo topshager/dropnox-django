@@ -1,130 +1,96 @@
-/* General Body Styling */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f8f9fa;
-  margin: 0;
-  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
 }
 
-/* Main Uploader Container */
 .file-uploader {
-  max-width: 500px;
-  width: 100%;
-  padding: 20px;
-  background-color: #fff;
+  background: #fff;
+  padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
   text-align: center;
 }
 
-/* Section Title */
-.file-uploader h3 {
-  margin-top: 20px;
-  font-size: 1.2rem;
-  color: #333;
-}
-
-/* Input Group Styling */
 .input-group {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   text-align: left;
 }
 
-.input-group label {
+label {
   display: block;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
+  margin-bottom: 5px;
+  font-size: 14px;
   color: #555;
 }
 
-.input-group input[type="text"],
-.input-group select,
-.input-group input[type="file"] {
+input,
+select {
   width: 100%;
   padding: 10px;
-  font-size: 1rem;
+  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
-}
-
-.input-group input[type="text"]:focus,
-.input-group select:focus,
-.input-group input[type="file"]:focus {
-  border-color: #007bff;
   outline: none;
+  transition: border 0.3s;
 }
 
-/* File Details Section */
-.file-uploader ul {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0;
-  text-align: left;
+input:focus,
+select:focus {
+  border-color: #007bff;
 }
 
-.file-uploader li {
-  font-size: 0.9rem;
-  color: #333;
-  margin-bottom: 5px;
-}
-
-/* Submit Button */
-.file-uploader .submit {
-  width: 100%;
-  padding: 10px 15px;
-  font-size: 1rem;
+.submit {
+  background: #007bff;
   color: #fff;
-  background-color: #007bff;
+  padding: 10px;
+  font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s;
+  width: 100%;
+  margin-top: 1rem;
 }
 
-.file-uploader .submit:hover:not(:disabled) {
-  background-color: #0056b3;
-  transform: scale(1.02);
-}
-
-.file-uploader .submit:disabled {
-  background-color: #ccc;
+.submit:disabled {
+  background: #ccc;
   cursor: not-allowed;
 }
 
-/* Result Messages */
-.file-uploader p {
-  margin-top: 20px;
-  font-size: 1rem;
-  font-weight: bold;
+.submit:hover:not(:disabled) {
+  background: #0056b3;
 }
 
-.file-uploader p.success {
-  color: #28a745;
+section {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 5px;
+  text-align: left;
 }
 
-.file-uploader p.fail {
-  color: #dc3545;
+h3 {
+  margin-bottom: 0.5rem;
+  font-size: 18px;
 }
 
-.file-uploader p.upload {
-  color: #ffc107;
+ul {
+  list-style: none;
+  padding: 0;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .file-uploader {
-    padding: 15px;
-  }
+ul li {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
 
-  .input-group label,
-  .input-group input,
-  .file-uploader .submit {
-    font-size: 0.9rem;
-  }
+p {
+  font-size: 14px;
+  margin-top: 1rem;
 }
