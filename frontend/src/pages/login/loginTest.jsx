@@ -33,7 +33,8 @@ function Logins(){
 
   return (
     <div className="login-container">
-      <h1>Login Page</h1>
+            <h2>Login</h2>
+      <div className='Logo'>      <img src="dropnox2.png" alt="BigCo Inc. logo" width={100}/></div>
       {message && <p className="message">{message}</p>}
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
