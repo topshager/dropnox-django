@@ -1,102 +1,76 @@
-/* General Styling */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
-  margin: 0;
-  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
 }
 
-/* Login Container */
 .login-container {
-  background-color: #ffffff;
-  padding: 30px;
+  background: #fff;
+  padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 320px;
 }
 
-/* Page Header */
 h1 {
-  font-size: 2rem;
-  color: #0056b3;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+  font-size: 24px;
+  color: #333;
 }
 
-/* Message */
 .message {
-  font-size: 1rem;
-  color: #dc3545; /* Red for error messages */
-  margin-bottom: 15px;
+  color: red;
+  margin-bottom: 1rem;
+  font-size: 14px;
 }
 
-/* Form Styling */
 .login-form {
   display: flex;
   flex-direction: column;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   text-align: left;
 }
 
 label {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
   display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #555;
 }
 
 input {
   width: 100%;
   padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ddd;
+  font-size: 16px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
+  outline: none;
+  transition: border 0.3s;
 }
 
 input:focus {
-  border-color: #0056b3;
-  outline: none;
+  border-color: #007bff;
 }
 
-/* Button Styling */
 .login-btn {
-  background-color: #ffc107;
-  
-  color: #ffffff;
+  background: #007bff;
+  color: #fff;
+  padding: 10px;
+  font-size: 16px;
   border: none;
   border-radius: 5px;
-  padding: 10px;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s;
 }
 
 .login-btn:hover {
-  background-color: #003d82;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .login-container {
-    padding: 20px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  input, .login-btn {
-    font-size: 0.9rem;
-  }
+  background: #0056b3;
 }
