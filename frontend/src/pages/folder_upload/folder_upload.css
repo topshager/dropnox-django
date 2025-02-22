@@ -1,6 +1,5 @@
-/* General Body Styling */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
@@ -10,91 +9,67 @@ body {
   height: 100vh;
 }
 
-/* Main Container */
-.upload-container {
-  max-width: 500px;
-  width: 100%;
+.container {
+  width: 400px;
+  background: #fff;
   padding: 20px;
-  background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-/* Header */
-.upload-container h1 {
-  font-size: 1.8rem;
+h1 {
+  font-size: 24px;
   color: #333;
-  margin-bottom: 20px;
 }
 
-/* Input Fields */
-.upload-container input[type="file"] {
+input[type="file"] {
   display: block;
-  margin: 15px auto;
-  font-size: 1rem;
-}
-
-.upload-container input[type="text"] {
-  width: 90%;
+  margin: 10px auto;
   padding: 10px;
-  margin: 15px 0;
-  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
+  width: 100%;
 }
 
-.upload-container input[type="text"]:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-/* Button */
-.upload-container button {
-  width: 90%;
+input[type="text"] {
+  width: 100%;
   padding: 10px;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #007bff;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
   border: none;
   border-radius: 5px;
+  background: #007bff;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.upload-container button:disabled {
-  background-color: #ccc;
+button:disabled {
+  background: #ccc;
   cursor: not-allowed;
 }
 
-.upload-container button:hover:not(:disabled) {
-  background-color: #0056b3;
+button:hover:not(:disabled) {
+  background: #0056b3;
 }
 
-/* Status Messages */
-.upload-container p {
-  font-size: 1rem;
-  margin-top: 20px;
+p {
+  margin-top: 10px;
+  font-weight: bold;
 }
 
-.upload-container p.success {
-  color: #28a745;
+p.success {
+  color: green;
 }
 
-.upload-container p.fail {
-  color: #dc3545;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .upload-container {
-    padding: 15px;
-  }
-
-  input[type="text"],
-  button {
-    font-size: 0.9rem;
-  }
+p.fail {
+  color: red;
 }
