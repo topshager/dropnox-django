@@ -35,6 +35,21 @@ Dropdown Button
 </Dropdown.Menu>
 </Dropdown>
       )}
+        <nav>
+          <ul>
+            <li>
+              <a id="btn" href="/">login</a>
+            </li>
+            <li>
+              <a id="btn" href="/register">register</a>
+            </li>
+            <li>
+            <a id="btn" href="/home">home</a>
+            <a id="btn" href="/bin">DEL</a>
+            <a id="btn" href="/edit">Edit</a>
+            </li>
+          </ul>
+        </nav>
 
   {children}
 </div>
@@ -50,21 +65,6 @@ function App() {
   return (
     <Router>
             <Layout>
-              <nav>
-          <ul>
-            <li>
-              <a id="btn" href="/">login</a>
-            </li>
-            <li>
-              <a id="btn" href="/register">register</a>
-            </li>
-            <li>
-            <a id="btn" href="/home">home</a>
-            <a id="btn" href="/bin">DEL</a>
-            <a id="btn" href="/edit">Edit</a>
-            </li>
-          </ul>
-        </nav>
     <Routes>
       <Route path="/" element={<Login/>} />
       <Route path="/register" element={<Register />}/>
