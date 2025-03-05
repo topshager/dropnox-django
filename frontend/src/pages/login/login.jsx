@@ -1,6 +1,6 @@
 import React, {useState } from 'react';
 import './login.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from "../auth/auth";
 
 function Login() {
@@ -62,6 +62,9 @@ function Login() {
           Login
         </button>
       </form>
+      <div className='sighn_up'>
+      <a href='/register'>Sign up </a>
+      </div>
     </div>
   );
 }
