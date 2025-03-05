@@ -20,7 +20,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 function Layout({ children }) {
   const location = useLocation();
   const excludedPaths = ["/"];
-  const id = localStorage.getItem("id"); // Get the folder ID from localStorage
+  const id = localStorage.getItem("id"); 
 
   return (
     <div className="moor">
@@ -60,9 +60,11 @@ function Layout({ children }) {
 function App() {
   return (
     <Router>
-      <Layout>
+  <Layout>
         <Routes>
+
           <Route path="/" element={<Login />} />
+
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<Home />} />
           <Route path="/uploader/:id" element={<Uploader />} />
@@ -75,7 +77,8 @@ function App() {
           <Route path="/bin" element={<Recycling_Bin />} />
           <Route path="/loginTest" element={<Logins />} />
         </Routes>
-      </Layout>
+        </Layout>
+
     </Router>
   );
 }
