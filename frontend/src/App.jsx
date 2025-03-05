@@ -20,11 +20,12 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 function Layout({ children }) {
   const location = useLocation();
   const excludedPaths = ["/"];
-  const id = localStorage.getItem("id"); 
+  const id = localStorage.getItem("id");
 
   return (
     <div className="moor">
       {!excludedPaths.includes(location.pathname) && (
+        <>
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
             Dropdown Button
@@ -35,7 +36,7 @@ function Layout({ children }) {
             <Dropdown.Item href="/new_folder">New Folder</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-      ) &&(
+
       <nav>
         <ul>
           <li>
@@ -51,6 +52,7 @@ function Layout({ children }) {
           </li>
         </ul>
       </nav>
+      </>
       )}
       {children}
     </div>
