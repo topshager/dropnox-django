@@ -162,9 +162,12 @@ def home_upload_file(request, id):
 
     uploaded_file = request.FILES['file']
 
+
+    folder = get_object_or_404(Folder, folder_id=id) if id != 0 else None
+
     file_instance = File(
         name=uploaded_file.name,
-        folder=Folder.objects.get(folder_id=id) if id != 0 else None,
+        folder=folder,
         type=uploaded_file.content_type,
         content=uploaded_file.read(),
         user=request.user
@@ -172,7 +175,6 @@ def home_upload_file(request, id):
     file_instance.save()
 
     return Response({'message': 'File uploaded successfully!', 'file': FileSerializer(file_instance).data}, status=status.HTTP_201_CREATED)
-
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
