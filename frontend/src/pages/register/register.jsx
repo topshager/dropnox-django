@@ -24,7 +24,6 @@ const SignUpForm = () => {
       });
 
       console.log('User signed up successfully:', response.data);
-      //window.location.href = "/home";
       window.location.replace ("/")
     } catch (error) {
       console.error('Error during API call:', error.response?.data || error.message);
