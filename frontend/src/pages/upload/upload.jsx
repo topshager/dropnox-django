@@ -138,7 +138,9 @@ const Uploader = () => {
 
 const Result = ({ status }) => {
   if (status === "success") {
+    window.location.replace ("/home")
     return <p>✅ File uploaded successfully!</p>;
+
   } else if (status === "fail") {
     return <p>❌ File upload failed. Please try again.</p>;
   } else if (status === "upload") {
