@@ -20,7 +20,7 @@ function Home() {
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
-
+    localStorage.setItem("id", 0);
 
     const fetchData = async () => {
       try {
