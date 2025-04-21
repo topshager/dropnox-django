@@ -43,9 +43,6 @@ function Layout({ children }) {
             <a id="btn" href="/">Login</a>
           </li>
           <li>
-            <a id="btn" href="/register">Register</a>
-          </li>
-          <li>
             <a id="btn" href="/home">Home</a>
             <a id="btn" href="/bin">DEL</a>
             <a id="btn" href="/edit">Edit</a>

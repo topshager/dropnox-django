@@ -112,7 +112,6 @@ function Home() {
   return (
     <div className="container">
       <DndContext onDragEnd={handleDragEnd}>
-        <h1>Home</h1>
 
         <h2>Folders</h2>
         {folders.length === 0 ? <p>No folders found.</p> : (
