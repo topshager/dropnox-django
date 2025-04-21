@@ -146,8 +146,10 @@ function Home() {
                       }
                     >
                       <div className="file-Menu">
-                        <ThreeDotMenu ID={file.file_id} type="file" />
+                  <ThreeDotMenu ID={file.file_id} type="file" />
+
                       </div>
+
                       <div className="File">
                         <p>{file.name}</p>
                         <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
@@ -183,7 +185,6 @@ function ThreeDotMenu({ ID, type }) {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
-
   return (
     <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
       <button className="menu-icon" onClick={toggleMenu}></button>
