@@ -7,10 +7,10 @@ import Uploader from "./pages/upload/upload";
 import Upload_folder from "./pages/folder_upload/folder_upload";
 import Folder from "./pages/folder/folder";
 import New_folder from "./pages/new_folder/new_folder";
-import Logins from "./pages/login/loginTest";
+
 import Edit from "./pages/edit/edit";
 import "./App.css";
-import TestComponent from "./pages/home/test";
+
 import Bin from "./pages/bin/bin_Api";
 import Recycling_Bin from "./pages/bin/bin";
 import { Dropdown } from "react-bootstrap";
@@ -19,7 +19,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 function Layout({ children }) {
   const location = useLocation();
-  const excludedPaths = ["/"];
+  const excludedPaths = ["/","/register"];
   const id = localStorage.getItem("id");
 
   return (
@@ -73,11 +73,11 @@ function App() {
           <Route path="/upload_folder/:id" element={<Upload_folder />} />
           <Route path="/folder/:folder_id" element={<Folder />} />
           <Route path="/new_folder" element={<New_folder />} />
-          <Route path="/test" element={<TestComponent />} />
+
           <Route path="/bin_Api/:ID" element={<Bin />} />
           <Route path="/edit" element={<Edit />} />
           <Route path="/bin" element={<Recycling_Bin />} />
-          <Route path="/loginTest" element={<Logins />} />
+
         </Routes>
         </Layout>
 
