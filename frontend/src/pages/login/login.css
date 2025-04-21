@@ -4,7 +4,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   margin: 0;
 }
 
@@ -14,7 +14,8 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 320px;
+  width: 400px;
+
 }
 
 h1 {
@@ -77,5 +78,5 @@ input:focus {
 .sighn_up a{
 
  text-decoration: none;
- color: aqua;
+ color: black;
 }
