@@ -124,14 +124,13 @@ function Home() {
                   </div>
                 </Droppable>
                 <div className="file-Menu">
-                  <ThreeDotMenu ID={folder.folder_id} type="folder" />
+                  <ThreeDotMenu key={folder.folder_id} ID={folder.folder_id} type="folder" />
                 </div>
                 <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
               </li>
             ))}
           </ul>
         )}
-
         <h2>Files</h2>
         <div className="file-list">
           {files.length === 0 ? <p>No files found.</p> : (
@@ -146,10 +145,7 @@ function Home() {
                       }
                     >
                       <div className="file-Menu">
-                  <ThreeDotMenu ID={file.file_id} type="file" />
-
                       </div>
-
                       <div className="File">
                         <p>{file.name}</p>
                         <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
@@ -158,6 +154,7 @@ function Home() {
                       </div>
                     </div>
                   </Draggable>
+                  <ThreeDotMenu key={file.file_id}  ID={file.file_id} type="file" />ç
                 </li>
               ))}
             </ul>
@@ -168,25 +165,31 @@ function Home() {
   );
 }
 
-function ThreeDotMenu({ ID, type }) {
+function ThreeDotMenu({ ID }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [query, setQuery] = useState("");
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
+  useEffect(() => {
+    console.log("Menu state changed:", isOpen);  
+  }, [isOpen]);  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
+        console.log(isOpen)
       }
+      
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
   return (
-    <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
+    <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef} >
+      
       <button className="menu-icon" onClick={toggleMenu}></button>
       {isOpen && (
         <div className="dropdown-menu">
@@ -205,8 +208,10 @@ function ThreeDotMenu({ ID, type }) {
           <a href="#">Share</a>
         </div>
       )}
+      
     </div>
   );
+  
 }
 
 ThreeDotMenu.propTypes = {
