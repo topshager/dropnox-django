@@ -1,11 +1,9 @@
-/* Styling for the three-dot menu container */
 .menu-container {
   position: relative;
   display: inline-block;
   margin-left: 10px;
 }
 
-/* The three-dot button */
 .menu-icon {
   background: none;
   border: none;
@@ -21,7 +19,7 @@
 }
 
 .menu-icon::before {
-  content: "⋮";  /* Vertical dots */
+  content: "⋮";
   font-size: 24px;
   color: #333;
 }
@@ -30,8 +28,12 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Dropdown menu */
 .dropdown-menu {
+  display: none;
+}
+
+.menu-container.active .dropdown-menu {
+  display: flex;
   position: absolute;
   top: 40px;
   right: 0;
@@ -40,13 +42,11 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   width: 150px;
-  z-index: 10;
-  display: flex;
+  z-index: 1000;
   flex-direction: column;
   padding: 5px 0;
 }
 
-/* Dropdown menu items */
 .dropdown-menu a,
 .dropdown-menu button {
   text-decoration: none;
@@ -66,10 +66,19 @@
   background-color: #f5f5f5;
 }
 
-/* Close button for the popup */
 .popup-content button {
   margin-top: 10px;
 }
-.container{
+
+.container {
   width: 500px;
+}
+
+.dropdown-menu {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
