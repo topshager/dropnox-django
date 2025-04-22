@@ -193,7 +193,6 @@ function ThreeDotMenu({ ID }) {
       <button className="menu-icon" onClick={toggleMenu}></button>
       {isOpen && (
         <div className="dropdown-menu">
-          <Link to={`/edit/${ID}`}>Edit</Link>
           <Button onClick={() => setPopupOpen(true)}>Edit</Button>
           <Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal nested>
             {(close) => (
