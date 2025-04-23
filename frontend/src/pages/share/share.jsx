@@ -11,9 +11,16 @@ const Sharable = (id,type) =>{
         const fetchData = async () =>{
             try{
                 const response = await fetch(`http://127.0.0.1:8000/api/sharable/${id,type}`,{
-                    headers: { Authorization: `Bearer ${token}` },
+                method: "GET",
+                headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
                 });
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                
+                const data = await response.json();
+                console.log(data)
             }catch (error) {
                 console.error("Error fetching data:", error);
                 setError(error.message || "Failed to fetch data");
@@ -26,7 +33,7 @@ const Sharable = (id,type) =>{
     return(
         <div className="sharable-code">
             <form>
-                
+
             </form>
         </div>
     );
