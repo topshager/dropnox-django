@@ -165,7 +165,8 @@ function Home() {
   );
 }
 
-function ThreeDotMenu({ ID }) {
+
+function ThreeDotMenu({ ID,type }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -204,7 +205,7 @@ function ThreeDotMenu({ ID }) {
             )}
           </Popup>
           <Link to={`/bin_Api/${ID}`}>Delete</Link>
-          <a href="#">Share</a>
+          <Link to={`/share/${ID}/${type}`}>Share</Link>
         </div>
       )}
       
