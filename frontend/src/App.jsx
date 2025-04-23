@@ -7,7 +7,7 @@ import Uploader from "./pages/upload/upload";
 import Upload_folder from "./pages/folder_upload/folder_upload";
 import Folder from "./pages/folder/folder";
 import New_folder from "./pages/new_folder/new_folder";
-
+import  Sharable from "./pages/share/share";
 import Edit from "./pages/edit/edit";
 import "./App.css";
 
@@ -74,7 +74,7 @@ function App() {
           <Route path="/bin_Api/:ID" element={<Bin />} />
           <Route path="/edit" element={<Edit />} />
           <Route path="/bin" element={<Recycling_Bin />} />
-
+          <Route path="/share/:ID/:type" element={<Sharable/>}/>
         </Routes>
         </Layout>
 
