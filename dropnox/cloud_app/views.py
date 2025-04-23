@@ -295,3 +295,19 @@ def Drag_and_Drop(request):
 
 
      return JsonResponse({"message": "what you doing bud"},status=201)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def sharable(request,ID,type):
+    match type:
+          case "file":
+               print("hello , file")             
+          case "folder":
+               print("hello, folder")
+    
+     
+          
+    
+     
+    return JsonResponse({"message": "object returned"},status=201)
