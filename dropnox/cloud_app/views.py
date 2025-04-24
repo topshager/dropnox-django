@@ -303,11 +303,14 @@ def Drag_and_Drop(request):
 def sharable(request,ID,type):
     user_id = request.user.id
     object_id = ID
-    object_type = type
     if type == "file":
-        token = sharableLink.object.filter(user=user_id,)
+        data = sharableLink.objects.filter(user=user_id,file=object_id)
     if type == "folder":
-        token = sharableLink.object.filter(user=user_id,)
+        data  = sharableLink.objects.filter(created_by=user_id,folder=object_id)
+
+    if data['expires_at']  
+    
+
          
      
     return JsonResponse({"message": "object returned"},status=201)
