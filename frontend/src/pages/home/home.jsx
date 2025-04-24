@@ -175,6 +175,7 @@ function ThreeDotMenu({ ID,type }) {
   const toggleMenu = () => setIsOpen((prev) => !prev);
   useEffect(() => {
     console.log("Menu state changed:", isOpen);  
+
   }, [isOpen]);  
 
   useEffect(() => {
@@ -187,7 +188,7 @@ function ThreeDotMenu({ ID,type }) {
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
+  }, [isOpen]);
   return (
     <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef} >
       
