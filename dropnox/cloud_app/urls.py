@@ -20,4 +20,5 @@ urlpatterns = [
     path('restore/<int:ID>' ,views.restore,name="restore"),
     path('delete/<int:ID>' ,views.delete ,name="delete"),
     path('move-file/',views.Drag_and_Drop, name="Dnd"),
+    path('sharable/<int:ID>/<str:type>/',views.sharable, name="share"),
 ]
