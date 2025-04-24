@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import serializers
 from .models import Folder
+from .models import sharableLink
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -300,14 +301,13 @@ def Drag_and_Drop(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def sharable(request,ID,type):
-    match type:
-          case "file":
-               print("hello , file")             
-          case "folder":
-               print("hello, folder")
-    
-     
-          
-    
+    user_id = request.user.id
+    object_id = ID
+    object_type = type
+    if type == "file":
+        token = sharableLink.object.filter(user=user_id,)
+    if type == "folder":
+        token = sharableLink.object.filter(user=user_id,)
+         
      
     return JsonResponse({"message": "object returned"},status=201)
