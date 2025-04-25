@@ -4,7 +4,6 @@ from .views import MyTokenObtainPairView, MyTokenRefreshView, ProtectedView
 from . import views
 
 urlpatterns = [
-
     path('register/',views.user_register ,name='register'),
     path('home/',views.home , name='home'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
