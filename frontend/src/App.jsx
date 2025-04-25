@@ -11,7 +11,7 @@ import  Sharable from "./pages/share/share";
 import Edit from "./pages/edit/edit";
 import "./App.css";
 
-import Bin from "./pages/bin/bin_Api";
+
 import Recycling_Bin from "./pages/bin/bin";
 import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -70,8 +70,6 @@ function App() {
           <Route path="/upload_folder/:id" element={<Upload_folder />} />
           <Route path="/folder/:folder_id" element={<Folder />} />
           <Route path="/new_folder" element={<New_folder />} />
-
-          <Route path="/bin_Api/:ID" element={<Bin />} />
           <Route path="/edit" element={<Edit />} />
           <Route path="/bin" element={<Recycling_Bin />} />
           <Route path="/share/:ID/:type" element={<Sharable/>}/>
