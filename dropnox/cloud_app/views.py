@@ -91,8 +91,8 @@ def home(request):
            try:
                 user_id = request.user.id
 
-                folders = Folder.objects.filter(user=user_id,parent=None)
-                files  = File.objects.filter(user=user_id,folder=None)
+                folders = Folder.objects.filter(user=user_id,parent=None,is_deleted=False)
+                files  = File.objects.filter(user=user_id,folder=None,is_deleted=False)
 
                 folder_data = FolderSerializer(folders, many=True).data
                 file_data = FileSerializer(files, many=True).data
@@ -199,14 +199,15 @@ def user_register(request):
 @permission_classes([IsAuthenticated])
 def bin_Api(request,delete_id):
     data = request.data
+    request.data.get("type")
     user_id = request.user.id
 
     object_type = data.get("type")
-    if object_type == "File":
+    if object_type == "file":
         file_id = delete_id
         file = get_object_or_404(File, user_id=user_id, file_id=file_id)
         file.delete()
-    elif object_type == "Folder":
+    elif object_type == "folder":
          folder_id = delete_id
          folder = get_object_or_404(Folder,user=user_id,folder_id=folder_id )
          folder.delete()
