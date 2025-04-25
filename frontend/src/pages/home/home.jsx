@@ -224,20 +224,21 @@ const  deleteItem = async (ID, type) => {
 
   const token = localStorage.getItem("access_token");
 
-  const formData = new FormData();
-  
-  formData.append("type", type);
-  console.log(formData.get("type"));
 
+  const data = {
+    type: type, 
+  };
 
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bin_Api/${ID}`, {
       method: "POST",
-      body: formData,
+
       headers: {
+        "Content-Type": "application/json", 
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(data),
     });
 
     if (!response.ok) {
