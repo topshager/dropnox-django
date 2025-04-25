@@ -11,7 +11,6 @@ function Sharable (){
 
     useEffect(()=>{
         const token = localStorage.getItem("access_token");
-        console.log(ID,type)
         const fetchData = async () =>{
             try{
                 const response = await fetch(`http://127.0.0.1:8000/api/sharable/${ID}/${encodeURIComponent(type)}/`,{
@@ -24,8 +23,9 @@ function Sharable (){
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 
                 const data = await response.json();
-                const fetchedTokens   = data?.data?.token || [];
-                setToken(fetchedTokens )
+                console.log(data)
+                /*const fetchedTokens   = data?.data?.token || [];*/
+                /*setToken(fetchedTokens )*/
                 console.log(data)
             }catch (error) {
                 console.error("Error fetching data:", error);

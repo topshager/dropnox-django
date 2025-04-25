@@ -16,7 +16,7 @@ import base64
 from rest_framework import serializers
 from .models import File,Folder
 logger = logging.getLogger(__name__)
-
+import uuid
 from cloud_app.models import User,Folder,File
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
@@ -133,8 +133,6 @@ def subfolder(request,id):
                     {'error': 'An error occurred while fetching data. Please try again later.'},
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
-
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def upload_folder(request,id):
@@ -146,6 +144,11 @@ def upload_folder(request,id):
     serializer = FolderSerializer(data=data )
     if serializer.is_valid():
         folder = serializer.save()
+        sharableLink.objects.create(
+             folder = folder,
+             created_by = request.user,
+             token=uuid.uuid4(),       
+        )
         return Response({'message': 'Folder created successfully!', 'folder': serializer.data}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -174,6 +177,11 @@ def home_upload_file(request, id):
         user=request.user
     )
     file_instance.save()
+    sharableLink.objects.create(
+             file = file_instance.file_id,
+             created_by = request.user,
+             token=uuid.uuid4(),       
+        )
 
     return Response({'message': 'File uploaded successfully!', 'file': FileSerializer(file_instance).data}, status=status.HTTP_201_CREATED)
 
@@ -303,15 +311,17 @@ def Drag_and_Drop(request):
 @permission_classes([IsAuthenticated])
 def sharable(request,ID,type):
     user_id = request.user.id
-    print(object_id)
-    object_id = ID
-    if type == "file":
-        data = sharableLink.objects.filter(user=user_id,file=object_id)
-    if type == "folder":
-        data  = sharableLink.objects.filter(created_by=user_id,folder=object_id)
+    try:
+         if type == "file":
+              link = sharableLink.objects.get(created_by=user_id, file=ID)
+         elif type == "folder":
+              link = sharableLink.objects.get(created_by=user_id, folder=ID)
+         else:
+               return Response({"error": "Invalid type."}, status=400)
+
+         return Response({"token": str(link.token)})       
+    
+    except sharableLink.DoesNotExist:
+        return Response({"error": "No sharable link found."}, status=404)
 
 
-
-         
-     
-    return JsonResponse({"message": "object returned"},status=201)
