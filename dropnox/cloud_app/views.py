@@ -303,6 +303,7 @@ def Drag_and_Drop(request):
 @permission_classes([IsAuthenticated])
 def sharable(request,ID,type):
     user_id = request.user.id
+    print(object_id)
     object_id = ID
     if type == "file":
         data = sharableLink.objects.filter(user=user_id,file=object_id)
