@@ -206,13 +206,13 @@ def bin_Api(request,delete_id):
         file_id = delete_id
         file = get_object_or_404(File, user_id=user_id, file_id=file_id)
         file.delete()
-
     elif object_type == "Folder":
          folder_id = delete_id
          folder = get_object_or_404(Folder,user=user_id,folder_id=folder_id )
          folder.delete()
 
-    return JsonResponse({"message": "recorde deleted"}, status=201)
+    return JsonResponse({"message": f"{delete_id,object_type}"}, status=201)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
