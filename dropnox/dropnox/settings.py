@@ -210,3 +210,16 @@ LOGGING = {
         },
     },
 }
+Q_CLUSTER = {
+    'name': 'DjangoQ',
+    'workers': 4,
+    'timeout': 60,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default',  # Use Django's ORM as the broker
+    'sync': False,      # Make sure it's running async
+    'save_limit': 100,
+    'label': 'Django Q',
+    'catch_up': False,
+}
