@@ -5,14 +5,15 @@ import uuid
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=77, unique=True)
-    password = models.CharField(max_length=55)
-    REQUIRED_FIELDS = [username,password]
-    USERNAME_FIELD = 'username'
+    username = models.CharField(max_length=77, unique=True)  
+
+   
+    REQUIRED_FIELDS = ['email']  
+
+    USERNAME_FIELD = 'username'  
 
     def __str__(self):
         return self.username
-
 
 class Folder(models.Model):
     folder_id = models.AutoField(primary_key=True)

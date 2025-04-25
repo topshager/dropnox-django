@@ -308,8 +308,7 @@ def sharable(request,ID,type):
     if type == "folder":
         data  = sharableLink.objects.filter(created_by=user_id,folder=object_id)
 
-    if data['expires_at']  
-    
+
 
          
      

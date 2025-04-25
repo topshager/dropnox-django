@@ -11,7 +11,7 @@ def main():
 
 
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dropnox_internal.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dropnox.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
