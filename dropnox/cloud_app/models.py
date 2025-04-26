@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
+from django.urls import reverse
+
 # Create your models here.
 
 
@@ -44,7 +46,10 @@ class Folder(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    def get_absolute_url(self):
+        return reverse('folder-detail', kwargs={'pk': self.pk})
+    
 class File(models.Model):
     file_id = models.AutoField(primary_key=True)
     name = models.TextField()
@@ -73,6 +78,9 @@ class File(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('file-detail', kwargs={'pk': self.pk})
 
 
 
