@@ -62,7 +62,7 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Login />} />
-          <Route path="/linkviewer/:token" element={<LinkView />} />
+          <Route path="/linkview/:token" element={<LinkView />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<Home />} />
           <Route path="/uploader/:id" element={<Uploader />} />
