@@ -327,11 +327,7 @@ def sharable(request,ID,type):
               link = sharableLink.objects.get(created_by=user_id, folder=ID)
          else:
                return Response({"error": "Invalid type."}, status=400)
-         url = request.build_absolute_uri(
-            reverse("shared-view", kwargs={"token": str(link.token)})          
-          )
-         return Response({"shareable_url": url})
-
+         return Response({"shareable_url": str(link.token)})
     
     except sharableLink.DoesNotExist:
         return Response({"error": "No sharable link found."}, status=404)
@@ -366,3 +362,32 @@ def shared_view(request,token):
         return Response({"message": "Link valid", "type": "file" if link.file else "folder"})
     except sharableLink.DoesNotExist:
         return Response({"error": "Invalid or expired token"}, status=404)
+    
+
+@api_view(['GET'])
+def linkview_detail(request, token):
+    try:
+        shared_link = SharedLink.objects.get(token=token)
+
+ 
+        if shared_link.type == "folder":
+            data = {
+                "type": "folder",
+                "folder_name": shared_link.folder_name,
+                "folder_url": shared_link.folder_url,
+            }
+        elif shared_link.type == "file":
+            data = {
+                "type": "file",
+                "file_name": shared_link.file_name,
+                "file_url": shared_link.file_url,
+            }
+        else:
+            data = {
+                "type": "unknown",
+            }
+
+        return Response(data)
+
+    except SharedLink.DoesNotExist:
+        return Response({"error": "Link not found"}, status=status.HTTP_404_NOT_FOUND)
