@@ -42,7 +42,9 @@ function Sharable() {
 
         const data = await response.json();
         const fetchedUrl = data?.shareable_url || "";
-        setToken(fetchedUrl);
+        console.log(fetchedUrl)
+        const fullUrl = `${window.location.origin}/linkview/${fetchedUrl}`
+        setToken(fullUrl);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError(error.message || "Failed to fetch data");
