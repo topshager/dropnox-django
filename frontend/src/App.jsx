@@ -10,8 +10,7 @@ import New_folder from "./pages/new_folder/new_folder";
 import  Sharable from "./pages/share/share";
 import Edit from "./pages/edit/edit";
 import "./App.css";
-
-
+import  LinkViewer from "pages/share/share_view";
 import Recycling_Bin from "./pages/bin/bin";
 import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -63,7 +62,7 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Login />} />
-
+          <Route path="/linkviewer/:token" element={<LinkViewer />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<Home />} />
           <Route path="/uploader/:id" element={<Uploader />} />
