@@ -11,18 +11,23 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 import logging
+from rest_framework import viewsets
+
 from django.shortcuts import get_object_or_404
 import base64
 from rest_framework import serializers
 from .models import File,Folder
 logger = logging.getLogger(__name__)
 import uuid
+import logging
+from django.utils import timezone
+from django.urls import reverse
 from cloud_app.models import User,Folder,File
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
-
+from .models import sharableLink
 class customTokenObtainPairSerializer(TokenObtainPairSerializer):
  def validate(self,attrs):
      data = super().validate(attrs)
@@ -81,6 +86,10 @@ class FolderSerializer(serializers.ModelSerializer):
             File.objects.create(folder=folder, **file_data)
         return folder
 
+
+class FileViewSet(viewsets.ModelViewSet):
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
 
 
 
@@ -178,9 +187,8 @@ def home_upload_file(request, id):
     )
     file_instance.save()
     sharableLink.objects.create(
-             file = file_instance.file_id,
-             created_by = request.user,
-             token=uuid.uuid4(),       
+             file = file_instance,
+             created_by = request.user,  
         )
 
     return Response({'message': 'File uploaded successfully!', 'file': FileSerializer(file_instance).data}, status=status.HTTP_201_CREATED)
@@ -312,16 +320,36 @@ def Drag_and_Drop(request):
 def sharable(request,ID,type):
     user_id = request.user.id
     try:
+
          if type == "file":
               link = sharableLink.objects.get(created_by=user_id, file=ID)
          elif type == "folder":
               link = sharableLink.objects.get(created_by=user_id, folder=ID)
          else:
                return Response({"error": "Invalid type."}, status=400)
+         url = request.build_absolute_uri(
+            reverse("shared-view", kwargs={"token": str(link.token)})          
+          )
+         return Response({"shareable_url": url})
 
-         return Response({"token": str(link.token)})       
     
     except sharableLink.DoesNotExist:
         return Response({"error": "No sharable link found."}, status=404)
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def shared_view(request,token):
+    try:
+        link = sharableLink.objects.get(token=token)
+        if link.expires_at and link.expires_at < timezone.now():
+            return Response({"error": "Token has expired"}, status=403)   
+        if link.file:
+             file = link.file
+             return Response({"file_name": file.name, "file_url": file.get_absolute_url()})
+        elif link.folder:
+             folder = link.folder
 
+             return Response({"folder_name": folder.name, "folder_url": folder.get_absolute_url()})
+        return Response({"message": "Link valid", "type": "file" if link.file else "folder"})
+    except sharableLink.DoesNotExist:
+        return Response({"error": "Invalid or expired token"}, status=404)
