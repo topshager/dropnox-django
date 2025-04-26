@@ -345,11 +345,24 @@ def shared_view(request,token):
             return Response({"error": "Token has expired"}, status=403)   
         if link.file:
              file = link.file
-             return Response({"file_name": file.name, "file_url": file.get_absolute_url()})
+             file_content =None
+             
+             if hasattr(file,'content') and file.content:
+                file_content = base64.b64encode(file.content).decode('utf-8')
+                 
+             return  Response({
+                 "type": "file",
+                "file_name": file.name,
+                "file_content": file_content, 
+                "file_url": file.get_absolute_url()            
+        })
         elif link.folder:
              folder = link.folder
-
-             return Response({"folder_name": folder.name, "folder_url": folder.get_absolute_url()})
+             return Response({
+                "type": "folder",
+                "folder_name": folder.name,
+                "folder_url": folder.get_absolute_url()
+            })
         return Response({"message": "Link valid", "type": "file" if link.file else "folder"})
     except sharableLink.DoesNotExist:
         return Response({"error": "Invalid or expired token"}, status=404)
