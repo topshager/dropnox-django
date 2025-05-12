@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 import "./bin.css";
 
 
@@ -144,6 +145,8 @@ function PositionedMenu({ ID, type, name }) {
       }
 
       alert(`${name} has been permanently deleted.`);
+      return <Navigate to="/Home" replace />;
+
       setAnchorEl(null);
     } catch (error) {
       alert(`Failed to delete: ${error.message}`);
