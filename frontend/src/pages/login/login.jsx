@@ -33,7 +33,7 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h1>Cloudbuddy login</h1>
+      <h1>Dropnox</h1>
       {message && <p className="message">{message}</p>}
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
