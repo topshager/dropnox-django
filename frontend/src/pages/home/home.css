@@ -85,9 +85,3 @@ ul{
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.file-Menu{
-  border: 1px solid red;
-}
-.container li {
- border:  3px solid red;
-}
