@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Navigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import "./bin.css";
-
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -13,34 +11,33 @@ function Recycling_Bin() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const token = localStorage.getItem("access_token");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/bin/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/bin/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setFolders(data?.folders || []);
-        setFiles(data?.files || []);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error.message || "Failed to fetch data");
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
 
+      const data = await response.json();
+      setFolders(data?.folders || []);
+      setFiles(data?.files || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError(error.message || "Failed to fetch data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [token]);
 
@@ -59,7 +56,7 @@ function Recycling_Bin() {
           {folders.map((folder) => (
             <li key={folder.folder_id}>
               <Link to={`/folder/${folder.folder_id}`}>{folder.name}</Link>
-              <PositionedMenu ID = {folder.folder_id} type={"folder"} name={folder.name}  />
+              <PositionedMenu ID={folder.folder_id} type="folder" name={folder.name} refresh={fetchData} />
             </li>
           ))}
         </ul>
@@ -75,12 +72,11 @@ function Recycling_Bin() {
               <li key={file.file_id}>
                 <div className="File">
                   <p>{file.name}</p>
-                  <PositionedMenu ID = {file.file_id} type={"file"} name={file.name}  />
+                  <PositionedMenu ID={file.file_id} type="file" name={file.name} refresh={fetchData} />
                   {file.file_url ? (
                     <a href={file.file_url} target="_blank" rel="noopener noreferrer">
                       Open File
                     </a>
-
                   ) : (
                     <p>No preview available</p>
                   )}
@@ -94,10 +90,11 @@ function Recycling_Bin() {
   );
 }
 
-function PositionedMenu({ ID, type, name }) {
+function PositionedMenu({ ID, type, name, refresh }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const token = localStorage.getItem("access_token");
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -125,6 +122,7 @@ function PositionedMenu({ ID, type, name }) {
 
       alert(`${name} has been restored successfully!`);
       setAnchorEl(null);
+      refresh(); 
     } catch (error) {
       alert(`Failed to restore: ${error.message}`);
     }
@@ -133,7 +131,7 @@ function PositionedMenu({ ID, type, name }) {
   const handleDelete = async () => {
     try {
       const formData = new FormData();
-      formData.append("type",type)
+      formData.append("type", type);
       const response = await fetch(`http://127.0.0.1:8000/api/delete/${ID}`, {
         method: "DELETE",
         body: formData,
@@ -145,9 +143,9 @@ function PositionedMenu({ ID, type, name }) {
       }
 
       alert(`${name} has been permanently deleted.`);
-      return <Navigate to="/Home" replace />;
-
       setAnchorEl(null);
+      refresh();
+      navigate("/Home");
     } catch (error) {
       alert(`Failed to delete: ${error.message}`);
     }
