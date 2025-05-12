@@ -45,8 +45,8 @@ function Layout({ children }) {
               </li>
               <li>
                 <a id="btn" href="/home">Home</a>
-                <a id="btn" href="/bin">DEL</a>
-                <a id="btn" href="/edit">Edit</a>
+                <a id="btn" href="/bin">Bin</a>
+                <a id="btn" href="/bin">Edited</a>
               </li>
             </ul>
           </nav>
