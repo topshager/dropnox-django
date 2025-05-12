@@ -8,7 +8,6 @@ import { DndContext } from '@dnd-kit/core';
 import { Draggable } from "../Drag_and_drop/Draggable.jsx";
 import { Droppable } from "../Drag_and_drop/Droppable.jsx";
 
-
 function Home() {
   const [folders, setFolders] = useState([]);
   const [files, setFiles] = useState([]);
@@ -18,57 +17,65 @@ function Home() {
   const fileUrlsRef = useRef({});
   const [isDropped, setIsDropped] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    localStorage.setItem("id", 0);
 
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/home/", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch("http://127.0.0.1:8000/api/home/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-        const data = await response.json();
-        const foldersData = data?.data?.folders || [];
-        const filesData = data?.data?.files || [];
+      const data = await response.json();
+      const foldersData = data?.data?.folders || [];
+      const filesData = data?.data?.files || [];
 
-        setFolders(foldersData);
-        setFiles(filesData);
+      setFolders(foldersData);
+      setFiles(filesData);
 
-        const fileBlobs = {};
-        filesData.forEach((file) => {
-          if (file.content) {
-            try {
-              const byteCharacters = atob(file.content);
-              const byteNumbers = new Uint8Array(byteCharacters.length).map((_, i) =>
-                byteCharacters.charCodeAt(i)
-              );
-              const blob = new Blob([byteNumbers], { type: file.type });
-              const fileUrl = URL.createObjectURL(blob);
-              fileBlobs[file.file_id] = fileUrl;
-              fileUrlsRef.current[file.file_id] = fileUrl;
-            } catch (error) {
-              console.error(`Error decoding file ${file.file_id}:`, error);
-            }
+      const fileBlobs = {};
+      filesData.forEach((file) => {
+        if (file.content) {
+          try {
+            const byteCharacters = atob(file.content);
+            const byteNumbers = new Uint8Array(byteCharacters.length).map((_, i) =>
+              byteCharacters.charCodeAt(i)
+            );
+            const blob = new Blob([byteNumbers], { type: file.type });
+            const fileUrl = URL.createObjectURL(blob);
+            fileBlobs[file.file_id] = fileUrl;
+            fileUrlsRef.current[file.file_id] = fileUrl;
+          } catch (error) {
+            console.error(`Error decoding file ${file.file_id}:`, error);
           }
-        });
+        }
+      });
 
-        setFileUrls(fileBlobs);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error.message || "Failed to fetch data");
-        setLoading(false);
-      }
-    };
+      setFileUrls(fileBlobs);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError(error.message || "Failed to fetch data");
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    localStorage.setItem("id", 0);
     fetchData();
 
     return () => {
       Object.values(fileUrlsRef.current).forEach(URL.revokeObjectURL);
     };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData(); 
+    }, 100);
+
+    return () => clearInterval(interval);
   }, []);
 
   async function moveFileToFolder(fileId, folderId) {
@@ -95,13 +102,10 @@ function Home() {
 
   function handleDragEnd(event) {
     const { active, over } = event;
-    console.log("Drag Ended! Active:", active, "Over:", over);
     if (over && over.id.startsWith('drop-folder-')) {
       const draggedFileId = active.id.replace("file-", "");
       const targetFolderId = over.id.replace("drop-folder-", "");
 
-
-      console.log(`File ${draggedFileId} dropped in folder ${targetFolderId}`);
       moveFileToFolder(draggedFileId, targetFolderId);
     }
   }
@@ -112,7 +116,6 @@ function Home() {
   return (
     <div className="container">
       <DndContext onDragEnd={handleDragEnd}>
-
         <h2>Folders</h2>
         {folders.length === 0 ? <p>No folders found.</p> : (
           <ul>
@@ -144,8 +147,7 @@ function Home() {
                         e.dataTransfer.setData("application/json", JSON.stringify(file))
                       }
                     >
-                      <div className="file-Menu">
-                      </div>
+                      <div className="file-Menu"></div>
                       <div className="File">
                         <p>{file.name}</p>
                         <a href={fileUrls[file.file_id]} target="_blank" rel="noopener noreferrer">
@@ -154,7 +156,7 @@ function Home() {
                       </div>
                     </div>
                   </Draggable>
-                  <ThreeDotMenu key={file.file_id}  ID={file.file_id} type="file" />
+                  <ThreeDotMenu key={file.file_id} ID={file.file_id} type="file" />
                 </li>
               ))}
             </ul>
@@ -165,33 +167,36 @@ function Home() {
   );
 }
 
-
-function ThreeDotMenu({ ID,type }) {
+function ThreeDotMenu({ ID, type }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [query, setQuery] = useState("");
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
-  useEffect(() => {
-    console.log("Menu state changed:", isOpen);  
-
-  }, [isOpen]);  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
-        console.log(isOpen)
       }
-      
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [isOpen]);
+  }, []);
+
+  const handleEditClose = (close) => {
+    setPopupOpen(false);
+    close(); // Close popup after editing
+    setIsOpen(false); // Close menu after editing
+  };
+
+  const handleDelete = async () => {
+    await deleteItem(ID, type);
+    setIsOpen(false); // Close menu after delete
+  };
   return (
-    <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef} >
-      
+    <div className={`menu-container ${isOpen ? "active" : ""}`} ref={menuRef}>
       <button className="menu-icon" onClick={toggleMenu}></button>
       {isOpen && (
         <div className="dropdown-menu">
@@ -205,14 +210,12 @@ function ThreeDotMenu({ ID,type }) {
               </div>
             )}
           </Popup>
-          <button onClick={() => deleteItem(ID,type)}>Delete</button>
+          <button onClick={() => deleteItem(ID, type)}>Delete</button>
           <Link to={`/share/${ID}/${type}`}>Share</Link>
         </div>
       )}
-      
     </div>
   );
-  
 }
 
 ThreeDotMenu.propTypes = {
@@ -220,22 +223,15 @@ ThreeDotMenu.propTypes = {
   type: PropTypes.string.isRequired,
 };
 
-const  deleteItem = async (ID, type) => {
-
+const deleteItem = async (ID, type) => {
   const token = localStorage.getItem("access_token");
-
-
-  const data = {
-    type: type, 
-  };
-
+  const data = { type: type };
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bin_Api/${ID}`, {
       method: "POST",
-
       headers: {
-        "Content-Type": "application/json", 
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -247,11 +243,9 @@ const  deleteItem = async (ID, type) => {
 
     const result = await response.json();
     console.log("Success:", result);
-
   } catch (err) {
     console.error("Error moving to bin:", err.message);
   }
 };
-
 
 export default Home;
