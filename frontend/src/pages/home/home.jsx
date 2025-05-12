@@ -154,7 +154,7 @@ function Home() {
                       </div>
                     </div>
                   </Draggable>
-                  <ThreeDotMenu key={file.file_id}  ID={file.file_id} type="file" />ç
+                  <ThreeDotMenu key={file.file_id}  ID={file.file_id} type="file" />
                 </li>
               ))}
             </ul>
